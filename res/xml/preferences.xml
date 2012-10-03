@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+        android:defaultValue="@string/default_url"
+        android:key="destination_url"
+        android:title="@string/destination_url" />
+    <EditTextPreference
+        android:key="user_id"
+        android:title="@string/user_id" />
+
+</PreferenceScreen>
