@@ -137,7 +137,19 @@ public class GpsActivity extends Activity {
 					Toast.makeText(GpsActivity.this, getString(R.string.confirmation_location_picked, locationLog.getName()), Toast.LENGTH_SHORT).show();
 					new Thread(new Runnable() {
 						public void run() {
-							locationDao.addDiveLocationLog(locationLog);
+							String url = getSendUrl(locationLog);
+							try {
+								new DefaultHttpClient().execute(new HttpGet(url));
+								locationDao.deleteDiveLocationLog(locationLog);
+							} catch (Exception e) {
+								Log.d("GpsActivity", "Could not connect to " + url, e);
+								locationDao.addDiveLocationLog(locationLog);
+								runOnUiThread(new Runnable() {
+									public void run() {
+										Toast.makeText(GpsActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
+									}
+								});
+							}
 						}
 					}).start();
 				}

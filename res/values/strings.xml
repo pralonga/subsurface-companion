@@ -17,6 +17,7 @@
     <string name="confirmation_location_sent">%1$d/%2$d locations have been sent</string>
 
     <string name="error_location">Could not receive location. Please retry</string>
+    <string name="error_send">Could not send location. It may be sent again with menu</string>
     <string name="error_no_settings">Please set your parameters before sending data</string>
 
 </resources>
