@@ -3,7 +3,7 @@
     <string name="app_name">Subsurface</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_gps">Subsurface GPS</string>
-    <string name="default_url">http://samplesite/</string>
+    <string name="default_url">http://api.hohndel.org/api/dive</string>
     
     <string name="destination_url">Destination URL</string>
     <string name="user_id">User ID</string>
