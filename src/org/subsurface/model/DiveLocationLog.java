@@ -71,6 +71,11 @@ public class DiveLocationLog {
 		return longitude;
 	}
 
+	public void setLocation(Location location) {
+		this.latitude = location.getLatitude();
+		this.longitude = location.getLongitude();
+	}
+
 	public void setTimestamp(long timestamp) {
 		this.timestamp = timestamp;
 	}
