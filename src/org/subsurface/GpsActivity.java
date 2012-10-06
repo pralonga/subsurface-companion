@@ -195,8 +195,7 @@ public class GpsActivity extends Activity {
     		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			dialog.setMax(locations.size());
 			dialog.setProgress(0);
-			// TODO in Strings.xml
-    		dialog.setMessage("Sending locations...");
+    		dialog.setMessage(getString(R.string.dialog_wait_send));
     		dialog.show();
     		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 				@Override
