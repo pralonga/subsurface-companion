@@ -75,7 +75,7 @@ public class GpsActivity extends Activity {
 		if (destUrl != null && userId != null) { // Preferences already set
 			Date logDate = new Date(log.getTimestamp());
 			String date = new SimpleDateFormat("yyyy-MM-dd").format(logDate);
-			String hour = new SimpleDateFormat("hh:mm").format(logDate);
+			String hour = new SimpleDateFormat("HH:mm").format(logDate);
 			String name = log.getName();
 			try {
 				name = URLEncoder.encode(log.getName(), "UTF-8");
