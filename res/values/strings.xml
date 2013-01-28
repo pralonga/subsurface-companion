@@ -10,6 +10,8 @@
     <string name="location_name">Location name</string>
     <string name="wait_dialog">Searching location&#8230;</string>
 
+    <string name="dialog_wait_send">Sending locations&#8230;</string>
+
     <string name="menu_send">Send locations</string>
     <string name="menu_locate">Locate current position</string>
 

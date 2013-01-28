@@ -75,7 +75,7 @@ public class GpsActivity extends Activity {
 		if (destUrl != null && userId != null) { // Preferences already set
 			Date logDate = new Date(log.getTimestamp());
 			String date = new SimpleDateFormat("yyyy-MM-dd").format(logDate);
-			String hour = new SimpleDateFormat("hh:mm").format(logDate);
+			String hour = new SimpleDateFormat("HH:mm").format(logDate);
 			String name = log.getName();
 			try {
 				name = URLEncoder.encode(log.getName(), "UTF-8");
@@ -195,8 +195,7 @@ public class GpsActivity extends Activity {
     		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			dialog.setMax(locations.size());
 			dialog.setProgress(0);
-			// TODO in Strings.xml
-    		dialog.setMessage("Sending locations...");
+    		dialog.setMessage(getString(R.string.dialog_wait_send));
     		dialog.show();
     		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 				@Override
