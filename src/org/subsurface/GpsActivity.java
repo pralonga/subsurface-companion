@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.subsurface.dao.DbAdapter;
 import org.subsurface.dao.DiveLocationLogDao;
@@ -82,14 +82,13 @@ public class GpsActivity extends Activity {
 			} catch (Exception ignored) {}
 
 			url = new StringBuilder()
-					.append(destUrl).append('/')
-					.append(userId).append('/')
-					.append(log.getLatitude()).append('/')
-					.append(log.getLongitude()).append('/')
-					.append(date).append('/')
-					.append(hour).append('/')
-					.append(name)
-					.toString();
+					.append(destUrl)
+					.append("/?login=").append(userId)
+					.append("&dive_latitude=").append(log.getLatitude())
+					.append("&dive_longitude=").append(log.getLongitude())
+					.append("&dive_date=").append(date)
+					.append("&dive_time=").append(hour)
+					.append("&dive_name=").append(name).toString();
 		}
 		return url;
 	}
@@ -171,7 +170,7 @@ public class GpsActivity extends Activity {
 								locationLog.setTimestamp(System.currentTimeMillis());
 								String url = getSendUrl(locationLog);
 								try {
-									new DefaultHttpClient().execute(new HttpGet(url));
+									new DefaultHttpClient().execute(new HttpPost(url));
 									locationDao.deleteDiveLocationLog(locationLog);
 								} catch (Exception e) {
 									Log.d(TAG, "Could not connect to " + url, e);
@@ -231,7 +230,7 @@ public class GpsActivity extends Activity {
 							break;
 						} else {
 							try {
-								new DefaultHttpClient().execute(new HttpGet(url));
+								new DefaultHttpClient().execute(new HttpPost(url));
 								locationDao.deleteDiveLocationLog(log);
 								++success;
 							} catch (Exception e) {
