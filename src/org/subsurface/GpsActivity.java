@@ -74,6 +74,9 @@ public class GpsActivity extends Activity {
 	private HttpPost getHttpPost(DiveLocationLog log) throws Exception {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String destUrl = prefs.getString("destination_url", null);
+		if (!destUrl.endsWith("/")) {
+			destUrl += '/';
+		}
 		String userId = prefs.getString("user_id", null);
 		HttpPost post = new HttpPost(destUrl);
 		Date logDate = new Date(log.getTimestamp());
