@@ -31,15 +31,18 @@ public class DiveLocationLog {
 	private double longitude;
 	private long timestamp;
 	private String name;
+	private boolean sent;
 
 	/**
 	 * Default constructor.
 	 */
 	public DiveLocationLog() {
+		this.id = 0;
 		this.latitude = 0;
 		this.longitude = 0;
 		this.timestamp = 0;
 		this.name = null;
+		this.sent = false;
 	}
 
 	/**
@@ -100,12 +103,21 @@ public class DiveLocationLog {
 		return id;
 	}
 
+	public void setSent(boolean sent) {
+		this.sent = sent;
+	}
+
+	public boolean isSent() {
+		return sent;
+	}
+
 	@Override
 	public String toString() {
 		return new StringBuilder().append(id).append('/')
 				.append(name).append('/')
 				.append(timestamp).append('/')
 				.append(latitude).append('/')
-				.append(longitude).toString();
+				.append(longitude).append('/')
+				.append(sent).toString();
 	}
 }

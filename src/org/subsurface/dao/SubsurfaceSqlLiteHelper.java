@@ -32,7 +32,7 @@ class SubsurfaceSqlLiteHelper extends SQLiteOpenHelper {
 	private static final String TAG = "SubsurfaceSqlLiteHelper";
 
 	private static final String DATABASE_NAME = "subsurface.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
 
 	private static final String CREATE_TABLE_LOGS = "create table "
 			+ DiveLocationLogDao.TABLE_NAME + "("
@@ -40,7 +40,8 @@ class SubsurfaceSqlLiteHelper extends SQLiteOpenHelper {
 			+ DiveLocationLogDao.KEY_LATITUDE + " numeric, "
 			+ DiveLocationLogDao.KEY_LONGITUDE + " numeric, "
 			+ DiveLocationLogDao.KEY_NAME + " text not null, "
-			+ DiveLocationLogDao.KEY_TIMESTAMP + " integer);";
+			+ DiveLocationLogDao.KEY_TIMESTAMP + " integer, "
+			+ DiveLocationLogDao.KEY_SENT + " short);";
 
 	SubsurfaceSqlLiteHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -48,6 +49,7 @@ class SubsurfaceSqlLiteHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase database) {
+		Log.d(TAG, "Creating table");
 		database.execSQL(CREATE_TABLE_LOGS);
 	}
 

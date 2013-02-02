@@ -35,7 +35,9 @@ import android.util.Log;
 class DiveLocationLogDaoImpl implements DiveLocationLogDao {
 
 	private static final String TAG = "DiveLocationLogDaoImpl";
-	private static final String[] ALL_COLUMNS = { KEY_ID, KEY_LATITUDE, KEY_LONGITUDE, KEY_NAME, KEY_TIMESTAMP };
+	private static final String[] ALL_COLUMNS = { KEY_ID, KEY_LATITUDE, KEY_LONGITUDE, KEY_NAME, KEY_TIMESTAMP, KEY_SENT };
+	private static final short FLAG_SENT = 1;
+	private static final short FLAG_NOT_SENT = 0;
 
 	private SQLiteDatabase db;
 	private SubsurfaceSqlLiteHelper helper;
@@ -51,17 +53,23 @@ class DiveLocationLogDaoImpl implements DiveLocationLogDao {
 		log.setLongitude(cursor.getDouble(2));
 		log.setName(cursor.getString(3));
 		log.setTimestamp(cursor.getLong(4));
+		log.setSent(cursor.getShort(5) == FLAG_SENT);
 		return log;
 	}
 
 	@Override
-	public void addDiveLocationLog(DiveLocationLog diveLocationLog) {
+	public void save(DiveLocationLog diveLocationLog) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_LATITUDE, diveLocationLog.getLatitude());
 		initialValues.put(KEY_LONGITUDE, diveLocationLog.getLongitude());
 		initialValues.put(KEY_NAME, diveLocationLog.getName());
 		initialValues.put(KEY_TIMESTAMP, diveLocationLog.getTimestamp());
-		db.insert(TABLE_NAME, null, initialValues);
+		initialValues.put(KEY_SENT, diveLocationLog.isSent() ? FLAG_SENT : FLAG_NOT_SENT);
+		if (diveLocationLog.getId() == 0) {
+			db.insert(TABLE_NAME, null, initialValues);
+		} else {
+			db.replace(TABLE_NAME, null, initialValues);
+		}
 		Log.d(TAG, "Log added : " + diveLocationLog.toString());
 	}
 
@@ -88,11 +96,28 @@ class DiveLocationLogDaoImpl implements DiveLocationLogDao {
 		return logs;
 	}
 
+	@Override
+	public DiveLocationLog find(long date) {
+		DiveLocationLog dive = null;
+		Cursor cursor = db.query(TABLE_NAME, ALL_COLUMNS,
+				KEY_TIMESTAMP + "=" + date,
+				null, null, null, null);
+		if (cursor.moveToFirst()) {
+			dive = cursorToDiveLocationLog(cursor);
+		}
+		return dive;
+	}
+
 	public void open() {
 		db = helper.getWritableDatabase();
 	}
 
 	public void close() {
 		helper.close();
+	}
+
+	@Override
+	public void deleteAll() {
+		db.delete(TABLE_NAME, null, null);
 	}
 }

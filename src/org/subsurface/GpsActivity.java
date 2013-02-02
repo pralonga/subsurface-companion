@@ -17,22 +17,14 @@
  */
 package org.subsurface;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.subsurface.dao.DbAdapter;
 import org.subsurface.dao.DiveLocationLogDao;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.ws.WsClient;
+import org.subsurface.ws.WsClientStub;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -62,36 +54,10 @@ public class GpsActivity extends Activity {
 
 	private static final String TAG = "GpsActivity";
 
+	private final WsClient wsClient = new WsClientStub();
 	private LocationManager locationManager;
 	private EditText locationName;
 	private DiveLocationLogDao locationDao;
-
-	/**
-	 * Builds action for a log.
-	 * @param log log to transmit
-	 * @return action to call
-	 */
-	private HttpPost getHttpPost(DiveLocationLog log) throws Exception {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String destUrl = prefs.getString("destination_url", null);
-		if (!destUrl.endsWith("/")) {
-			destUrl += '/';
-		}
-		String userId = prefs.getString("user_id", null);
-		HttpPost post = new HttpPost(destUrl);
-		Date logDate = new Date(log.getTimestamp());
-		String date = new SimpleDateFormat("yyyy-MM-dd").format(logDate);
-		String hour = new SimpleDateFormat("HH:mm").format(logDate);
-		List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-		nameValuePairs.add(new BasicNameValuePair("login", userId));
-		nameValuePairs.add(new BasicNameValuePair("dive_latitude", Double.toString(log.getLatitude())));
-		nameValuePairs.add(new BasicNameValuePair("dive_longitude", Double.toString(log.getLongitude())));
-		nameValuePairs.add(new BasicNameValuePair("dive_date", date));
-		nameValuePairs.add(new BasicNameValuePair("dive_time", hour));
-		nameValuePairs.add(new BasicNameValuePair("dive_name", log.getName()));
-		post.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
-		return post;
-	}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -168,19 +134,22 @@ public class GpsActivity extends Activity {
 							public void run() {
 								locationLog.setLocation(location);
 								locationLog.setTimestamp(System.currentTimeMillis());
-								try {
-									HttpResponse response = new DefaultHttpClient().execute(getHttpPost(locationLog));
-									if (response.getStatusLine().getStatusCode() == 200) {
+								SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GpsActivity.this);
+								String destUrl = prefs.getString("destination_url", null);
+								String userId = prefs.getString("user_id", null);
+								if (destUrl != null || userId != null) {
+									try {
+										wsClient.postDive(locationLog, destUrl, userId);
 										locationDao.deleteDiveLocationLog(locationLog);
+									} catch (Exception e) {
+										Log.d(TAG, "Could not send dive " + locationLog.getName(), e);
+										locationDao.save(locationLog);
+										runOnUiThread(new Runnable() {
+											public void run() {
+												Toast.makeText(GpsActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
+											}
+										});
 									}
-								} catch (Exception e) {
-									Log.d(TAG, "Could not connect to server for log " + locationLog, e);
-									locationDao.addDiveLocationLog(locationLog);
-									runOnUiThread(new Runnable() {
-										public void run() {
-											Toast.makeText(GpsActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
-										}
-									});
 								}
 							}
 						}).start();
@@ -216,17 +185,29 @@ public class GpsActivity extends Activity {
 			new Thread(new Runnable() {
 				public void run() {
 					int success = 0;
+					boolean urlFailure = false;
 					// Send locations
 					for (int i = 0; i < locations.size() && !cancel.get(); ++i) {
 						DiveLocationLog log = locations.get(i);
-						try {
-							HttpResponse response = new DefaultHttpClient().execute(getHttpPost(log));
-							if (response.getStatusLine().getStatusCode() == 200) {
+						SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(GpsActivity.this);
+						String destUrl = prefs.getString("destination_url", null);
+						String userId = prefs.getString("user_id", null);
+						if (destUrl != null || userId != null) { // Could not build URL, show error
+							runOnUiThread(new Runnable() {
+								public void run() {
+									Toast.makeText(GpsActivity.this, R.string.error_no_settings, Toast.LENGTH_SHORT).show();
+								}
+							});
+							urlFailure = true;
+							break;
+						} else {
+							try {
+								wsClient.postDive(log, destUrl, userId);
 								locationDao.deleteDiveLocationLog(log);
 								++success;
+							} catch (Exception e) {
+								Log.d(TAG, "Could not send dive " + log.getName(), e);
 							}
-						} catch (Exception e) {
-							Log.d(TAG, "Could not connect for log " + log, e);
 						}
 						// Update progress
 						Message msg = handler.obtainMessage();
@@ -239,13 +220,15 @@ public class GpsActivity extends Activity {
 					msg.arg1 = locations.size();
 					handler.sendMessage(msg);
 
-					final int successCount = success;
-					final int totalCount = locations.size();
-					runOnUiThread(new Runnable() {
-						public void run() {
-							Toast.makeText(GpsActivity.this, getString(R.string.confirmation_location_sent, successCount, totalCount), Toast.LENGTH_SHORT).show();
-						}
-					});
+					if (!urlFailure) {
+						final int successCount = success;
+						final int totalCount = locations.size();
+						runOnUiThread(new Runnable() {
+							public void run() {
+								Toast.makeText(GpsActivity.this, getString(R.string.confirmation_location_sent, successCount, totalCount), Toast.LENGTH_SHORT).show();
+							}
+						});
+					}
 				}
 			}).start();
     	}

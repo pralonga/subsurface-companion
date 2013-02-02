@@ -29,18 +29,18 @@ import org.subsurface.model.DiveLocationLog;
 public interface DiveLocationLogDao {
 
 	String TABLE_NAME = "locations";
-	
 	String KEY_ID = "_id";
 	String KEY_LATITUDE = "latitude";
 	String KEY_LONGITUDE = "longitude";
 	String KEY_TIMESTAMP = "timestamp";
 	String KEY_NAME = "name";
+	String KEY_SENT = "sent";
 
 	/**
 	 * Adds a log in DB.
 	 * @param diveLocationLog log to add
 	 */
-	void addDiveLocationLog(DiveLocationLog diveLocationLog);
+	void save(DiveLocationLog diveLocationLog);
 
 	/**
 	 * Deletes log from DB.
@@ -52,6 +52,18 @@ public interface DiveLocationLogDao {
 	 * @return all logs in DB
 	 */
 	List<DiveLocationLog> getAllDiveLocationLogs();
+
+	/**
+	 * Finds a dive from it date.
+	 * @param date date to search
+	 * @return found dive, or null if none
+	 */
+	DiveLocationLog find(long date);
+
+	/**
+	 * Deletes all records.
+	 */
+	void deleteAll();
 
 	/**
 	 * Opens DB.
