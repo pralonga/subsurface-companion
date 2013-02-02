@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="account_link_choices">
+        <item >@string/account_link_create</item>
+        <item >@string/account_link_retrieve</item>
+        <item >@string/account_link_existing</item>
+    </string-array>
+	
+</resources>
