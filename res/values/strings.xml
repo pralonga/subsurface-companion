@@ -3,7 +3,8 @@
     <string name="app_name">Subsurface</string>
     <string name="menu_settings">Settings</string>
     <string name="default_url">http://api.hohndel.org</string>
-    
+
+    <string name="action_mode_title">%s selected</string>
     <string name="home_no_account">You have not yet configured your Subsurface account. Please select one of the following options</string>
     <string name="home_dive_list_empty">No dives</string>
     
@@ -15,6 +16,7 @@
     <string name="dialog_wait_send">Sending locations&#8230;</string>
 
     <string name="menu_new">New dive</string>
+    <string name="menu_map">Map</string>
     <string name="menu_send">Send</string>
     <string name="menu_locate">Locate current position</string>
     <string name="menu_delete">Delete</string>
@@ -42,7 +44,8 @@
 
     <string name="error_generic">An error has occured. Please check your settings and retry later</string>
     
-    <string name="date_format">MM/dd/yyyy HH:mm</string>
+    <string name="dive_list_date">MM/dd/yyyy</string>
+    <string name="dive_list_hour">HH:mm</string>
 
     <string name="hint_email">Email address</string>
     <string name="hint_id">ID</string>

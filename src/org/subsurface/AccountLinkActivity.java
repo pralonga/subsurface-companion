@@ -6,7 +6,6 @@ import org.subsurface.ws.WsClient;
 import org.subsurface.ws.WsClientStub;
 
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,15 +16,17 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class AccountLinkActivity extends ListActivity implements OnSharedPreferenceChangeListener {
+import com.actionbarsherlock.app.SherlockListActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+
+public class AccountLinkActivity extends SherlockListActivity implements OnSharedPreferenceChangeListener {
 
 	private static final String TAG = "AccountLinkActivity";
 
@@ -106,12 +107,14 @@ public class AccountLinkActivity extends ListActivity implements OnSharedPrefere
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if ("user_id".equals(key)) { // Show dives
 			startActivity(new Intent(this, HomeActivity.class));
+			PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
+			finish();
 		}
 	}
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.general, menu);
+		getSupportMenuInflater().inflate(R.menu.general, menu);
         return true;
     }
 
@@ -159,7 +162,6 @@ public class AccountLinkActivity extends ListActivity implements OnSharedPrefere
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
     	if (item.getItemId() == R.id.menu_settings) { // Settings
     		startActivity(new Intent(this, Preferences.class));
-    		finish();
     		return true;
     	}
     	return false;

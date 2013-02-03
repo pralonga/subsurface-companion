@@ -1,35 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:minHeight="?android:attr/listPreferredItemHeight" >
+<org.subsurface.ui.CheckableRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:minHeight="?android:attr/listPreferredItemHeight" >
 
-	<TextView
-		android:id="@android:id/text1"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_alignParentTop="false"
-		android:layout_centerVertical="true"
-		android:text="@string/account_link_create"
-		android:textAppearance="?android:attr/textAppearanceMedium" />
+    <ImageView
+        android:id="@android:id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@android:id/title"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_upload"
+        android:visibility="invisible" />
 
-	<TextView
-		android:id="@android:id/text2"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_below="@android:id/text1"
-		android:layout_toLeftOf="@android:id/icon"
-		android:text="@string/date_format"
-		android:textAppearance="?android:attr/textAppearanceSmall" />
+     <CheckedTextView
+        android:id="@android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="false"
+        android:layout_centerVertical="true"
+        android:clickable="false"
+        android:drawableLeft="?android:attr/listChoiceIndicatorMultiple"
+        android:gravity="center_vertical"
+        android:focusable="false"
+        android:text="@string/account_link_create"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-	<ImageView
-		android:id="@android:id/icon"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentTop="false"
-		android:layout_centerVertical="true"
-		android:src="@drawable/ic_menu_chevron" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:orientation="vertical" >
 
-</RelativeLayout>
+        <TextView
+            android:id="@android:id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dive_list_date"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <TextView
+            android:id="@android:id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/dive_list_hour"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </LinearLayout>
+
+</org.subsurface.ui.CheckableRelativeLayout>

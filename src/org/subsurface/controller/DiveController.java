@@ -1,6 +1,7 @@
 package org.subsurface.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.subsurface.dao.DbAdapter;
@@ -56,6 +57,10 @@ public class DiveController {
 	}
 
 	public void addDiveLog(DiveLocationLog diveLog) {
+		Calendar diveDate = Calendar.getInstance();
+		diveDate.setTimeInMillis(diveLog.getTimestamp());
+		diveDate.set(Calendar.SECOND, 0);
+		diveDate.set(Calendar.MILLISECOND, 0);
 		if (diveDao.find(diveLog.getTimestamp()) == null && diveLog.getId() == 0) {
 			diveDao.save(diveLog);
 			loaded = false;
