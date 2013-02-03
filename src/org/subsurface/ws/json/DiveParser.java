@@ -43,6 +43,7 @@ public class DiveParser {
 			} catch (ParseException pe) {
 				throw new JSONException("Could not parse date");
 			}
+			dive.setSent(true);
 			dives.add(dive);
 		}
 

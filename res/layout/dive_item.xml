@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:minHeight="?android:attr/listPreferredItemHeight" >
 
-    <ImageView
+    <!-- <ImageView
         android:id="@android:id/icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_upload"
-        android:visibility="invisible" />
+        android:visibility="visible" /> -->
 
      <CheckedTextView
         android:id="@android:id/title"

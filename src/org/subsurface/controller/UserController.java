@@ -29,4 +29,12 @@ public class UserController {
 	public String getBaseUrl() {
 		return PreferenceManager.getDefaultSharedPreferences(context).getString("destination_url", null);
 	}
+
+	public boolean syncOnstartup() {
+		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("sync_on_startup", true);
+	}
+
+	public boolean autoSend() {
+		return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("auto_send", true);
+	}
 }

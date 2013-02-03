@@ -3,7 +3,6 @@ package org.subsurface;
 import org.subsurface.controller.DiveController;
 import org.subsurface.controller.UserController;
 import org.subsurface.ws.WsClient;
-import org.subsurface.ws.WsClientStub;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -26,11 +25,12 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class AccountLinkActivity extends SherlockListActivity implements OnSharedPreferenceChangeListener {
+public class AccountLinkActivity extends SherlockListActivity {
 
 	private static final String TAG = "AccountLinkActivity";
 
-	private final WsClient wsClient = new WsClientStub();
+	private final WsClient wsClient = new WsClient();
+	private OnSharedPreferenceChangeListener preferenceListener = null;
 
 	private void createAccount(final String email) {
 		final ProgressDialog waitDialog = ProgressDialog.show(
@@ -81,7 +81,7 @@ public class AccountLinkActivity extends SherlockListActivity implements OnShare
 			protected void onPostExecute(Boolean result) {
 				waitDialog.dismiss();
 				if (result) {
-					Toast.makeText(AccountLinkActivity.this, R.string.success_user_creation, Toast.LENGTH_LONG).show();
+					Toast.makeText(AccountLinkActivity.this, R.string.success_user_retrieval, Toast.LENGTH_LONG).show();
 				} else {
 					Toast.makeText(AccountLinkActivity.this, R.string.error_generic, Toast.LENGTH_SHORT).show();
 				}
@@ -92,7 +92,7 @@ public class AccountLinkActivity extends SherlockListActivity implements OnShare
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         // Initialize controllers
         UserController.instance.setContext(this);
         DiveController.instance.setContext(this);
@@ -100,16 +100,18 @@ public class AccountLinkActivity extends SherlockListActivity implements OnShare
         setContentView(R.layout.login_choices);
     	setListAdapter(new ArrayAdapter<String>(this, R.layout.login_choice_item, android.R.id.text1, getResources().getStringArray(R.array.account_link_choices)));
 
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
-	}
-
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if ("user_id".equals(key)) { // Show dives
-			startActivity(new Intent(this, HomeActivity.class));
-			PreferenceManager.getDefaultSharedPreferences(this).unregisterOnSharedPreferenceChangeListener(this);
-			finish();
-		}
+    	preferenceListener = new OnSharedPreferenceChangeListener() {
+			@Override
+			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+				if ("user_id".equals(key)) { // Show dives
+					startActivity(new Intent(AccountLinkActivity.this, HomeActivity.class));
+					PreferenceManager.getDefaultSharedPreferences(AccountLinkActivity.this).unregisterOnSharedPreferenceChangeListener(this);
+					preferenceListener = null;
+					finish();
+				}
+			}
+		};
+        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(preferenceListener);
 	}
 
 	@Override

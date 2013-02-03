@@ -52,10 +52,10 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		DiveLocationLog dive = (DiveLocationLog) getItem(position);
-		holder.title.setText(dive.getName());
+		holder.title.setText(dive.getName() + (dive.isSent() ? "" : " (Not sent)"));
 		holder.date.setText(new SimpleDateFormat(dateFormat).format(new Date(dive.getTimestamp())));
 		holder.hour.setText(new SimpleDateFormat(hourFormat).format(new Date(dive.getTimestamp())));
-		holder.toUpload.setVisibility(dive.isSent() ? View.INVISIBLE : View.VISIBLE);
+		//holder.toUpload.setVisibility(dive.isSent() ? View.INVISIBLE : View.VISIBLE);
 		return rowView;
 	}
 

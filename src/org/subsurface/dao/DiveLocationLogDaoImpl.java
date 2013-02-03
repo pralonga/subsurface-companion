@@ -83,11 +83,11 @@ class DiveLocationLogDaoImpl implements DiveLocationLogDao {
 	public List<DiveLocationLog> getAllDiveLocationLogs() {
 		List<DiveLocationLog> logs = new ArrayList<DiveLocationLog>();
 
-		Cursor cursor = db.query(TABLE_NAME, ALL_COLUMNS, null, null, null, null, null);
+		Cursor cursor = db.query(TABLE_NAME, ALL_COLUMNS, null, null, null, null, KEY_TIMESTAMP + " DESC");
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
-			DiveLocationLog comment = cursorToDiveLocationLog(cursor);
-			logs.add(comment);
+			DiveLocationLog log = cursorToDiveLocationLog(cursor);
+			logs.add(log);
 			cursor.moveToNext();
 		}
 		// Make sure to close the cursor

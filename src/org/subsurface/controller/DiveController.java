@@ -8,7 +8,6 @@ import org.subsurface.dao.DbAdapter;
 import org.subsurface.dao.DiveLocationLogDao;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.ws.WsClient;
-import org.subsurface.ws.WsClientStub;
 import org.subsurface.ws.WsException;
 
 import android.content.Context;
@@ -17,7 +16,7 @@ public class DiveController {
 
 	public static DiveController instance = new DiveController();
 
-	private final WsClient wsClient = new WsClientStub();
+	private final WsClient wsClient = new WsClient();
 	private DiveLocationLogDao diveDao;
 	private final List<DiveLocationLog> dives;
 	private boolean loaded = false;

@@ -24,7 +24,6 @@ import org.subsurface.dao.DbAdapter;
 import org.subsurface.dao.DiveLocationLogDao;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.ws.WsClient;
-import org.subsurface.ws.WsClientStub;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -54,7 +53,7 @@ public class GpsActivity extends Activity {
 
 	private static final String TAG = "GpsActivity";
 
-	private final WsClient wsClient = new WsClientStub();
+	private final WsClient wsClient = new WsClient();
 	private LocationManager locationManager;
 	private EditText locationName;
 	private DiveLocationLogDao locationDao;

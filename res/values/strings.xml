@@ -7,9 +7,7 @@
     <string name="action_mode_title">%s selected</string>
     <string name="home_no_account">You have not yet configured your Subsurface account. Please select one of the following options</string>
     <string name="home_dive_list_empty">No dives</string>
-    
-    <string name="destination_url">Destination URL</string>
-    <string name="user_id">User ID</string>
+
     <string name="location_name">Location name</string>
     <string name="wait_dialog">Please wait&#8230;</string>
 
@@ -32,6 +30,7 @@
     <string name="error_location">Could not receive location. Please retry</string>
     <string name="error_send">Could not send location. It may be sent again with menu</string>
     <string name="error_no_settings">Please set your parameters before sending data</string>
+    <string name="error_not_yet_implemented">Not yet implemented</string>
 
     <string name="account_link_create">Create a new account</string>
     <string name="account_link_retrieve">Retrieve an account</string>
@@ -51,4 +50,10 @@
     <string name="hint_id">ID</string>
     <string name="hint_dive_name">Dive name</string>
 
+    <string name="settings_category_ws">Server and account</string>
+    <string name="settings_destination_url">Destination URL</string>
+    <string name="settings_user_id">User ID</string>
+    <string name="settings_category_sync">Synchronization</string>
+    <string name="settings_sync_on_startup">Synchronize on startup</string>
+    <string name="settings_auto_send">Upload new dives</string>
 </resources>

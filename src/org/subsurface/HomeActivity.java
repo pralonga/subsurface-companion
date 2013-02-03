@@ -122,6 +122,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					final int totalCount = dives.size();
 					runOnUiThread(new Runnable() {
 						public void run() {
+							((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 							Toast.makeText(HomeActivity.this, getString(R.string.confirmation_location_sent, successCount, totalCount), Toast.LENGTH_SHORT).show();
 						}
 					});
@@ -177,15 +178,21 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 						public void run() {
 							locationLog.setLocation(location);
 							locationLog.setTimestamp(System.currentTimeMillis());
-							try {
-								DiveController.instance.sendDiveLog(locationLog);
-							} catch (Exception e) {
-								Log.d(TAG, "Could not send dive " + locationLog.getName(), e);
-								runOnUiThread(new Runnable() {
-									public void run() {
-										Toast.makeText(HomeActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
-									}
-								});
+							if (UserController.instance.autoSend()) {
+								try {
+									DiveController.instance.sendDiveLog(locationLog);
+									((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+								} catch (Exception e) {
+									Log.d(TAG, "Could not send dive " + locationLog.getName(), e);
+									runOnUiThread(new Runnable() {
+										public void run() {
+											Toast.makeText(HomeActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
+										}
+									});
+								}
+							} else {
+								DiveController.instance.addDiveLog(locationLog);
+								((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 							}
 						}
 					}).start();
@@ -210,6 +217,14 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		setSupportProgressBarIndeterminateVisibility(false);
+		if (UserController.instance.syncOnstartup()) {
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					refresh();
+				}
+			}, 250);
+		}
 	}
 
 	@Override
@@ -308,16 +323,29 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			}
 		}
 		if (item.getItemId() == R.id.menu_map) {
+			// TODO For now, only one supported
 			startActivity(new Intent(
 					Intent.ACTION_VIEW,
 					Uri.parse("geo:" + dives.get(0).getLatitude() + "," + dives.get(0).getLongitude())
 					));
 		} else if (item.getItemId() == R.id.menu_send) {
-			
+			ArrayList<DiveLocationLog> copy = new ArrayList<DiveLocationLog>();
+			for (DiveLocationLog log : dives) {
+				if (!log.isSent()) {
+					copy.add(log);
+				}
+			}
+			sendDives(DiveController.instance.getPendingLogs());
 		} else if (item.getItemId() == R.id.menu_delete) {
-			
+			for (DiveLocationLog log : dives) {
+				if (!log.isSent()) {
+					DiveController.instance.deleteDiveLog(log);
+				}
+			}
+			((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 		}
-		return false;
+		actionMode.finish();
+		return true;
 	}
 
 	@Override

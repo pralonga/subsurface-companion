@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory android:title="@string/settings_category_ws" >
+        <EditTextPreference
+            android:defaultValue="@string/default_url"
+            android:key="destination_url"
+            android:title="@string/settings_destination_url" />
+        <EditTextPreference
+            android:key="user_id"
+            android:title="@string/settings_user_id" />
+    </PreferenceCategory>
 
-    <EditTextPreference
-        android:defaultValue="@string/default_url"
-        android:key="destination_url"
-        android:title="@string/destination_url" />
-    <EditTextPreference
-        android:key="user_id"
-        android:title="@string/user_id" />
-
+    <PreferenceCategory android:title="@string/settings_category_sync">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="sync_on_startup"
+            android:title="@string/settings_sync_on_startup" />
+        <CheckBoxPreference 
+            android:defaultValue="true"
+            android:key="auto_send"
+            android:title="@string/settings_auto_send" />
+    </PreferenceCategory>
 </PreferenceScreen>
