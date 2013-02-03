@@ -1,4 +1,4 @@
-TASK LIST
+Task list
 =========
 
 * Link & test to web-service

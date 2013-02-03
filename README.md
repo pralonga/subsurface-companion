@@ -1,0 +1,46 @@
+Subsurface Companion for Android
+================================
+
+Description
+-----------
+Utility tool for Subsurface diving log. Allows to upload dive positions.
+For more informations about subsurface, see http://subsurface.hohndel.org/
+
+
+How to build
+------------
+To build the application, you need [the Android SDK][1] and one of the followings:
+	* [Eclipse][2] with [Google Android Development Toolkit][3]. [ActionBarSherlock][4] is needed, for compatibility reasons
+	* [Maven][5], with environment variable ANDROID_HOME set to your android installation, and in your path
+		* ${ANDROID_HOME}/bin (Linux)
+		* %ANDROID_HOME%\bin (Windows)
+		* When executing "mvn install", a folder target and the application in it will be created
+
+
+Licence
+-------
+
+	Subsurface for Android
+	Copyright (C) 2012  Aurelien PRALONG
+	
+	This program is free software; you can redistribute it and/or
+	modify it under the terms of the GNU General Public License
+	as published by the Free Software Foundation; either version 2
+	of the License, or (at your option) any later version.
+	
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+	
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+
+
+[1]: http://developer.android.com/sdk/index.html
+[2]: http://www.eclipse.org/downloads/
+[3]: http://developer.android.com/sdk/installing/installing-adt.html
+[4]: http://actionbarsherlock.com/
+[5]: http://maven.apache.org/download.cgi
