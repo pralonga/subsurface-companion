@@ -144,7 +144,7 @@ public class AccountLinkActivity extends ListActivity implements OnSharedPrefere
 					}).create().show();
 		} else if (position == 2) { // Set ID
 			edit.setHint(getString(R.string.hint_id));
-			edit.setInputType(InputType.TYPE_TEXT_VARIATION_NORMAL);
+			edit.setInputType(InputType.TYPE_CLASS_TEXT);
 			builder.setTitle(getString(R.string.account_link_existing))
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
