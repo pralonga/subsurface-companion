@@ -56,6 +56,7 @@ public class DiveLocationLog {
 		this.longitude = location.getLongitude();
 		this.name = name;
 		this.timestamp = timestamp;
+		this.sent = false;
 	}
 
 	public void setLatitude(double latitude) {

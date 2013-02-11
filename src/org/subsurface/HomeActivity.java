@@ -9,6 +9,8 @@ import org.subsurface.controller.UserController;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.ui.DiveArrayAdapter;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,11 +41,24 @@ import com.actionbarsherlock.view.Window;
 public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback {
 
 	private static final String TAG = "HomeActivity";
+
 	private LocationManager locationManager = null;
 	private MenuItem refreshItem = null;
 	private ActionMode actionMode;
 
-	public void refresh() {
+	private boolean isBackgroundLocationServiceStarted() {
+		boolean started = false;
+		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+	        if (BackgroundLocationService.class.getName().equals(service.service.getClassName())) {
+	            started = true;
+	            break;
+	        }
+	    }
+	    return started;
+	}
+
+	private void refresh() {
 		refreshItem.setVisible(false);
 		setSupportProgressBarIndeterminateVisibility(true);
 		new AsyncTask<Void, Void, Boolean>() {
@@ -137,7 +152,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		final AtomicBoolean cancel = new AtomicBoolean(false);
 		final ProgressDialog waitDialog = ProgressDialog.show(
 				HomeActivity.this,
-				"", getString(R.string.wait_dialog),
+				"", getString(R.string.dialog_wait),
 				true, true, new DialogInterface.OnCancelListener() {
 					@Override
 					public void onCancel(DialogInterface dialog) {
@@ -181,7 +196,6 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 							if (UserController.instance.autoSend()) {
 								try {
 									DiveController.instance.sendDiveLog(locationLog);
-									((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 								} catch (Exception e) {
 									Log.d(TAG, "Could not send dive " + locationLog.getName(), e);
 									runOnUiThread(new Runnable() {
@@ -192,8 +206,12 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 								}
 							} else {
 								DiveController.instance.addDiveLog(locationLog);
-								((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 							}
+							runOnUiThread(new Runnable() {
+								public void run() {
+									((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+								}
+							});
 						}
 					}).start();
 				}
@@ -231,6 +249,11 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
     public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.dives, menu);
 		refreshItem = menu.findItem(R.id.menu_refresh);
+		if (isBackgroundLocationServiceStarted()) {
+			menu.findItem(R.id.menu_start_background_service).setTitle(getString(R.string.menu_stop_background_service));
+		} else {
+			menu.findItem(R.id.menu_start_background_service).setTitle(getString(R.string.menu_start_background_service));
+		}
         return true;
     }
 
@@ -268,7 +291,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			builder.setNegativeButton(android.R.string.cancel, null);
 			edit.setHint(getString(R.string.hint_dive_name));
 			edit.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
-			builder.setTitle(getString(R.string.location_name))
+			builder.setTitle(getString(R.string.dialog_location_name))
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
@@ -297,6 +320,16 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
     		return true;
     	} else if (item.getItemId() == R.id.menu_refresh) {
     		refresh();
+    		return true;
+    	} else if (item.getItemId() == R.id.menu_start_background_service) {
+    		if (isBackgroundLocationServiceStarted()) { // Stop service
+    			if (!stopService(new Intent(this, BackgroundLocationService.class))) {
+    				Toast.makeText(this, R.string.error_background_service_unstoppable, Toast.LENGTH_SHORT).show();
+    			}
+    		} else { // Start service
+    			startService(new Intent(this, BackgroundLocationService.class));
+    		}
+    		invalidateOptionsMenu();
     	}
     	return super.onMenuItemSelected(featureId, item);
 	}

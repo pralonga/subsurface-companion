@@ -14,13 +14,14 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoDisplay" >
-        <activity android:name="StartupActivity" android:label="@string/app_name">
+        <activity android:name="StartupActivity" android:label="@string/app_name" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".GpsActivity" />
+        <service android:name="BackgroundLocationService" android:process=":backgroundLocationService"/>
         <activity android:name="HomeActivity" android:theme="@style/AppTheme" />
         <activity android:name="AccountLinkActivity" android:theme="@style/AppTheme" />
         <activity android:name="Preferences" android:theme="@style/AppTheme" android:label="@string/menu_settings" android:excludeFromRecents="true" />

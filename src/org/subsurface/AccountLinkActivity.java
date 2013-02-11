@@ -34,7 +34,7 @@ public class AccountLinkActivity extends SherlockListActivity {
 
 	private void createAccount(final String email) {
 		final ProgressDialog waitDialog = ProgressDialog.show(
-				AccountLinkActivity.this, "", getString(R.string.wait_dialog), true, true);
+				AccountLinkActivity.this, "", getString(R.string.dialog_wait), true, true);
 		new AsyncTask<Void, Void, Boolean>() {
 			@Override
 			protected Boolean doInBackground(Void... params) {
@@ -64,7 +64,7 @@ public class AccountLinkActivity extends SherlockListActivity {
 
 	private void retrieveAccount(final String email) {
 		final ProgressDialog waitDialog = ProgressDialog.show(
-				AccountLinkActivity.this, "", getString(R.string.wait_dialog), true, true);
+				AccountLinkActivity.this, "", getString(R.string.dialog_wait), true, true);
 		new AsyncTask<Void, Void, Boolean>() {
 			@Override
 			protected Boolean doInBackground(Void... params) {

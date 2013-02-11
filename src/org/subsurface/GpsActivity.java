@@ -92,7 +92,7 @@ public class GpsActivity extends Activity {
     		final AtomicBoolean cancel = new AtomicBoolean(false);
     		final ProgressDialog waitDialog = ProgressDialog.show(
     				GpsActivity.this,
-    				"", getString(R.string.wait_dialog),
+    				"", getString(R.string.dialog_wait),
     				true, true, new DialogInterface.OnCancelListener() {
 						@Override
 						public void onCancel(DialogInterface dialog) {
