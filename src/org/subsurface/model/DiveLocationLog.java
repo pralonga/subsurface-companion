@@ -17,6 +17,9 @@
  */
 package org.subsurface.model;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import android.location.Location;
 
 /**
@@ -24,20 +27,39 @@ import android.location.Location;
  * @author Aurelien PRALONG
  *
  */
+@DatabaseTable(tableName = "dives")
 public class DiveLocationLog {
 
-	private int id;
+	public static final String KEY_ID = "_id";
+	public static final String KEY_LATITUDE = "latitude";
+	public static final String KEY_LONGITUDE = "longitude";
+	public static final String KEY_TIMESTAMP = "timestamp";
+	public static final String KEY_NAME = "name";
+	public static final String KEY_SENT = "sent";
+
+	@DatabaseField(generatedId = true, columnName = KEY_ID)
+	private Long id;
+
+	@DatabaseField(columnName = KEY_LATITUDE)
 	private double latitude;
+
+	@DatabaseField(columnName = KEY_LONGITUDE)
 	private double longitude;
+
+	@DatabaseField(columnName = KEY_TIMESTAMP)
 	private long timestamp;
+
+	@DatabaseField(columnName = KEY_NAME)
 	private String name;
+
+	@DatabaseField(columnName = KEY_SENT)
 	private boolean sent;
 
 	/**
 	 * Default constructor.
 	 */
 	public DiveLocationLog() {
-		this.id = 0;
+		this.id = 0L;
 		this.latitude = 0;
 		this.longitude = 0;
 		this.timestamp = 0;
@@ -96,11 +118,11 @@ public class DiveLocationLog {
 		return name;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 

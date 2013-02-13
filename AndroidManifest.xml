@@ -20,8 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".GpsActivity" />
-        <service android:name="BackgroundLocationService" android:process=":backgroundLocationService"/>
+        <service android:name="BackgroundLocationService" />
         <activity android:name="HomeActivity" android:theme="@style/AppTheme" />
         <activity android:name="AccountLinkActivity" android:theme="@style/AppTheme" />
         <activity android:name="Preferences" android:theme="@style/AppTheme" android:label="@string/menu_settings" android:excludeFromRecents="true" />

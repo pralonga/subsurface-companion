@@ -1,6 +1,5 @@
 package org.subsurface;
 
-import org.subsurface.controller.DiveController;
 import org.subsurface.controller.UserController;
 import org.subsurface.ws.WsClient;
 
@@ -92,10 +91,6 @@ public class AccountLinkActivity extends SherlockListActivity {
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Initialize controllers
-        UserController.instance.setContext(this);
-        DiveController.instance.setContext(this);
 
         setContentView(R.layout.login_choices);
     	setListAdapter(new ArrayAdapter<String>(this, R.layout.login_choice_item, android.R.id.text1, getResources().getStringArray(R.array.account_link_choices)));

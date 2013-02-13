@@ -25,6 +25,7 @@
             android:defaultValue="@string/default_duration"
             android:key="background_service_duration"
             android:numeric="integer"
+            android:summary="@string/settings_background_duration_summary"
             android:title="@string/settings_background_duration" />
         <EditTextPreference
             android:defaultValue="@string/default_dive_name"

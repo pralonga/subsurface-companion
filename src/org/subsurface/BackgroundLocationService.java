@@ -2,8 +2,7 @@ package org.subsurface;
 
 import java.util.Timer;
 
-import org.subsurface.dao.DbAdapter;
-import org.subsurface.dao.DiveLocationLogDao;
+import org.subsurface.dao.DatabaseHelper;
 import org.subsurface.model.DiveLocationLog;
 
 import android.app.Notification;
@@ -20,6 +19,8 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+
 /**
  * Service for location retrieval.
  * @author Aurelien PRALONG
@@ -27,17 +28,20 @@ import android.util.Log;
  */
 public class BackgroundLocationService extends Service implements LocationListener {
 
-	private static final String TAG = "EventService";
+	private static final String TAG = "BackgroundLocationService";
 	private static final int NOTIFICATION_ID = BackgroundLocationService.class.hashCode();
 
 	private LocationManager locationManager;
 	private Timer timer;
 	private NotificationManager notificationManager;
-	private DiveLocationLogDao diveDao;
+	private DatabaseHelper helper;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		// Start DAO
+		this.helper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
 
 		// Request position informations
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -51,10 +55,6 @@ public class BackgroundLocationService extends Service implements LocationListen
 
 		// Get NotificationManager
 		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-		// Start DAO
-		this.diveDao = new DbAdapter(this).getDiveLocationLogDao();
-		diveDao.open();
 
 		// Show notification
 		Notification notif = new Notification(R.drawable.logo, getString(R.string.notification_background_service_on), System.currentTimeMillis());
@@ -78,16 +78,19 @@ public class BackgroundLocationService extends Service implements LocationListen
 			timer = null;
 		}
 		notificationManager.cancel(NOTIFICATION_ID);
-		diveDao.close();
+		OpenHelperManager.releaseHelper();
 	}
 
 	@Override
 	public void onLocationChanged(Location location) {
 		Log.d(TAG, "Location received");
-		// Add to current DB
-		diveDao.save(new DiveLocationLog(location,
-				PreferenceManager.getDefaultSharedPreferences(this).getString("background_service_name", getString(R.string.default_dive_name)),
-				System.currentTimeMillis()));
+		try { // Add to current DB
+			helper.getDiveDao().create(new DiveLocationLog(location,
+					PreferenceManager.getDefaultSharedPreferences(this).getString("background_service_name", getString(R.string.default_dive_name)),
+					System.currentTimeMillis()));
+		} catch (Exception e) {
+			Log.d(TAG, "Could not update dive", e);
+		}
 	}
 
 	@Override

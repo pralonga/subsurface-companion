@@ -47,6 +47,8 @@
     <string name="success_user_existing">Subsurface has been successfully configured</string>
     <string name="success_refresh">Dives have been updated</string>
 
+    <string name="error_title">Error</string>
+    <string name="error_fatal">Subsurface has encountered a fatal error and must exit.</string>
     <string name="error_generic">An error has occured. Please check your settings and retry later</string>
     
     <string name="dive_list_date">MM/dd/yyyy</string>
@@ -63,6 +65,7 @@
     <string name="settings_sync_on_startup">Synchronize on startup</string>
     <string name="settings_auto_send">Upload new dives</string>
     <string name="settings_category_background_service">Background service</string>
-    <string name="settings_background_duration">Duration between two positions fixes</string>
+    <string name="settings_background_duration">Duration (minutes)</string>
+    <string name="settings_background_duration_summary">Duration between two positions fixes</string>
     <string name="settings_background_name">Auto-created dive names</string>
 </resources>

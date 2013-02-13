@@ -205,7 +205,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 									});
 								}
 							} else {
-								DiveController.instance.addDiveLog(locationLog);
+								DiveController.instance.updateDiveLog(locationLog);
 							}
 							runOnUiThread(new Runnable() {
 								public void run() {
@@ -241,7 +241,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 				public void run() {
 					refresh();
 				}
-			}, 250);
+			}, 1000);
 		}
 	}
 

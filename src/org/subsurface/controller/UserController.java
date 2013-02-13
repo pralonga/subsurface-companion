@@ -1,5 +1,7 @@
 package org.subsurface.controller;
 
+import org.subsurface.R;
+
 import android.content.Context;
 import android.preference.PreferenceManager;
 
@@ -27,7 +29,7 @@ public class UserController {
 	}
 
 	public String getBaseUrl() {
-		return PreferenceManager.getDefaultSharedPreferences(context).getString("destination_url", null);
+		return PreferenceManager.getDefaultSharedPreferences(context).getString("destination_url", context.getString(R.string.default_url));
 	}
 
 	public boolean syncOnstartup() {
