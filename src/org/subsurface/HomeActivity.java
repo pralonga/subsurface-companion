@@ -286,15 +286,13 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	protected void onDestroy() {
 		super.onDestroy();
 
-		if (connection != null) { // Unbind update service
-			if (service != null) {
-				try {
-					Message m = Message.obtain(null, BackgroundLocationService.WHAT_UNREGISTER_LISTENER);
-					m.replyTo = new Messenger(serviceHandler);
-					new Messenger(service).send(m);
-				} catch (Exception e) {
-					Log.d(TAG, "Could not unbind service", e);
-				}
+		if (service != null) { // Unbind service
+			try {
+				Message m = Message.obtain(null, BackgroundLocationService.WHAT_UNREGISTER_LISTENER);
+				m.replyTo = new Messenger(serviceHandler);
+				new Messenger(service).send(m);
+			} catch (Exception e) {
+				Log.d(TAG, "Could not unbind service", e);
 			}
 			unbindService(connection);
 		}

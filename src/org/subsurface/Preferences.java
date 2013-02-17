@@ -17,8 +17,10 @@
  */
 package org.subsurface;
 
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
+
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
 /**
@@ -26,12 +28,22 @@ import android.preference.PreferenceManager;
  * @author Aurelien PRALONG
  *
  */
-public class Preferences extends PreferenceActivity {
+public class Preferences extends SherlockPreferenceActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		addPreferencesFromResource(R.xml.preferences);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			finish();
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }
