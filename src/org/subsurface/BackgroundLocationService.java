@@ -1,5 +1,6 @@
 package org.subsurface;
 
+import java.util.ArrayList;
 import java.util.Timer;
 
 import org.subsurface.dao.DatabaseHelper;
@@ -15,7 +16,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
+import android.os.Messenger;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -30,6 +34,30 @@ public class BackgroundLocationService extends Service implements LocationListen
 
 	private static final String TAG = "BackgroundLocationService";
 	private static final int NOTIFICATION_ID = BackgroundLocationService.class.hashCode();
+
+	public static final int WHAT_REGISTER_LISTENER = 0;
+	public static final int WHAT_UNREGISTER_LISTENER = 1;
+	public static final int WHAT_LOCATION_ADDED = 2;
+
+	private final ArrayList<Messenger> listeners = new ArrayList<Messenger>();
+	private final Messenger messenger = new Messenger(new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case WHAT_REGISTER_LISTENER:
+				listeners.add(msg.replyTo);
+				Log.d(TAG, "Listener added : " + listeners.size());
+				break;
+			case WHAT_UNREGISTER_LISTENER:
+				listeners.remove(msg.replyTo);
+				Log.d(TAG, "Listener removed : " + listeners.size());
+				break;
+
+			default:
+				break;
+			}
+		}
+	});
 
 	private LocationManager locationManager;
 	private Timer timer;
@@ -88,6 +116,13 @@ public class BackgroundLocationService extends Service implements LocationListen
 			helper.getDiveDao().create(new DiveLocationLog(location,
 					PreferenceManager.getDefaultSharedPreferences(this).getString("background_service_name", getString(R.string.default_dive_name)),
 					System.currentTimeMillis()));
+			for (Messenger messenger : listeners) {
+				try {
+					messenger.send(Message.obtain(null, WHAT_LOCATION_ADDED));
+				} catch (Exception e) {
+					Log.d(TAG, "Could not send location to messenger", e);
+				}
+			}
 		} catch (Exception e) {
 			Log.d(TAG, "Could not update dive", e);
 		}
@@ -110,6 +145,6 @@ public class BackgroundLocationService extends Service implements LocationListen
 
 	@Override
 	public IBinder onBind(Intent intent) {
-		return null;
+		return messenger.getBinder();
 	}
 }

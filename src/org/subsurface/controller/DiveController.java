@@ -42,9 +42,15 @@ public class DiveController {
 		}
 	}
 
+	public void forceUpdate() {
+		try {
+			loaded = dives.size() == diveDao.countOf();
+		} catch (Exception ignored) {}
+	}
+
 	public List<DiveLocationLog> getDiveLogs() {
 		try {
-			if (!loaded || dives.size() < diveDao.countOf()) {
+			if (!loaded) {
 				dives.clear();
 					List<DiveLocationLog> dbDives = diveDao.queryBuilder()
 							.orderBy(DiveLocationLog.KEY_TIMESTAMP, false).query();

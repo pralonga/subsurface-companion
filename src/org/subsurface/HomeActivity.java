@@ -13,9 +13,11 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,7 +25,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.Messenger;
 import android.text.InputType;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -41,6 +45,39 @@ import com.actionbarsherlock.view.Window;
 public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback {
 
 	private static final String TAG = "HomeActivity";
+
+	private IBinder service = null;
+	private final ServiceConnection connection = new ServiceConnection() {
+		
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			service = null;
+		}
+		
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			HomeActivity.this.service = service;
+			try {
+				Message m = Message.obtain(null, BackgroundLocationService.WHAT_REGISTER_LISTENER);
+				m.replyTo = new Messenger(serviceHandler);
+				new Messenger(service).send(m);
+			} catch (Exception e) {
+				Log.d(TAG, "Could not register listener", e);
+			}
+		}
+	};
+
+	private final Handler serviceHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			default:
+				DiveController.instance.forceUpdate();
+				((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+				break;
+			}
+		}
+	};
 
 	private LocationManager locationManager = null;
 	private MenuItem refreshItem = null;
@@ -220,7 +257,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	}
 
 	@Override
-    public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
@@ -229,6 +266,38 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
     	setContentView(R.layout.dive_list);
     	setListAdapter(new DiveArrayAdapter(this));
     	getListView().setItemsCanFocus(false);
+
+    	// Register for dive service updates
+    	if (isBackgroundLocationServiceStarted()) {
+    		bindService(new Intent(this, BackgroundLocationService.class), connection, Context.BIND_NOT_FOREGROUND);
+    	}
+	}
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if (hasFocus) {
+			DiveController.instance.forceUpdate();
+			((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if (connection != null) { // Unbind update service
+			if (service != null) {
+				try {
+					Message m = Message.obtain(null, BackgroundLocationService.WHAT_UNREGISTER_LISTENER);
+					m.replyTo = new Messenger(serviceHandler);
+					new Messenger(service).send(m);
+				} catch (Exception e) {
+					Log.d(TAG, "Could not unbind service", e);
+				}
+			}
+			unbindService(connection);
+		}
 	}
 
 	@Override
@@ -328,6 +397,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
     			}
     		} else { // Start service
     			startService(new Intent(this, BackgroundLocationService.class));
+    			bindService(new Intent(this, BackgroundLocationService.class), connection, Context.BIND_NOT_FOREGROUND);
     		}
     		invalidateOptionsMenu();
     	}
