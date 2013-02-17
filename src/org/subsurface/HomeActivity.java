@@ -8,6 +8,7 @@ import org.subsurface.controller.DiveController;
 import org.subsurface.controller.UserController;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.ui.DiveArrayAdapter;
+import org.subsurface.ui.DiveArrayAdapter.SelectionListener;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -30,7 +31,6 @@ import android.os.Message;
 import android.os.Messenger;
 import android.text.InputType;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -42,7 +42,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 
-public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback {
+public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback, SelectionListener {
 
 	private static final String TAG = "HomeActivity";
 
@@ -264,8 +264,10 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
         // Retrieve location service
         this.locationManager  = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     	setContentView(R.layout.dive_list);
-    	setListAdapter(new DiveArrayAdapter(this));
-    	getListView().setItemsCanFocus(false);
+    	DiveArrayAdapter adapter = new DiveArrayAdapter(this);
+    	adapter.setListener(this);
+    	setListAdapter(adapter);
+    	getListView().setItemsCanFocus(true);
 
     	// Register for dive service updates
     	if (isBackgroundLocationServiceStarted()) {
@@ -326,24 +328,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		SparseBooleanArray checked = getListView().getCheckedItemPositions();
-		int checkedElementCount = 0;
-		for (int i = 0; i < checked.size(); ++i) {
-			if (checked.valueAt(i)) {
-				++checkedElementCount;
-			}
-		}
-
-		if (checkedElementCount > 0) {
-			if (actionMode == null) {
-				actionMode = startActionMode(HomeActivity.this);
-			}
-			actionMode.setTitle(getString(R.string.action_mode_title, checkedElementCount));
-		} else {
-			if (actionMode != null) {
-				actionMode.finish();
-			}
-		}
+		Toast.makeText(this, "Clicked item", Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
@@ -405,6 +390,20 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	}
 
 	@Override
+	public void onSelectedItemsChanged(List<DiveLocationLog> dives) {
+		if (dives.size() > 0) {
+			if (actionMode == null) {
+				actionMode = startActionMode(HomeActivity.this);
+			}
+			actionMode.setTitle(getString(R.string.action_mode_title, dives.size()));
+		} else {
+			if (actionMode != null) {
+				actionMode.finish();
+			}
+		}
+	}
+
+	@Override
 	public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.action_mode_dives, menu);
 		return true;
@@ -417,14 +416,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		DiveArrayAdapter adapter = (DiveArrayAdapter) getListView().getAdapter();
-		SparseBooleanArray checked = getListView().getCheckedItemPositions();
-		ArrayList<DiveLocationLog> dives = new ArrayList<DiveLocationLog>();
-		for (int i = 0; i < checked.size(); ++i) {
-			if (checked.valueAt(i)) {
-				dives.add(adapter.getItem(i));
-			}
-		}
+		List<DiveLocationLog> dives = ((DiveArrayAdapter) getListAdapter()).getSelectedDives();
 		if (item.getItemId() == R.id.menu_map) {
 			// TODO For now, only one supported
 			startActivity(new Intent(
@@ -453,9 +445,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
-		for (int i = 0; i < getListView().getAdapter().getCount(); ++i) {
-			getListView().setItemChecked(i, false);
-		}
+		((DiveArrayAdapter) getListAdapter()).unselectAll();
 		actionMode = null;
 	}
 
