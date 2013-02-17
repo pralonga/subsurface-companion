@@ -28,6 +28,12 @@
             android:summary="@string/settings_background_duration_summary"
             android:title="@string/settings_background_duration" />
         <EditTextPreference
+            android:defaultValue="@string/default_distance"
+            android:key="background_service_distance"
+            android:numeric="integer"
+            android:summary="@string/settings_background_distance_summary"
+            android:title="@string/settings_background_distance" />
+        <EditTextPreference
             android:defaultValue="@string/default_dive_name"
             android:key="background_service_name"
             android:title="@string/settings_background_name" />

@@ -388,6 +388,8 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
     	} else if (item.getItemId() == R.id.menu_refresh) {
     		refresh();
     		return true;
+    	} else if (item.getItemId() == R.id.menu_search) {
+    		return onSearchRequested();
     	} else if (item.getItemId() == R.id.menu_start_background_service) {
     		if (isBackgroundLocationServiceStarted()) { // Stop service
     			if (!stopService(new Intent(this, BackgroundLocationService.class))) {
@@ -455,5 +457,11 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			getListView().setItemChecked(i, false);
 		}
 		actionMode = null;
+	}
+
+	@Override
+	public boolean onSearchRequested() {
+		startActivity(new Intent(this, SearchDiveActivity.class));
+		return true;
 	}
 }

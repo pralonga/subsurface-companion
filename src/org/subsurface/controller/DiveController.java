@@ -3,6 +3,7 @@ package org.subsurface.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.subsurface.dao.DatabaseHelper;
@@ -63,6 +64,21 @@ public class DiveController {
 			Log.d(TAG, "Could not retrieve dives", e);
 		}
 		return dives;
+	}
+
+	public List<DiveLocationLog> getFilteredDives(String name, long startDate, long endDate, boolean pendingOnly) {
+		Log.d(TAG, "Searching from " + new Date(startDate) + " to " + new Date(endDate));
+		List<DiveLocationLog> allLogs = getDiveLogs();
+		ArrayList<DiveLocationLog> filteredLogs = new ArrayList<DiveLocationLog>();
+		String lName = name == null ? null : name.toLowerCase();
+		for (DiveLocationLog log : allLogs) {
+			if ((lName == null || log.getName().toLowerCase().contains(lName))
+					&& startDate <= log.getTimestamp() && log.getTimestamp() <= endDate
+					&& (!pendingOnly || log.isSent())) {
+				filteredLogs.add(log);
+			}
+		}
+		return filteredLogs;
 	}
 
 	public List<DiveLocationLog> getPendingLogs() {

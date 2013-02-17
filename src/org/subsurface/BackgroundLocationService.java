@@ -75,11 +75,17 @@ public class BackgroundLocationService extends Service implements LocationListen
 		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		int pollDuration;
 		try {
-			pollDuration = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("destination_url", getString(R.string.default_duration)));
+			pollDuration = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("background_service_duration", getString(R.string.default_duration)));
 		} catch (Exception e) {
 			pollDuration = Integer.parseInt(getString(R.string.default_duration));
 		}
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, pollDuration * 60 * 1000, 0, this);
+		int pollDistance;
+		try {
+			pollDistance = Integer.parseInt(PreferenceManager.getDefaultSharedPreferences(this).getString("background_service_distance", getString(R.string.default_distance)));
+		} catch (Exception e) {
+			pollDistance = Integer.parseInt(getString(R.string.default_distance));
+		}
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, pollDuration * 60 * 1000, pollDistance, this);
 
 		// Get NotificationManager
 		notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
