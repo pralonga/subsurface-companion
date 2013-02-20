@@ -23,7 +23,7 @@ public class SearchDiveActivity extends SherlockListActivity {
 
 	private View dateFilterLayout = null;
 	private String currentName = null;
-	private boolean collapsed = false;
+	private boolean expandedText = false;
 	private long startDate;
 	private int startTime;
 	private long endDate;
@@ -31,9 +31,9 @@ public class SearchDiveActivity extends SherlockListActivity {
 
 	private void updateSearch() {
 		if (dateFilterLayout.getVisibility() == View.VISIBLE) {
-			((DiveArrayAdapter) getListAdapter()).filter(collapsed ? currentName : null, startDate + (startTime * 60000), endDate + (endTime * 60000));
+			((DiveArrayAdapter) getListAdapter()).filter(expandedText ? currentName : null, startDate + (startTime * 60000), endDate + (endTime * 60000));
 		} else {
-			((DiveArrayAdapter) getListAdapter()).filter(collapsed ? currentName : null, Long.MIN_VALUE, Long.MAX_VALUE);
+			((DiveArrayAdapter) getListAdapter()).filter(expandedText ? currentName : null, Long.MIN_VALUE, Long.MAX_VALUE);
 		}
 	}
 
@@ -113,14 +113,14 @@ public class SearchDiveActivity extends SherlockListActivity {
 			
 			@Override
 			public boolean onMenuItemActionExpand(MenuItem item) {
-				collapsed = true;
+				expandedText = true;
 				updateSearch();
 				return true;
 			}
 			
 			@Override
 			public boolean onMenuItemActionCollapse(MenuItem item) {
-				collapsed = false;
+				expandedText = false;
 				updateSearch();
 				return true;
 			}

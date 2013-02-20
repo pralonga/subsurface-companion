@@ -43,9 +43,7 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 		@Override
 		protected void publishResults(CharSequence constraint, FilterResults results) {
 			filteredLogs = (List<DiveLocationLog>) results.values;
-			if (results.count > 0) {
-				notifyDataSetChanged();
-			}
+			notifyDataSetChanged();
 		}
 	}
 
