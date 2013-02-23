@@ -13,17 +13,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class SearchDiveActivity extends SherlockListActivity {
+public class SearchDiveActivity extends HomeActivity {
 
 	private static final long ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
 	private View dateFilterLayout = null;
 	private String currentName = null;
-	private boolean expandedText = false;
 	private long startDate;
 	private int startTime;
 	private long endDate;
@@ -31,9 +29,9 @@ public class SearchDiveActivity extends SherlockListActivity {
 
 	private void updateSearch() {
 		if (dateFilterLayout.getVisibility() == View.VISIBLE) {
-			((DiveArrayAdapter) getListAdapter()).filter(expandedText ? currentName : null, startDate + (startTime * 60000), endDate + (endTime * 60000));
+			((DiveArrayAdapter) getListAdapter()).filter(currentName, startDate + (startTime * 60000), endDate + (endTime * 60000));
 		} else {
-			((DiveArrayAdapter) getListAdapter()).filter(expandedText ? currentName : null, Long.MIN_VALUE, Long.MAX_VALUE);
+			((DiveArrayAdapter) getListAdapter()).filter(currentName, Long.MIN_VALUE, Long.MAX_VALUE);
 		}
 	}
 
@@ -44,7 +42,9 @@ public class SearchDiveActivity extends SherlockListActivity {
 
         // Retrieve location service
     	setContentView(R.layout.dive_list_search);
-    	setListAdapter(new DiveArrayAdapter(this));
+    	DiveArrayAdapter adapter = new DiveArrayAdapter(this);
+    	setListAdapter(adapter);
+    	adapter.setListener(this);
     	getListView().setItemsCanFocus(false);
 
     	// Date filter initialization
@@ -93,8 +93,6 @@ public class SearchDiveActivity extends SherlockListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.dives_search, menu);
 		MenuItem item = menu.findItem(R.id.menu_search);
-//		item.setActionView(R.layout.collapsible_edittext)
-//				.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
 		((EditText) item.getActionView()).addTextChangedListener(new TextWatcher() {
 			
 			@Override
@@ -113,19 +111,17 @@ public class SearchDiveActivity extends SherlockListActivity {
 			
 			@Override
 			public boolean onMenuItemActionExpand(MenuItem item) {
-				expandedText = true;
 				updateSearch();
 				return true;
 			}
 			
 			@Override
 			public boolean onMenuItemActionCollapse(MenuItem item) {
-				expandedText = false;
-				updateSearch();
+				finish();
 				return true;
 			}
 		});
-		
+		item.expandActionView();
         return true;
     }
 
@@ -142,7 +138,14 @@ public class SearchDiveActivity extends SherlockListActivity {
 				dateFilterLayout.setVisibility(View.VISIBLE);
 				updateSearch();
 			}
+		} else if (item.getItemId() == R.id.menu_search) {
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public boolean onSearchRequested() {
+		return true;
 	}
 }
