@@ -92,6 +92,7 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 			}).start();
 		} else if (item.getItemId() == R.id.menu_delete) {
 			DiveController.instance.deleteDiveLog(dive);
+			finish();
 		} else if (item.getItemId() == R.id.menu_edit) {
 			this.actionMode = startActionMode(DiveDetailActivity.this);
 		} else if (item.getItemId() == R.id.menu_settings) { // Settings

@@ -428,9 +428,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			sendDives(copy);
 		} else if (item.getItemId() == R.id.menu_delete) {
 			for (DiveLocationLog log : dives) {
-				if (!log.isSent()) {
-					DiveController.instance.deleteDiveLog(log);
-				}
+				DiveController.instance.deleteDiveLog(log);
 			}
 			((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 		}

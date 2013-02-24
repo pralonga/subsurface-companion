@@ -36,6 +36,7 @@ public class DiveLocationLog {
 	public static final String KEY_TIMESTAMP = "timestamp";
 	public static final String KEY_NAME = "name";
 	public static final String KEY_SENT = "sent";
+	public static final String KEY_HIDDEN = "hidden";
 
 	@DatabaseField(generatedId = true, columnName = KEY_ID)
 	private Long id;
@@ -54,6 +55,9 @@ public class DiveLocationLog {
 
 	@DatabaseField(columnName = KEY_SENT)
 	private boolean sent;
+
+	@DatabaseField(columnName = KEY_HIDDEN)
+	private boolean hidden;
 
 	/**
 	 * Default constructor.
@@ -132,6 +136,14 @@ public class DiveLocationLog {
 
 	public boolean isSent() {
 		return sent;
+	}
+
+	public boolean isHidden() {
+		return hidden;
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
 	}
 
 	@Override

@@ -45,7 +45,9 @@ public class DiveController {
 
 	public void forceUpdate() {
 		try {
-			loaded &= dives.size() == diveDao.countOf();
+			loaded &= dives.size() == diveDao.queryBuilder()
+					.where().eq(DiveLocationLog.KEY_HIDDEN, false)
+					.countOf();
 		} catch (Exception ignored) {}
 	}
 
@@ -54,7 +56,9 @@ public class DiveController {
 			if (!loaded) {
 				dives.clear();
 				List<DiveLocationLog> dbDives = diveDao.queryBuilder()
-						.orderBy(DiveLocationLog.KEY_TIMESTAMP, false).query();
+						.orderBy(DiveLocationLog.KEY_TIMESTAMP, false)
+						.where().eq(DiveLocationLog.KEY_HIDDEN, false)
+						.query();
 				if (dbDives != null) {
 					dives.addAll(dbDives);
 				}
@@ -126,10 +130,15 @@ public class DiveController {
 
 	public void deleteDiveLog(DiveLocationLog diveLog) {
 		try {
-			diveDao.delete(diveLog);
+			if (diveLog.isSent()) { // WS does not support dive deletion, so we just hide it
+				diveLog.setHidden(true);
+				updateDiveLog(diveLog);
+			} else {
+				diveDao.delete(diveLog);
+			}
 			loaded = false;
 		} catch (Exception e) {
-			Log.d(TAG, "Could not update dive", e);
+			Log.d(TAG, "Could not delete dive", e);
 		}
 	}
 
