@@ -36,6 +36,12 @@ public class Preferences extends SherlockPreferenceActivity {
 		PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 		addPreferencesFromResource(R.xml.preferences);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		String version = "";
+		try {
+			version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+		} catch (Exception ignored) {}
+		getPreferenceManager().findPreference("version")
+				.setSummary(getString(R.string.settings_other_version_summary, version));
 	}
 
 	@Override

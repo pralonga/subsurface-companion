@@ -73,15 +73,30 @@
     <string name="hint_dive_name">Dive name</string>
 
     <string name="settings_category_ws">Server and account</string>
-    <string name="settings_destination_url">Destination URL</string>
+    <string name="settings_destination_url">Web-service URL</string>
+    <string name="settings_destination_url_summary">URL for server synchronization</string>
     <string name="settings_user_id">User ID</string>
+    <string name="settings_user_id_summary">ID registered on server</string>
+
     <string name="settings_category_sync">Synchronization</string>
     <string name="settings_sync_on_startup">Synchronize on startup</string>
-    <string name="settings_auto_send">Upload new dives</string>
+    <string name="settings_sync_on_startup_summary">Synchronize with server on application startup</string>
+    <string name="settings_sync_auto_send">Upload new dives</string>
+    <string name="settings_sync_auto_send_summary">When a dive is added, send it automatically</string>
+
     <string name="settings_category_background_service">Background service</string>
     <string name="settings_background_duration">Min duration (minutes)</string>
     <string name="settings_background_duration_summary">Minimum duration between two positions fixes</string>
     <string name="settings_background_distance">Min distance (meters)</string>
     <string name="settings_background_distance_summary">Minimum distance between two positions fixes</string>
-    <string name="settings_background_name">Auto-created dive names</string>
+    <string name="settings_background_name">Name template</string>
+    <string name="settings_background_name_summary">Auto-created dive names</string>
+
+    <string name="settings_category_other">Other</string>
+    <string name="settings_other_mailing_list">Mailing list</string>
+    <string name="settings_other_mailing_list_summary">Send a mail to all members</string>
+    <string name="settings_other_website">Subsurface website</string>
+    <string name="settings_other_website_summary">Open project website</string>
+    <string name="settings_other_version">Version</string>
+    <string name="settings_other_version_summary">Current version: %s</string>
 </resources>

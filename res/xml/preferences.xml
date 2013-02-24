@@ -5,20 +5,24 @@
         <EditTextPreference
             android:defaultValue="@string/default_url"
             android:key="destination_url"
-            android:title="@string/settings_destination_url" />
+            android:title="@string/settings_destination_url"
+            android:summary="@string/settings_destination_url_summary" />
         <EditTextPreference
             android:key="user_id"
-            android:title="@string/settings_user_id" />
+            android:title="@string/settings_user_id"
+            android:summary="@string/settings_user_id_summary" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_category_sync" >
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="sync_on_startup"
-            android:title="@string/settings_sync_on_startup" />
+            android:title="@string/settings_sync_on_startup"
+            android:summary="@string/settings_sync_on_startup_summary" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="auto_send"
-            android:title="@string/settings_auto_send" />
+            android:title="@string/settings_sync_auto_send"
+            android:summary="@string/settings_sync_auto_send_summary" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_category_background_service" >
         <EditTextPreference
@@ -36,6 +40,27 @@
         <EditTextPreference
             android:defaultValue="@string/default_dive_name"
             android:key="background_service_name"
-            android:title="@string/settings_background_name" />
+            android:title="@string/settings_background_name"
+            android:summary="@string/settings_background_name_summary" />
     </PreferenceCategory>
-</PreferenceScreen>
+    <PreferenceCategory android:title="@string/settings_category_other" >
+        <Preference
+            android:summary="@string/settings_other_mailing_list_summary"
+            android:title="@string/settings_other_mailing_list" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="mailto:subsurface@hohndel.org" />
+        </Preference>
+        <Preference
+            android:summary="@string/settings_other_website_summary"
+            android:title="@string/settings_other_website" >
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="http://subsurface.hohndel.org/" />
+        </Preference>
+        <Preference
+            android:key="version"
+            android:title="@string/settings_other_version" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
