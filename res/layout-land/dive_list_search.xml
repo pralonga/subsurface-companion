@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/fromText"
-            android:text="@string/dive_list_date" />
+            android:text="@string/date_format_short" />
 
         <Button
             android:id="@+id/buttonFromHour"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@id/buttonFromDate"
-            android:text="@string/dive_list_hour" />
+            android:text="@string/date_format_time" />
 
         <TextView
             android:id="@+id/toText"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@id/buttonToHour"
-            android:text="@string/dive_list_date" />
+            android:text="@string/date_format_short" />
 
         <Button
             android:id="@+id/buttonToHour"
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="@string/dive_list_hour" />
+            android:text="@string/date_format_time" />
     </RelativeLayout>
 
     <ListView

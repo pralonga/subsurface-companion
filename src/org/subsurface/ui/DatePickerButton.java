@@ -41,14 +41,14 @@ public class DatePickerButton implements DatePickerDialog.OnDateSetListener, Vie
 	public static DatePickerButton initButton(Button button, long initialDate, DateSetListener listener) {
 		DatePickerButton rootListener = new DatePickerButton(button, initialDate, listener);
 		button.setOnClickListener(rootListener);
-		button.setText(getDateText(initialDate, button.getContext().getString(R.string.dive_list_date)));
+		button.setText(getDateText(initialDate, button.getContext().getString(R.string.date_format_short)));
 		return rootListener;
 	}
 
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 		currentDate = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTimeInMillis();
-		associatedButton.setText(getDateText(currentDate, associatedButton.getContext().getString(R.string.dive_list_date)));
+		associatedButton.setText(getDateText(currentDate, associatedButton.getContext().getString(R.string.date_format_short)));
 		if (listener != null) {
 			listener.onDateSet(associatedButton, currentDate);
 		}

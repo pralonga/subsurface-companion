@@ -175,7 +175,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					runOnUiThread(new Runnable() {
 						public void run() {
 							((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-							Toast.makeText(HomeActivity.this, getString(R.string.confirmation_location_sent, successCount, totalCount), Toast.LENGTH_SHORT).show();
+							Toast.makeText(HomeActivity.this, getString(R.string.confirmation_locations_sent, successCount, totalCount), Toast.LENGTH_SHORT).show();
 						}
 					});
 				}
@@ -328,7 +328,9 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
-		Toast.makeText(this, "Clicked item", Toast.LENGTH_SHORT).show();
+		Intent detailIntent = new Intent(this, DiveDetailActivity.class);
+		detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_ID, l.getItemIdAtPosition(position));
+		startActivity(detailIntent);
 	}
 
 	@Override
@@ -395,7 +397,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			if (actionMode == null) {
 				actionMode = startActionMode(HomeActivity.this);
 			}
-			actionMode.setTitle(getString(R.string.action_mode_title, dives.size()));
+			actionMode.setTitle(getString(R.string.home_action_mode_title, dives.size()));
 		} else {
 			if (actionMode != null) {
 				actionMode.finish();
@@ -430,7 +432,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					copy.add(log);
 				}
 			}
-			sendDives(DiveController.instance.getPendingLogs());
+			sendDives(copy);
 		} else if (item.getItemId() == R.id.menu_delete) {
 			for (DiveLocationLog log : dives) {
 				if (!log.isSent()) {

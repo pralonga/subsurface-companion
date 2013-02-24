@@ -6,12 +6,15 @@
     <string name="default_distance">10</string>
     <string name="default_dive_name">Auto-created dive</string>
 
-    <string name="action_mode_title">%s selected</string>
+    <string name="home_action_mode_title">%s selected</string>
     <string name="home_no_account">You have not yet configured your Subsurface account. Please select one of the following options</string>
     <string name="home_dive_list_empty">No dives</string>
 
     <string name="search_date_from">From</string>
     <string name="search_date_to">To</string>
+
+    <string name="details_coordinates">%1$f <b>N</b> %2$f <b>W</b></string>
+    <string name="details_action_mode_title">Edit dive</string>
 
     <string name="dialog_location_name">Location name</string>
     <string name="dialog_wait">Please wait&#8230;</string>
@@ -27,7 +30,9 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_logoff">Disconnect</string>
     <string name="menu_search">Search</string>
+    <string name="menu_save">Save</string>
     <string name="menu_time">Time</string>
+    <string name="menu_edit">Edit</string>
     <string name="menu_start_background_service">Start service</string>
     <string name="menu_stop_background_service">Stop service</string>
 
@@ -36,12 +41,14 @@
     <string name="confirm_disconnect">Do you really want to disconnect ?</string>
 
     <string name="confirmation_location_picked">Location %s has been added</string>
-    <string name="confirmation_location_sent">%1$d/%2$d locations have been sent</string>
+    <string name="confirmation_location_sent">Location "%s" has been sent</string>
+    <string name="confirmation_locations_sent">%1$d/%2$d locations have been sent</string>
 
     <string name="error_location">Could not receive location. Please retry</string>
     <string name="error_send">Could not send location. It may be sent again with menu</string>
     <string name="error_no_settings">Please set your parameters before sending data</string>
     <string name="error_not_yet_implemented">Not yet implemented</string>
+    <string name="error_no_associated_dive">Could not find associated dive</string>
     <string name="error_background_service_unstoppable">Could not stop background service</string>
 
     <string name="account_link_create">Create a new account</string>
@@ -57,8 +64,9 @@
     <string name="error_fatal">Subsurface has encountered a fatal error and must exit.</string>
     <string name="error_generic">An error has occured. Please check your settings and retry later</string>
     
-    <string name="dive_list_date">MM/dd/yyyy</string>
-    <string name="dive_list_hour">HH:mm</string>
+    <string name="date_format_full">MM/dd/yyyy HH:mm</string>
+    <string name="date_format_short">MM/dd/yyyy</string>
+    <string name="date_format_time">HH:mm</string>
 
     <string name="hint_email">Email address</string>
     <string name="hint_id">ID</string>

@@ -67,8 +67,8 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 	public DiveArrayAdapter(Context context) {
 		super(context, R.layout.dive_item);
 		this.context = context;
-		this.dateFormat = context.getString(R.string.dive_list_date);
-		this.hourFormat = context.getString(R.string.dive_list_hour);
+		this.dateFormat = context.getString(R.string.date_format_short);
+		this.hourFormat = context.getString(R.string.date_format_time);
 		this.filter = new DiveFilter();
 		this.isFilterEnabled = false;
 	}
@@ -116,6 +116,12 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 	@Override
 	public DiveLocationLog getItem(int pos) {
 		return isFilterEnabled && filteredLogs != null ? filteredLogs.get(pos) : DiveController.instance.getDiveLogs().get(pos);
+	}
+
+	@Override
+	public long getItemId(int position) {
+		DiveLocationLog found = getItem(position);
+		return found == null ? -1 : found.getId();
 	}
 
 	public DiveFilter getFilter() {

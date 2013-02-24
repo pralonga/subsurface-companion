@@ -43,7 +43,7 @@
             android:id="@android:id/text1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dive_list_date"
+            android:text="@string/date_format_short"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="@string/dive_list_hour"
+            android:text="@string/date_format_time"
             android:textAppearance="?android:attr/textAppearanceSmall" />
     </LinearLayout>
 

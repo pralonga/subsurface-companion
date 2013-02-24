@@ -5,14 +5,18 @@
     android:orientation="vertical"
     android:layout_margin="5dp" >
 
-    <TextView
+    <EditText
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="@string/app_name"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:inputType="textAutoComplete"
+        android:maxLines="1"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
 
     <TextView
         android:id="@+id/date"

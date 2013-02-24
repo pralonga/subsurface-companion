@@ -45,7 +45,7 @@ public class DiveController {
 
 	public void forceUpdate() {
 		try {
-			loaded = dives.size() == diveDao.countOf();
+			loaded &= dives.size() == diveDao.countOf();
 		} catch (Exception ignored) {}
 	}
 
@@ -53,12 +53,12 @@ public class DiveController {
 		try {
 			if (!loaded) {
 				dives.clear();
-					List<DiveLocationLog> dbDives = diveDao.queryBuilder()
-							.orderBy(DiveLocationLog.KEY_TIMESTAMP, false).query();
-					if (dbDives != null) {
-						dives.addAll(dbDives);
-					}
-					loaded = true;
+				List<DiveLocationLog> dbDives = diveDao.queryBuilder()
+						.orderBy(DiveLocationLog.KEY_TIMESTAMP, false).query();
+				if (dbDives != null) {
+					dives.addAll(dbDives);
+				}
+				loaded = true;
 			}
 		} catch (Exception e) {
 			Log.d(TAG, "Could not retrieve dives", e);
@@ -90,6 +90,14 @@ public class DiveController {
 			}
 		}
 		return filteredLogs;
+	}
+
+	public DiveLocationLog getDiveById(long id) {
+		DiveLocationLog found = null;
+		try {
+			found = diveDao.queryForId(id);
+		} catch (Exception ignored) {}
+		return found;
 	}
 
 	public void updateDiveLog(DiveLocationLog diveLog) {
