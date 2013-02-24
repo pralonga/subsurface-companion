@@ -22,7 +22,6 @@ import android.content.ServiceConnection;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -419,13 +418,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		List<DiveLocationLog> dives = ((DiveArrayAdapter) getListAdapter()).getSelectedDives();
-		if (item.getItemId() == R.id.menu_map) {
-			// TODO For now, only one supported
-			startActivity(new Intent(
-					Intent.ACTION_VIEW,
-					Uri.parse("geo:" + dives.get(0).getLatitude() + "," + dives.get(0).getLongitude())
-					));
-		} else if (item.getItemId() == R.id.menu_send) {
+		if (item.getItemId() == R.id.menu_send) {
 			ArrayList<DiveLocationLog> copy = new ArrayList<DiveLocationLog>();
 			for (DiveLocationLog log : dives) {
 				if (!log.isSent()) {
