@@ -5,6 +5,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TimePicker;
 
+/**
+ * Button / TimePicker link abstraction.
+ * @author Aurelien PRALONG
+ *
+ */
 public class TimePickerButton implements TimePickerDialog.OnTimeSetListener, View.OnClickListener {
 
 	public static interface TimeSetListener {

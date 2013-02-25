@@ -12,6 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 
+/**
+ * Button / DatePicker link abstraction.
+ * @author Aurelien PRALONG
+ *
+ */
 public class DatePickerButton implements DatePickerDialog.OnDateSetListener, View.OnClickListener {
 
 	public static interface DateSetListener {

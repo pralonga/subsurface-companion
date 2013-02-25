@@ -9,6 +9,11 @@ import android.view.ViewGroup;
 import android.widget.Checkable;
 import android.widget.RelativeLayout;
 
+/**
+ * Hack layout, for better checkbox handling.
+ * @author Aurelien PRALONG
+ *
+ */
 public class CheckableRelativeLayout extends RelativeLayout implements Checkable {
 
 	private boolean checked;

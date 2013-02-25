@@ -16,6 +16,11 @@ import android.widget.EditText;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+/**
+ * Activity for dive search.
+ * @author Aurelien PRALONG
+ *
+ */
 public class SearchDiveActivity extends HomeActivity {
 
 	private static final long ONE_DAY_MS = 24 * 60 * 60 * 1000;

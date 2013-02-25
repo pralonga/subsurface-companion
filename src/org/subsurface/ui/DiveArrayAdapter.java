@@ -20,6 +20,11 @@ import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Custom {@link ArrayAdapter}. Handles selection, and does not stores by itself dives (DiveController does the job).
+ * @author Aurelien PRALONG
+ *
+ */
 public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 
 	public static interface SelectionListener {

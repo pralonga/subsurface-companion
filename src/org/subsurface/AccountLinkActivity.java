@@ -24,6 +24,11 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+/**
+ * Activity for account selection.
+ * @author Aurelien PRALONG
+ *
+ */
 public class AccountLinkActivity extends SherlockListActivity {
 
 	private static final String TAG = "AccountLinkActivity";

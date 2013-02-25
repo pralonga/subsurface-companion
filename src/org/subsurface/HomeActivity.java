@@ -417,7 +417,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-		List<DiveLocationLog> dives = ((DiveArrayAdapter) getListAdapter()).getSelectedDives();
+		final List<DiveLocationLog> dives = ((DiveArrayAdapter) getListAdapter()).getSelectedDives();
 		if (item.getItemId() == R.id.menu_send) {
 			ArrayList<DiveLocationLog> copy = new ArrayList<DiveLocationLog>();
 			for (DiveLocationLog log : dives) {
@@ -427,10 +427,22 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			}
 			sendDives(copy);
 		} else if (item.getItemId() == R.id.menu_delete) {
-			for (DiveLocationLog log : dives) {
-				DiveController.instance.deleteDiveLog(log);
+			if (!dives.isEmpty()) {
+				new AlertDialog.Builder(this)
+					.setTitle(R.string.menu_delete)
+					.setMessage(R.string.confirm_delete_dives)
+					.setNegativeButton(android.R.string.cancel, null)
+					.setCancelable(true)
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							for (DiveLocationLog log : dives) {
+								DiveController.instance.deleteDiveLog(log);
+							}
+							((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+						}
+					}).create().show();
 			}
-			((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 		}
 		actionMode.finish();
 		return true;

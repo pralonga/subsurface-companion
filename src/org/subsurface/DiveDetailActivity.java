@@ -6,6 +6,8 @@ import java.util.Date;
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +21,11 @@ import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
+/**
+ * Activity for dive details.
+ * @author Aurelien PRALONG
+ *
+ */
 public class DiveDetailActivity extends SherlockActivity implements com.actionbarsherlock.view.ActionMode.Callback {
 
 	public static final String PARAM_DIVE_ID = "PARAM_DIVE_ID";
@@ -91,8 +98,18 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 				}
 			}).start();
 		} else if (item.getItemId() == R.id.menu_delete) {
-			DiveController.instance.deleteDiveLog(dive);
-			finish();
+			new AlertDialog.Builder(this)
+			.setTitle(R.string.menu_delete)
+			.setMessage(R.string.confirm_delete_dive)
+			.setNegativeButton(android.R.string.cancel, null)
+			.setCancelable(true)
+			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					DiveController.instance.deleteDiveLog(dive);
+					DiveDetailActivity.this.finish();
+				}
+			}).create().show();
 		} else if (item.getItemId() == R.id.menu_edit) {
 			this.actionMode = startActionMode(DiveDetailActivity.this);
 		} else if (item.getItemId() == R.id.menu_settings) { // Settings

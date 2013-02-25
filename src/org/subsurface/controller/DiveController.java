@@ -17,6 +17,11 @@ import android.util.Log;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.Dao;
 
+/**
+ * Controller for dives. Keeps a cache, and manages synchronization with database.
+ * @author Aurelien PRALONG
+ *
+ */
 public class DiveController {
 
 	private static final String TAG = "DiveController";

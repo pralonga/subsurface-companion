@@ -9,6 +9,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+/**
+ * Startup activity. Does the switch between account actions and dive list.
+ * @author Aurelien PRALONG
+ *
+ */
 public class StartupActivity extends Activity {
 
 	@Override

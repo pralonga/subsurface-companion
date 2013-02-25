@@ -5,6 +5,11 @@ import org.subsurface.R;
 import android.content.Context;
 import android.preference.PreferenceManager;
 
+/**
+ * Controller for user / user settings.
+ * @author Aurelien PRALONG
+ *
+ */
 public class UserController {
 
 	public static final UserController instance = new UserController();

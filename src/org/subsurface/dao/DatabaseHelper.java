@@ -13,6 +13,11 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+/**
+ * Database utilities.
+ * @author Aurelien PRALONG
+ *
+ */
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
 	private static final String DATABASE_NAME = "subsurface.db";
