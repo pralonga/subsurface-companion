@@ -1,0 +1,86 @@
+#
+# An unexpected error has been detected by Java Runtime Environment:
+#
+#  Internal Error (classFileParser.cpp:2924), pid=5796, tid=4820
+#  Error: ShouldNotReachHere()
+#
+# Java VM: Java HotSpot(TM) Client VM (10.0-b23 mixed mode windows-x86)
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x02111c00):  JavaThread "Unknown thread" [_thread_in_vm, id=4820, stack(0x007b0000,0x00800000)]
+
+Stack: [0x007b0000,0x00800000]
+
+[error occurred during error reporting (printing native stack), id 0xc0000005]
+
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x02111c00 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=4820, stack(0x007b0000,0x00800000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Dynamic libraries:
+0x00400000 - 0x00423000 	C:\Program Files\Java\jdk1.6.0_07\bin\javaw.exe
+0x77d20000 - 0x77e48000 	C:\Windows\system32\ntdll.dll
+0x76540000 - 0x7661c000 	C:\Windows\system32\kernel32.dll
+0x76710000 - 0x767d6000 	C:\Windows\system32\ADVAPI32.dll
+0x76470000 - 0x76533000 	C:\Windows\system32\RPCRT4.dll
+0x77aa0000 - 0x77b3d000 	C:\Windows\system32\USER32.dll
+0x76420000 - 0x7646b000 	C:\Windows\system32\GDI32.dll
+0x77ee0000 - 0x77efe000 	C:\Windows\system32\IMM32.DLL
+0x76620000 - 0x766e8000 	C:\Windows\system32\MSCTF.dll
+0x76bc0000 - 0x76c6a000 	C:\Windows\system32\msvcrt.dll
+0x76700000 - 0x76709000 	C:\Windows\system32\LPK.DLL
+0x76980000 - 0x769fd000 	C:\Windows\system32\USP10.dll
+0x7c340000 - 0x7c396000 	C:\Program Files\Java\jdk1.6.0_07\jre\bin\msvcr71.dll
+0x6d870000 - 0x6dac0000 	C:\Program Files\Java\jdk1.6.0_07\jre\bin\client\jvm.dll
+0x74af0000 - 0x74b22000 	C:\Windows\system32\WINMM.dll
+0x77bd0000 - 0x77d15000 	C:\Windows\system32\ole32.dll
+0x77e50000 - 0x77edd000 	C:\Windows\system32\OLEAUT32.dll
+0x74ab0000 - 0x74aee000 	C:\Windows\system32\OLEACC.dll
+0x76210000 - 0x7623c000 	C:\Windows\system32\apphelp.dll
+0x6d320000 - 0x6d328000 	C:\Program Files\Java\jdk1.6.0_07\jre\bin\hpi.dll
+0x763d0000 - 0x763d7000 	C:\Windows\system32\PSAPI.DLL
+0x6d820000 - 0x6d82c000 	C:\Program Files\Java\jdk1.6.0_07\jre\bin\verify.dll
+0x6d3c0000 - 0x6d3df000 	C:\Program Files\Java\jdk1.6.0_07\jre\bin\java.dll
+0x6d860000 - 0x6d86f000 	C:\Program Files\Java\jdk1.6.0_07\jre\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=Cp1252 -Xbootclasspath:C:\Program Files\Android\android-sdk\platforms\android-15\android.jar 
+java_command: org.subsurface.dao.DatabaseConfigUtil
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk1.6.0_07
+CLASSPATH=.;.;C:\PROGRA~1\JMF21~1.1E\lib\sound.jar;C:\PROGRA~1\JMF21~1.1E\lib\jmf.jar;C:\PROGRA~1\JMF21~1.1E\lib;
+PATH=C:/Program Files/Java/jdk1.6.0_07/bin/../jre/bin/client;C:/Program Files/Java/jdk1.6.0_07/bin/../jre/bin;C:/Program Files/Java/jdk1.6.0_07/bin/../jre/lib/i386;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\system32\wbem;C:\Program Files\PC Connectivity Solution;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files\Subversion\bin;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files\Windows Live\Shared;C:\Program Files\Android\android-sdk\bin;WTK_HOME\bin;D:\Cours\GI\ecom-projet\JONAS_5_0_M1\bin\nt;D:\java\apache-maven-3.0.4\bin;C:\Program Files\Java\jdk1.6.0_07\bin;D:\java\ANT\bin;D:\java\jogl;D:\java\jboss-5.0.0.GA\bin;C:\Program Files\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\system32\wbem;C:\Program Files\PC Connectivity Solution;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files\Subversion\bin;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files\Windows Live\Shared;C:\Program Files\hdparm\bin;C:\Program Files\eclipse;
+USERNAME=aurelien
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=x86 Family 6 Model 15 Stepping 11, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows Vista Build 6002 Service Pack 2
+
+CPU:total 2 (2 cores per cpu, 1 threads per core) family 6 model 15 stepping 11, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3
+
+Memory: 4k page, physical 2097151k(1653788k free), swap 4194303k(4194303k free)
+
+vm_info: Java HotSpot(TM) Client VM (10.0-b23) for windows-x86 JRE (1.6.0_07-b06), built on Jun 10 2008 01:14:11 by "java_re" with MS VC++ 7.1
+
+time: Mon Feb 25 20:11:07 2013
+elapsed time: 0 seconds
+

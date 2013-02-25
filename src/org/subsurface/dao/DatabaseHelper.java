@@ -26,9 +26,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 	private Dao<DiveLocationLog, Long> diveDao;
 
 	public DatabaseHelper(Context context) {
-		super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		// TODO Set hardcoded schema, for enhanced performances
-		//super(context, DATABASE_NAME, null, DATABASE_VERSION, R.raw.ormlite_config);
+		//super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		// Set hardcoded schema, for enhanced performances
+		super(context, DATABASE_NAME, null, DATABASE_VERSION, org.subsurface.R.raw.ormlite_config);
 	}
 
 	@Override

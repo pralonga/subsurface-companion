@@ -1,0 +1,39 @@
+#
+# generated on 2013/02/25 08:14:43
+#
+# --table-start--
+dataClass=org.subsurface.model.DiveLocationLog
+tableName=dives
+# --table-fields-start--
+# --field-start--
+fieldName=id
+columnName=_id
+generatedId=true
+# --field-end--
+# --field-start--
+fieldName=latitude
+columnName=latitude
+# --field-end--
+# --field-start--
+fieldName=longitude
+columnName=longitude
+# --field-end--
+# --field-start--
+fieldName=timestamp
+columnName=timestamp
+# --field-end--
+# --field-start--
+fieldName=name
+columnName=name
+# --field-end--
+# --field-start--
+fieldName=sent
+columnName=sent
+# --field-end--
+# --field-start--
+fieldName=hidden
+columnName=hidden
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
