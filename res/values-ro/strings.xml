@@ -41,6 +41,8 @@
     <string name="confirm_disconnect">Vreți să vă deconectați?</string>
     <string name="confirm_delete_dives">Vreți să ștergeți scufundările acestea?</string>
     <string name="confirm_delete_dive">Vreți să ștergeți scufundarea aceasta?</string>
+    <string name="confirm_enable_gps">GPS-ul dumneavoastră e dezactivat. Vreți să îl activați?</string>
+    <string name="confirm_enable_gps_title">Activarea GPS-ul</string>
 
     <string name="confirmation_location_picked">Locul %s a fost adăugat</string>
     <string name="confirmation_location_sent">Locul "%s" a fost trimis</string>
@@ -75,9 +77,9 @@
     <string name="hint_dive_name">Numele scufundări</string>
 
     <string name="settings_category_ws">Server și cont</string>
-    <string name="settings_destination_url">URLul serviciului web</string>
+    <string name="settings_destination_url">URL-ul serviciului web</string>
     <string name="settings_destination_url_summary">URL pentru sincronizare de date</string>
-    <string name="settings_user_id">IDul utilizatorului</string>
+    <string name="settings_user_id">ID-ul utilizatorului</string>
     <string name="settings_user_id_summary">ID înregistrat pe server</string>
 
     <string name="settings_category_sync">Sincronizare</string>

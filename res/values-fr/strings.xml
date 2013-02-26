@@ -41,6 +41,8 @@
     <string name="confirm_disconnect">Voulez-vous vraiment vous déconnecter ?</string>
     <string name="confirm_delete_dives">Voulez-vous vraiment effacer ces plongées ?</string>
     <string name="confirm_delete_dive">Voulez-vous vraiment effacer cette plongée ?</string>
+    <string name="confirm_enable_gps">Votre GPS est désactivé. Voulez-vous l\'activer ?</string>
+    <string name="confirm_enable_gps_title">Activer le GPS</string>
 
     <string name="confirmation_location_picked">Le lieu %s a été ajouté</string>
     <string name="confirmation_location_sent">Le lieu "%s" a été envoyé</string>

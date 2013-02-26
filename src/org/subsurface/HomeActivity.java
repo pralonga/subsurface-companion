@@ -82,6 +82,20 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	private MenuItem refreshItem = null;
 	private ActionMode actionMode;
 
+	private void showGpsWarning() {
+		new AlertDialog.Builder(this)
+				.setTitle(R.string.confirm_enable_gps_title)
+				.setMessage(R.string.confirm_enable_gps)
+				.setCancelable(true)
+				.setNegativeButton(android.R.string.no, null)
+				.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+					}
+				}).create().show();
+	}
+
 	private boolean isBackgroundLocationServiceStarted() {
 		boolean started = false;
 		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
@@ -338,19 +352,23 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
     		startActivity(new Intent(this, Preferences.class));
     		return true;
     	} else if (item.getItemId() == R.id.menu_new) { // Locate has been clicked
-    		final EditText edit = new EditText(this);
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setView(edit);
-			builder.setNegativeButton(android.R.string.cancel, null);
-			edit.setHint(getString(R.string.hint_dive_name));
-			edit.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
-			builder.setTitle(getString(R.string.dialog_location_name))
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							sendDiveLog(edit.getText().toString());
-						}
-					}).create().show();
+    		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+    			final EditText edit = new EditText(this);
+    			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    			builder.setView(edit);
+    			builder.setNegativeButton(android.R.string.cancel, null);
+    			edit.setHint(getString(R.string.hint_dive_name));
+    			edit.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+    			builder.setTitle(getString(R.string.dialog_location_name))
+    					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+    						@Override
+    						public void onClick(DialogInterface dialog, int which) {
+    							sendDiveLog(edit.getText().toString());
+    						}
+    					}).create().show();
+    		} else {
+    			showGpsWarning();
+    		}
 			return true;
     	} else if (item.getItemId() == R.id.menu_send_all) { // Send has been clicked
     		sendDives(DiveController.instance.getPendingLogs());
@@ -382,8 +400,12 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
     				Toast.makeText(this, R.string.error_background_service_unstoppable, Toast.LENGTH_SHORT).show();
     			}
     		} else { // Start service
-    			startService(new Intent(this, BackgroundLocationService.class));
-    			bindService(new Intent(this, BackgroundLocationService.class), connection, Context.BIND_NOT_FOREGROUND);
+    			if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+    				startService(new Intent(this, BackgroundLocationService.class));
+        			bindService(new Intent(this, BackgroundLocationService.class), connection, Context.BIND_NOT_FOREGROUND);
+        		} else {
+        			showGpsWarning();
+        		}
     		}
     		invalidateOptionsMenu();
     	}

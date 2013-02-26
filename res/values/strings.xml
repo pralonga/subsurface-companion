@@ -41,6 +41,8 @@
     <string name="confirm_disconnect">Do you really want to disconnect ?</string>
     <string name="confirm_delete_dives">Do you really want to delete these dives ?</string>
     <string name="confirm_delete_dive">Do you really want to delete this dive ?</string>
+    <string name="confirm_enable_gps">Your GPS is disabled. Do you want to activate it?</string>
+    <string name="confirm_enable_gps_title">Enable GPS</string>
 
     <string name="confirmation_location_picked">Location %s has been added</string>
     <string name="confirmation_location_sent">Location "%s" has been sent</string>
