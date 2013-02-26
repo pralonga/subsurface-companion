@@ -1,0 +1,104 @@
+<resources>
+
+    <string name="app_name">Subsurface</string>
+    <string name="default_url">http://api.hohndel.org</string>
+    <string name="default_duration">30</string>
+    <string name="default_distance">10</string>
+    <string name="default_dive_name">Scufundare auto-generat</string>
+
+    <string name="home_action_mode_title">%s selectate</string>
+    <string name="home_no_account">Nu ați configurat contul dumneavoastră</string>
+    <string name="home_dive_list_empty">Nici o scufundare înregistrată</string>
+
+    <string name="search_date_from">De la</string>
+    <string name="search_date_to">La</string>
+
+    <string name="details_coordinates">%1$f <b>N</b> %2$f <b>O</b></string>
+    <string name="details_action_mode_title">Editare scufundare</string>
+
+    <string name="dialog_location_name">Numele locului</string>
+    <string name="dialog_wait">Vă rugăm să așteptați&#8230;</string>
+    <string name="dialog_wait_send">Trimitere în curs&#8230;</string>
+
+    <string name="menu_new">Scufundare nouă</string>
+    <string name="menu_map">Hartă</string>
+    <string name="menu_send">Trimitere</string>
+    <string name="menu_locate">Localizare poziție curentă</string>
+    <string name="menu_delete">Ștergere</string>
+    <string name="menu_send_all">Trimite toate scunfundările</string>
+    <string name="menu_refresh">Actualizare</string>
+    <string name="menu_settings">Parametri</string>
+    <string name="menu_logoff">Deconectare</string>
+    <string name="menu_search">Căutare</string>
+    <string name="menu_save">Înregistrare</string>
+    <string name="menu_time">Timp</string>
+    <string name="menu_edit">Editare</string>
+    <string name="menu_start_background_service">Pornire serviciu</string>
+    <string name="menu_stop_background_service">Oprire serviciu</string>
+
+    <string name="notification_background_service_on">Serviciu de localizare activ</string>
+
+    <string name="confirm_disconnect">Vreți să vă deconectați?</string>
+    <string name="confirm_delete_dives">Vreți să ștergeți scufundările acestea?</string>
+    <string name="confirm_delete_dive">Vreți să ștergeți scufundarea aceasta?</string>
+
+    <string name="confirmation_location_picked">Locul %s a fost adăugat</string>
+    <string name="confirmation_location_sent">Locul "%s" a fost trimis</string>
+    <string name="confirmation_locations_sent">%1$d/%2$d locurile au fost trimise</string>
+
+    <string name="error_location">Imposibil de localizat</string>
+    <string name="error_send">Imposibil de trimis</string>
+    <string name="error_no_settings">Vă rugăm să introduceți parametrii înainte de a trimite datele</string>
+    <string name="error_not_yet_implemented">În lucru</string>
+    <string name="error_no_associated_dive">Imposibil de găsit scufundarea asociată</string>
+    <string name="error_background_service_unstoppable">Imposibil de oprit serviciu de localizare</string>
+
+    <string name="account_link_create">Creare cont nou</string>
+    <string name="account_link_retrieve">Recuperare cont</string>
+    <string name="account_link_existing">Utilizare cont existent</string>
+
+    <string name="success_user_creation">Contul dumneavoastră a fost creat. Verificați emailurile dumneavoastră pentru a-l valida.</string>
+    <string name="success_user_retrieval">Un email conținând ID-ul dumneavoastră a fost trimis. Introduceți-l utilizând meniul Parametri</string>
+    <string name="success_user_existing">Subsurface a fost configurat</string>
+    <string name="success_refresh">Scufundările au fost actualizate</string>
+
+    <string name="error_title">Eroare</string>
+    <string name="error_fatal">Subsurface a suferit o eroare fatală și trebuie să se închidă</string>
+    <string name="error_generic">O eroare a survenit. Vă rugăm să verificați parametrii dumneavoastră și să încercați mai târziu</string>
+    
+    <string name="date_format_full">dd/MM/yyyy HH:mm</string>
+    <string name="date_format_short">dd/MM/yyyy</string>
+    <string name="date_format_time">HH:mm</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_id">ID</string>
+    <string name="hint_dive_name">Numele scufundări</string>
+
+    <string name="settings_category_ws">Server și cont</string>
+    <string name="settings_destination_url">URLul serviciului web</string>
+    <string name="settings_destination_url_summary">URL pentru sincronizare de date</string>
+    <string name="settings_user_id">IDul utilizatorului</string>
+    <string name="settings_user_id_summary">ID înregistrat pe server</string>
+
+    <string name="settings_category_sync">Sincronizare</string>
+    <string name="settings_sync_on_startup">Sincronizare la pornire</string>
+    <string name="settings_sync_on_startup_summary">Sinchronizare cu serverul la pornirea aplicației</string>
+    <string name="settings_sync_auto_send">Uploadare noi scufundări</string>
+    <string name="settings_sync_auto_send_summary">Cănd o scufundare e adăugată, o trimite automat</string>
+
+    <string name="settings_category_background_service">Serviciu</string>
+    <string name="settings_background_duration">Durată minimală (minute)</string>
+    <string name="settings_background_duration_summary">Durată minimală între două puncte GPS</string>
+    <string name="settings_background_distance">Distanță minimală (metri)</string>
+    <string name="settings_background_distance_summary">Distanță minimală între două puncte GPS</string>
+    <string name="settings_background_name">Formatul numelui</string>
+    <string name="settings_background_name_summary">Nume pentru scufundările create de serviciu</string>
+
+    <string name="settings_category_other">Altele</string>
+    <string name="settings_other_mailing_list">Listă de difuzare</string>
+    <string name="settings_other_mailing_list_summary">Trimitere email la toți membrii</string>
+    <string name="settings_other_website">Situl web Subsurface</string>
+    <string name="settings_other_website_summary">Deschide pagina proiectului</string>
+    <string name="settings_other_version">Versiune</string>
+    <string name="settings_other_version_summary">Versiune actuală: %s</string>
+</resources>

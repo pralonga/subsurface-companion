@@ -7,7 +7,7 @@
     <string name="default_dive_name">Auto-created dive</string>
 
     <string name="home_action_mode_title">%s selected</string>
-    <string name="home_no_account">You have not yet configured your Subsurface account. Please select one of the following options</string>
+    <string name="home_no_account">You have not yet configured your Subsurface account</string>
     <string name="home_dive_list_empty">No dives</string>
 
     <string name="search_date_from">From</string>
@@ -46,8 +46,8 @@
     <string name="confirmation_location_sent">Location "%s" has been sent</string>
     <string name="confirmation_locations_sent">%1$d/%2$d locations have been sent</string>
 
-    <string name="error_location">Could not receive location. Please retry</string>
-    <string name="error_send">Could not send location. It may be sent again with menu</string>
+    <string name="error_location">Could not receive location</string>
+    <string name="error_send">Could not send location</string>
     <string name="error_no_settings">Please set your parameters before sending data</string>
     <string name="error_not_yet_implemented">Not yet implemented</string>
     <string name="error_no_associated_dive">Could not find associated dive</string>
@@ -96,7 +96,7 @@
 
     <string name="settings_category_other">Other</string>
     <string name="settings_other_mailing_list">Mailing list</string>
-    <string name="settings_other_mailing_list_summary">Send a mail to all members</string>
+    <string name="settings_other_mailing_list_summary">Send an email to all members</string>
     <string name="settings_other_website">Subsurface website</string>
     <string name="settings_other_website_summary">Open project website</string>
     <string name="settings_other_version">Version</string>
