@@ -55,8 +55,19 @@ public class SearchDiveActivity extends HomeActivity {
     	// Date filter initialization
     	dateFilterLayout = findViewById(R.id.dateFilterLayout);
     	dateFilterLayout.setVisibility(View.GONE);
+
+    	// Initial times / dates initializations
     	Calendar cal = Calendar.getInstance();
-    	startDate = System.currentTimeMillis() - ONE_DAY_MS;
+    	cal.set(Calendar.SECOND, 0);
+    	cal.set(Calendar.MILLISECOND, 0);
+    	this.startTime = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE);
+    	this.endTime = startTime;
+    	cal.set(Calendar.HOUR_OF_DAY, 0);
+    	cal.set(Calendar.MINUTE, 0);
+    	this.startDate = cal.getTimeInMillis() - ONE_DAY_MS;
+    	this.endDate = cal.getTimeInMillis();
+
+    	// Start date / hour
     	DatePickerButton.initButton((Button) findViewById(R.id.buttonFromDate), startDate, new DatePickerButton.DateSetListener() {
 			@Override
 			public void onDateSet(Button button, long date) {
@@ -64,7 +75,6 @@ public class SearchDiveActivity extends HomeActivity {
 				updateSearch();
 			}
 		});
-    	startTime = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE);
     	TimePickerButton.initButton((Button) findViewById(R.id.buttonFromHour), startTime, new TimePickerButton.TimeSetListener() {
 			
 			@Override
@@ -73,17 +83,15 @@ public class SearchDiveActivity extends HomeActivity {
 				updateSearch();
 			}
 		});
-    	
-    	// This date / hour
-    	endDate = System.currentTimeMillis();
+
+    	// End date / hour
     	DatePickerButton.initButton((Button) findViewById(R.id.buttonToDate), endDate, new DatePickerButton.DateSetListener() {
 			@Override
 			public void onDateSet(Button button, long date) {
-				startDate = date;
+				endDate = date;
 				updateSearch();
 			}
 		});
-    	endTime = cal.get(Calendar.HOUR_OF_DAY) * 60 + cal.get(Calendar.MINUTE);
     	TimePickerButton.initButton((Button) findViewById(R.id.buttonToHour), endTime, new TimePickerButton.TimeSetListener() {
 			
 			@Override
