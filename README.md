@@ -10,13 +10,13 @@ For more informations about subsurface, see http://subsurface.hohndel.org/
 How to build
 ------------
 To build the application, you need [the Android SDK][1] and the followings:
-	* [Eclipse][2] with [Google Android Development Toolkit][3] ;
-	* [ActionBarSherlock][4], for compatibility reasons (optional if maven is used) ;
-	* [ORMLite][5], for easier DB management ;
-	* [Maven][6], with environment variable ANDROID_HOME set to your android installation, and in your path
-		* ${ANDROID_HOME}/bin (Linux)
-		* %ANDROID_HOME%\bin (Windows)
-		* When executing "mvn install", a folder target and the application in it will be created
+* [Eclipse][2] with [Google Android Development Toolkit][3] ;
+* [ActionBarSherlock][4], for compatibility reasons (optional if maven is used) ;
+* [ORMLite][5], for easier DB management ;
+* [Maven][6], with environment variable ANDROID_HOME set to your android installation, and in your path
+	* ${ANDROID_HOME}/bin (Linux)
+	* %ANDROID_HOME%\bin (Windows)
+	* When executing "mvn install", a folder target and the application in it will be created
 
 
 Licence

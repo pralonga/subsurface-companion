@@ -74,7 +74,7 @@
 
     <string name="hint_email">Email Adresse</string>
     <string name="hint_id">ID</string>
-    <string name="hint_dive_name">Name des Tauchgangsstring>
+    <string name="hint_dive_name">Name des Tauchgangs</string>
 
     <string name="settings_category_ws">Server und Benutzer-Kennung</string>
     <string name="settings_destination_url">Web-service URL</string>
