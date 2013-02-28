@@ -7,11 +7,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -34,7 +31,6 @@ public class AccountLinkActivity extends SherlockListActivity {
 	private static final String TAG = "AccountLinkActivity";
 
 	private final WsClient wsClient = new WsClient();
-	private OnSharedPreferenceChangeListener preferenceListener = null;
 
 	private void createAccount(final String email) {
 		final ProgressDialog waitDialog = ProgressDialog.show(
@@ -48,6 +44,8 @@ public class AccountLinkActivity extends SherlockListActivity {
 					if (user != null) {
 						success = Boolean.TRUE;
 						UserController.instance.setUser(user);
+						startActivity(new Intent(AccountLinkActivity.this, HomeActivity.class));
+						AccountLinkActivity.this.finish();
 					}
 				} catch (Exception e) {
 					Log.d(TAG, "Could not create user", e);
@@ -99,19 +97,6 @@ public class AccountLinkActivity extends SherlockListActivity {
 
         setContentView(R.layout.login_choices);
     	setListAdapter(new ArrayAdapter<String>(this, R.layout.login_choice_item, android.R.id.text1, getResources().getStringArray(R.array.account_link_choices)));
-
-    	preferenceListener = new OnSharedPreferenceChangeListener() {
-			@Override
-			public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-				if ("user_id".equals(key)) { // Show dives
-					startActivity(new Intent(AccountLinkActivity.this, HomeActivity.class));
-					PreferenceManager.getDefaultSharedPreferences(AccountLinkActivity.this).unregisterOnSharedPreferenceChangeListener(this);
-					preferenceListener = null;
-					finish();
-				}
-			}
-		};
-        PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(preferenceListener);
 	}
 
 	@Override
@@ -155,6 +140,8 @@ public class AccountLinkActivity extends SherlockListActivity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							UserController.instance.setUser(edit.getText().toString());
+							startActivity(new Intent(AccountLinkActivity.this, HomeActivity.class));
+							AccountLinkActivity.this.finish();
 						}
 					}).create().show();
 		}

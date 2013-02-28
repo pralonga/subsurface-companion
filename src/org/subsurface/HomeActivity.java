@@ -109,28 +109,30 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	}
 
 	private void refresh() {
-		refreshItem.setVisible(false);
-		setSupportProgressBarIndeterminateVisibility(true);
-		new AsyncTask<Void, Void, Boolean>() {
-			@Override
-			protected Boolean doInBackground(Void... params) {
-				Boolean success = false;
-				try {
-					DiveController.instance.startUpdate();
-					success = true;
-				} catch (Exception e) {
-					Log.d(TAG, "Could not complete update", e);
+		if (refreshItem != null) {
+			refreshItem.setVisible(false);
+			setSupportProgressBarIndeterminateVisibility(true);
+			new AsyncTask<Void, Void, Boolean>() {
+				@Override
+				protected Boolean doInBackground(Void... params) {
+					Boolean success = false;
+					try {
+						DiveController.instance.startUpdate();
+						success = true;
+					} catch (Exception e) {
+						Log.d(TAG, "Could not complete update", e);
+					}
+					return success;
 				}
-				return success;
-			}
-			@Override
-			protected void onPostExecute(Boolean success) {
-				((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-				Toast.makeText(HomeActivity.this, success ? R.string.success_refresh : R.string.error_generic, Toast.LENGTH_SHORT).show();
-				refreshItem.setVisible(true);
-				setSupportProgressBarIndeterminateVisibility(false);
-			}
-		}.execute();
+				@Override
+				protected void onPostExecute(Boolean success) {
+					((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+					Toast.makeText(HomeActivity.this, success ? R.string.success_refresh : R.string.error_generic, Toast.LENGTH_SHORT).show();
+					refreshItem.setVisible(true);
+					setSupportProgressBarIndeterminateVisibility(false);
+				}
+			}.execute();
+		}
 	}
 
 	private void sendDives(final List<DiveLocationLog> dives) {
