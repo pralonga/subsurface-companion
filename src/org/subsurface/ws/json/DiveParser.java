@@ -29,22 +29,24 @@ public class DiveParser {
 		// Parse dives
 		JSONObject jsonRoot = new JSONObject(new String(streamContent.toByteArray()));
 		JSONArray jsonDives = jsonRoot.getJSONArray("dives");
-		int diveLength = jsonDives.length();
-		for (int i = 0; i < diveLength; ++i) {
-			JSONObject jsonDive = jsonDives.getJSONObject(i);
-			DiveLocationLog dive = new DiveLocationLog();
-			dive.setName(jsonDive.optString("name", ""));
-			dive.setLongitude(jsonDive.getLong("longitude"));
-			dive.setLatitude(jsonDive.getLong("latitude"));
-			try {
-				long timestamp = new SimpleDateFormat("yyyy-MM-dd").parse(jsonDive.getString("date")).getTime();
-				timestamp += new SimpleDateFormat("HH:mm").parse(jsonDive.getString("time")).getTime();
-				dive.setTimestamp(timestamp);
-			} catch (ParseException pe) {
-				throw new JSONException("Could not parse date");
+		if (jsonDives != null) {
+			int diveLength = jsonDives.length();
+			for (int i = 0; i < diveLength; ++i) {
+				JSONObject jsonDive = jsonDives.getJSONObject(i);
+				DiveLocationLog dive = new DiveLocationLog();
+				dive.setSent(true);
+				dive.setName(jsonDive.optString("name", ""));
+				dive.setLongitude(jsonDive.getLong("longitude"));
+				dive.setLatitude(jsonDive.getLong("latitude"));
+				try {
+					long timestamp = new SimpleDateFormat("yyyy-MM-dd").parse(jsonDive.getString("date")).getTime();
+					timestamp += new SimpleDateFormat("HH:mm").parse(jsonDive.getString("time")).getTime();
+					dive.setTimestamp(timestamp);
+					dives.add(dive);
+				} catch (ParseException pe) {
+					throw new JSONException("Could not parse date");
+				}
 			}
-			dive.setSent(true);
-			dives.add(dive);
 		}
 
 		return dives;
