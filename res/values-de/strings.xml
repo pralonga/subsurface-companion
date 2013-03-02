@@ -54,6 +54,15 @@
     <string name="error_not_yet_implemented">Noch nicht implementiert</string>
     <string name="error_no_associated_dive">Kann den zugehörigen Tauchgang nicht finden</string>
     <string name="error_background_service_unstoppable">Kann den Hintergrund-Dienst nicht beenden</string>
+    <string name="error_bad_http_code">Ungültige HTTP Antwort vom Server</string>
+    <string name="error_login_invalid">Ihr Login wurde vom Server abgewiesen</string>
+    <string name="error_email_already_exists">Ihre Email Adresse ist bereits auf dem Server registriert</string>
+    <string name="error_email_unknown">Ihre Email Adresse ist keinem Benutzerkonto auf dem Server zugeordnet</string>
+    <string name="error_email_id_not_matching">Ihre Email Adresse und Benutzer-Kennung stimmen nicht überein</string>
+    <string name="error_invalid_request">Der Server hat die Anfrage nicht verstanden</string>
+    <string name="error_network">Keine Netzwerk Verbindung. Bitte versuchen Sie es später noch einmal.</string>
+    <string name="error_parse_error">Server-Antwort nicht verstanden</string>
+    
 
     <string name="account_link_create">Neues Benutzerkonto anlegen</string>
     <string name="account_link_retrieve">Hole Benutzerkonto</string>
