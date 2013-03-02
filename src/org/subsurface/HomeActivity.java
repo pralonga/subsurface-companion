@@ -9,6 +9,7 @@ import org.subsurface.controller.UserController;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.ui.DiveArrayAdapter;
 import org.subsurface.ui.DiveArrayAdapter.SelectionListener;
+import org.subsurface.ws.WsException;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
@@ -112,22 +113,24 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		if (refreshItem != null) {
 			refreshItem.setVisible(false);
 			setSupportProgressBarIndeterminateVisibility(true);
-			new AsyncTask<Void, Void, Boolean>() {
+			new AsyncTask<Void, Void, Integer>() {
 				@Override
-				protected Boolean doInBackground(Void... params) {
-					Boolean success = false;
+				protected Integer doInBackground(Void... params) {
+					Integer message = R.string.error_generic;
 					try {
 						DiveController.instance.startUpdate();
-						success = true;
+						message = R.string.success_refresh;
+					} catch (WsException e) {
+						message = e.getCode();
 					} catch (Exception e) {
 						Log.d(TAG, "Could not complete update", e);
 					}
-					return success;
+					return message;
 				}
 				@Override
-				protected void onPostExecute(Boolean success) {
+				protected void onPostExecute(Integer success) {
 					((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-					Toast.makeText(HomeActivity.this, success ? R.string.success_refresh : R.string.error_generic, Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomeActivity.this, success, Toast.LENGTH_SHORT).show();
 					refreshItem.setVisible(true);
 					setSupportProgressBarIndeterminateVisibility(false);
 				}
@@ -248,6 +251,12 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 							if (UserController.instance.autoSend()) {
 								try {
 									DiveController.instance.sendDiveLog(locationLog);
+								} catch (final WsException e) {
+									runOnUiThread(new Runnable() {
+										public void run() {
+											Toast.makeText(HomeActivity.this, e.getCode(), Toast.LENGTH_SHORT).show();
+										}
+									});
 								} catch (Exception e) {
 									Log.d(TAG, "Could not send dive " + locationLog.getName(), e);
 									runOnUiThread(new Runnable() {

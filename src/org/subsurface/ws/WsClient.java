@@ -1,5 +1,6 @@
 package org.subsurface.ws;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
@@ -18,8 +19,10 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.ws.json.DiveParser;
+import org.subsurface.ws.json.ErrorParser;
 import org.subsurface.ws.json.UserParser;
 
 import android.util.Log;
@@ -58,12 +61,24 @@ public class WsClient {
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				in = response.getEntity().getContent();
 				logs = DiveParser.parseDives(in);
-			} else {
-				throw new WsException();
+			} else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) { // Server specific. Try parse
+				in = response.getEntity().getContent();
+				throw new WsException(ErrorParser.parseErrorCode(in));
+			} else { // Unknown code
+				throw new WsException(WsException.CODE_BAD_HTTP_CODE);
 			}
+		} catch (IOException e) {
+			Log.d(TAG, "getAllDives : error", e);
+			throw new WsException(WsException.CODE_NETWORK_ERROR);
+		} catch (JSONException e) {
+			Log.d(TAG, "getAllDives : error", e);
+			throw new WsException(WsException.CODE_PARSE_ERROR);
+		} catch (WsException e) {
+			Log.d(TAG, "getAllDives : error", e);
+			throw e;
 		} catch (Exception e) {
 			Log.d(TAG, "getAllDives : error", e);
-			throw new WsException();
+			throw new WsException(e);
 		} finally { // Close stream
 			if (in != null) {
 				try {
@@ -75,6 +90,7 @@ public class WsClient {
 	}
 
 	public void postDive(DiveLocationLog dive, String url, String user) throws WsException {
+		InputStream in = null;
 		try {
 			HttpPost request = new HttpPost();
 			Date logDate = new Date(dive.getTimestamp());
@@ -89,12 +105,30 @@ public class WsClient {
 			nameValuePairs.add(new BasicNameValuePair("dive_name", dive.getName()));
 			request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
 			HttpResponse response = new DefaultHttpClient().execute(request);
-			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-				throw new WsException();
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
+				in = response.getEntity().getContent();
+				throw new WsException(ErrorParser.parseErrorCode(in));
+			} else if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) { // Unknown code
+				throw new WsException(WsException.CODE_BAD_HTTP_CODE);
 			}
+		} catch (IOException e) {
+			Log.d(TAG, "postDive : error", e);
+			throw new WsException(WsException.CODE_NETWORK_ERROR);
+		} catch (JSONException e) {
+			Log.d(TAG, "postDive : error", e);
+			throw new WsException(WsException.CODE_PARSE_ERROR);
+		} catch (WsException e) {
+			Log.d(TAG, "postDive : error", e);
+			throw e;
 		} catch (Exception e) {
 			Log.d(TAG, "postDive : error", e);
-			throw new WsException();
+			throw new WsException(e);
+		} finally { // Close stream
+			if (in != null) {
+				try {
+					in.close();
+				} catch (Exception ignored) {}
+			}
 		}
 	}
 
@@ -108,12 +142,24 @@ public class WsClient {
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				in = response.getEntity().getContent();
 				user = UserParser.parseUser(in);
-			} else {
-				throw new WsException();
+			} else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) { // Server specific. Try parse
+				in = response.getEntity().getContent();
+				throw new WsException(ErrorParser.parseErrorCode(in));
+			} else { // Unknown code
+				throw new WsException(WsException.CODE_BAD_HTTP_CODE);
 			}
+		} catch (IOException e) {
+			Log.d(TAG, "createUser : error", e);
+			throw new WsException(WsException.CODE_NETWORK_ERROR);
+		} catch (JSONException e) {
+			Log.d(TAG, "createUser : error", e);
+			throw new WsException(WsException.CODE_PARSE_ERROR);
+		} catch (WsException e) {
+			Log.d(TAG, "createUser : error", e);
+			throw e;
 		} catch (Exception e) {
 			Log.d(TAG, "createUser : error", e);
-			throw new WsException();
+			throw new WsException(e);
 		} finally { // Close stream
 			if (in != null) {
 				try {
@@ -125,15 +171,35 @@ public class WsClient {
 	}
 
 	public void resendUser(String url, String email) throws WsException {
+		InputStream in = null;
 		try {
 			HttpGet request = new HttpGet();
 			prepareRequest(request, url, ACTION_RESEND_USER, null, email);
 			HttpResponse response = new DefaultHttpClient().execute(request);
-			if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-				throw new WsException();
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
+				in = response.getEntity().getContent();
+				throw new WsException(ErrorParser.parseErrorCode(in));
+			} else if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) { // Unknown code
+				throw new WsException(WsException.CODE_BAD_HTTP_CODE);
 			}
+		} catch (IOException e) {
+			Log.d(TAG, "resendUser : error", e);
+			throw new WsException(WsException.CODE_NETWORK_ERROR);
+		} catch (JSONException e) {
+			Log.d(TAG, "resendUser : error", e);
+			throw new WsException(WsException.CODE_PARSE_ERROR);
+		} catch (WsException e) {
+			Log.d(TAG, "resendUser : error", e);
+			throw e;
 		} catch (Exception e) {
-			throw new WsException();
+			Log.d(TAG, "resendUser : error", e);
+			throw new WsException(e);
+		} finally { // Close stream
+			if (in != null) {
+				try {
+					in.close();
+				} catch (Exception ignored) {}
+			}
 		}
 	}
 }

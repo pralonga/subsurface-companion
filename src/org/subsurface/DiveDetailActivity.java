@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.ws.WsException;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -81,15 +82,16 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 		} else if (item.getItemId() == R.id.menu_send) {
 			new Thread(new Runnable() {
 				public void run() {
-					boolean success = false;
+					int messageCode = R.string.error_send;
 					try {
 						DiveController.instance.sendDiveLog(dive);
-						success = true;
+						messageCode = R.string.confirmation_location_sent;
+					} catch (WsException e) {
+						messageCode = e.getCode();
 					} catch (Exception e) {
 						Log.d(TAG, "Could not send dive " + dive.getName(), e);
 					}
-					final String message = success ?
-							getString(R.string.confirmation_location_sent, dive.getName()) : getString(R.string.error_send);
+					final String message = getString(messageCode, dive.getName());
 					runOnUiThread(new Runnable() {
 						public void run() {
 							Toast.makeText(DiveDetailActivity.this, message, Toast.LENGTH_SHORT).show();

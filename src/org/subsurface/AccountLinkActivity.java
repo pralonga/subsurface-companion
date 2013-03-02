@@ -2,6 +2,7 @@ package org.subsurface;
 
 import org.subsurface.controller.UserController;
 import org.subsurface.ws.WsClient;
+import org.subsurface.ws.WsException;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -35,31 +36,29 @@ public class AccountLinkActivity extends SherlockListActivity {
 	private void createAccount(final String email) {
 		final ProgressDialog waitDialog = ProgressDialog.show(
 				AccountLinkActivity.this, "", getString(R.string.dialog_wait), true, true);
-		new AsyncTask<Void, Void, Boolean>() {
+		new AsyncTask<Void, Void, Integer>() {
 			@Override
-			protected Boolean doInBackground(Void... params) {
-				Boolean success = Boolean.FALSE;
+			protected Integer doInBackground(Void... params) {
+				Integer message = R.string.error_generic;
 				try {
 					String user = wsClient.createUser(UserController.instance.getBaseUrl(), email);
 					if (user != null) {
-						success = Boolean.TRUE;
 						UserController.instance.setUser(user);
 						startActivity(new Intent(AccountLinkActivity.this, HomeActivity.class));
 						AccountLinkActivity.this.finish();
+						message = R.string.success_user_creation;
 					}
+				} catch (WsException e) {
+					message = e.getCode();
 				} catch (Exception e) {
 					Log.d(TAG, "Could not create user", e);
 				}
-				return success;
+				return message;
 			}
 			@Override
-			protected void onPostExecute(Boolean result) {
+			protected void onPostExecute(Integer result) {
 				waitDialog.dismiss();
-				if (result) {
-					Toast.makeText(AccountLinkActivity.this, R.string.success_user_creation, Toast.LENGTH_LONG).show();
-				} else {
-					Toast.makeText(AccountLinkActivity.this, R.string.error_generic, Toast.LENGTH_SHORT).show();
-				}
+				Toast.makeText(AccountLinkActivity.this, result, Toast.LENGTH_SHORT).show();
 			}
 		}.execute();
 	}
@@ -67,26 +66,24 @@ public class AccountLinkActivity extends SherlockListActivity {
 	private void retrieveAccount(final String email) {
 		final ProgressDialog waitDialog = ProgressDialog.show(
 				AccountLinkActivity.this, "", getString(R.string.dialog_wait), true, true);
-		new AsyncTask<Void, Void, Boolean>() {
+		new AsyncTask<Void, Void, Integer>() {
 			@Override
-			protected Boolean doInBackground(Void... params) {
-				Boolean success = Boolean.FALSE;
+			protected Integer doInBackground(Void... params) {
+				Integer message = R.string.error_generic;
 				try {
 					wsClient.resendUser(UserController.instance.getBaseUrl(), email);
-					success = Boolean.TRUE;
+					message = R.string.success_user_retrieval;
+				} catch (WsException e) {
+					message = e.getCode();
 				} catch (Exception e) {
 					Log.d(TAG, "Could not retrieve user", e);
 				}
-				return success;
+				return message;
 			}
 			@Override
-			protected void onPostExecute(Boolean result) {
+			protected void onPostExecute(Integer result) {
 				waitDialog.dismiss();
-				if (result) {
-					Toast.makeText(AccountLinkActivity.this, R.string.success_user_retrieval, Toast.LENGTH_LONG).show();
-				} else {
-					Toast.makeText(AccountLinkActivity.this, R.string.error_generic, Toast.LENGTH_SHORT).show();
-				}
+				Toast.makeText(AccountLinkActivity.this, result, Toast.LENGTH_SHORT).show();
 			}
 		}.execute();
 	}

@@ -54,6 +54,16 @@
     <string name="error_not_yet_implemented">Not yet implemented</string>
     <string name="error_no_associated_dive">Could not find associated dive</string>
     <string name="error_background_service_unstoppable">Could not stop background service</string>
+    
+    <string name="error_bad_http_code">Server returned a bad HTTP code</string>
+    <string name="error_login_invalid">Server did not recognize your login</string>
+    <string name="error_email_already_exists">Your email is already registered on the server</string>
+    <string name="error_email_unknown">This email is unknown by the server</string>
+    <string name="error_email_id_not_matching">Your email and ID do not match</string>
+    <string name="error_invalid_request">Server did not understand the request</string>
+    <string name="error_network">No network. Please retry later</string>
+    <string name="error_parse_error">Could not understand server response</string>
+    
 
     <string name="account_link_create">Create a new account</string>
     <string name="account_link_retrieve">Retrieve an account</string>

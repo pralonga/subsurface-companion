@@ -81,7 +81,7 @@ public class DiveController {
 		ArrayList<DiveLocationLog> filteredLogs = new ArrayList<DiveLocationLog>();
 		String lName = name == null ? null : name.toLowerCase();
 		for (DiveLocationLog log : allLogs) {
-			if ((lName == null || log.getName().toLowerCase().contains(lName))
+			if ((lName == null || (log.getName() != null && log.getName().toLowerCase().contains(lName)))
 					&& startDate <= log.getTimestamp() && log.getTimestamp() <= endDate
 					&& (!pendingOnly || log.isSent())) {
 				filteredLogs.add(log);

@@ -28,7 +28,7 @@ public class DiveParser {
 		
 		// Parse dives
 		JSONObject jsonRoot = new JSONObject(new String(streamContent.toByteArray()));
-		JSONArray jsonDives = jsonRoot.getJSONArray("dives");
+		JSONArray jsonDives = jsonRoot.optJSONArray("dives");
 		if (jsonDives != null) {
 			int diveLength = jsonDives.length();
 			for (int i = 0; i < diveLength; ++i) {
