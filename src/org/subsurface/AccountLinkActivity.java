@@ -92,6 +92,7 @@ public class AccountLinkActivity extends SherlockListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        UserController.instance.setContext(this);
         setContentView(R.layout.login_choices);
     	setListAdapter(new ArrayAdapter<String>(this, R.layout.login_choice_item, android.R.id.text1, getResources().getStringArray(R.array.account_link_choices)));
 	}

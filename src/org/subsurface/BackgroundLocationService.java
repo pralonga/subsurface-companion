@@ -33,7 +33,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 public class BackgroundLocationService extends Service implements LocationListener {
 
 	private static final String TAG = "BackgroundLocationService";
-	private static final int NOTIFICATION_ID = BackgroundLocationService.class.hashCode();
+	private static final int NOTIFICATION_ID = BackgroundLocationService.class.getName().hashCode();
 
 	public static final int WHAT_REGISTER_LISTENER = 0;
 	public static final int WHAT_UNREGISTER_LISTENER = 1;
@@ -94,7 +94,7 @@ public class BackgroundLocationService extends Service implements LocationListen
 		Notification notif = new Notification(R.drawable.logo, getString(R.string.notification_background_service_on), System.currentTimeMillis());
 		Intent notificationIntent = new Intent(this, StartupActivity.class);
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent contentIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		notif.setLatestEventInfo(getApplicationContext(),
 				getString(R.string.app_name),
 				getString(R.string.notification_background_service_on), contentIntent);

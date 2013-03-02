@@ -40,7 +40,6 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 
 public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback, SelectionListener {
 
@@ -111,8 +110,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	private void refresh() {
 		if (refreshItem != null) {
-			refreshItem.setVisible(false);
-			setSupportProgressBarIndeterminateVisibility(true);
+			refreshItem.setActionView(R.layout.refresh);
 			new AsyncTask<Void, Void, Integer>() {
 				@Override
 				protected Integer doInBackground(Void... params) {
@@ -131,8 +129,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 				protected void onPostExecute(Integer success) {
 					((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 					Toast.makeText(HomeActivity.this, success, Toast.LENGTH_SHORT).show();
-					refreshItem.setVisible(true);
-					setSupportProgressBarIndeterminateVisibility(false);
+					refreshItem.setActionView(null);
 				}
 			}.execute();
 		}
@@ -283,8 +280,23 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserController.instance.setContext(this);
+        try {
+			DiveController.instance.setContext(this);
+		} catch (Exception e) {
+			new AlertDialog.Builder(this)
+					.setTitle(R.string.error_title)
+					.setMessage(R.string.error_fatal)
+					.setPositiveButton(android.R.string.ok,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									finish();
+								}
+							}).setCancelable(false).show();
+		}
 
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         // Retrieve location service
         this.locationManager  = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     	setContentView(R.layout.dive_list);
@@ -327,7 +339,6 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-		setSupportProgressBarIndeterminateVisibility(false);
 		if (UserController.instance.syncOnstartup()) {
 			new Handler().postDelayed(new Runnable() {
 				@Override
