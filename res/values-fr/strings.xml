@@ -55,7 +55,7 @@
     <string name="error_no_associated_dive">Impossible de trouver la plongée associée</string>
     <string name="error_background_service_unstoppable">Impossible d\'arrêter le service de localisation</string>
 
-    <string name="error_bad_http_code">Le server a retourné un mauvais code d\'erreur HTTP</string>
+    <string name="error_bad_http_code">Le serveur a retourné un mauvais code d\'erreur HTTP</string>
     <string name="error_login_invalid">Le serveur n\'a pas reconnu votre login</string>
     <string name="error_email_already_exists">Votre email est déjà enregistré sur le serveur</string>
     <string name="error_email_unknown">Cet email est inconnu du serveur</string>

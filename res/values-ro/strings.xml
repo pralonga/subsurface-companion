@@ -55,6 +55,15 @@
     <string name="error_no_associated_dive">Imposibil de găsit scufundarea asociată</string>
     <string name="error_background_service_unstoppable">Imposibil de oprit serviciu de localizare</string>
 
+    <string name="error_bad_http_code">Serverul a returnat un cod rău de erroare HTTP</string>
+    <string name="error_login_invalid">Serverul n-a recunoscut login-ul dumneavoastră</string>
+    <string name="error_email_already_exists">Email-ul dumneavoastră e deja înregistrat pe server</string>
+    <string name="error_email_unknown">Email-ul acest e necunoscut pe server</string>
+    <string name="error_email_id_not_matching">Email-ul dumneavoastră și ID-ul dumneavoastră nu corespund</string>
+    <string name="error_invalid_request">Serverul n-a înțeles cererea</string>
+    <string name="error_network">Nici o rețea. Vă rugam să încercați mai târziu</string>
+    <string name="error_parse_error">Imposibil de înțeles răspunsul serverului</string>
+
     <string name="account_link_create">Creare cont nou</string>
     <string name="account_link_retrieve">Recuperare cont</string>
     <string name="account_link_existing">Utilizare cont existent</string>
