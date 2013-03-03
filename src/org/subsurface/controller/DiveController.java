@@ -114,6 +114,7 @@ public class DiveController {
 		diveDate.setTimeInMillis(diveLog.getTimestamp());
 		diveDate.set(Calendar.SECOND, 0);
 		diveDate.set(Calendar.MILLISECOND, 0);
+		diveLog.setTimestamp(diveDate.getTimeInMillis());
 		try {
 			diveDao.createOrUpdate(diveLog);
 			loaded = false;

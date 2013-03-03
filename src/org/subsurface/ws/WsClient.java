@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -100,8 +101,13 @@ public class WsClient {
 			nameValuePairs.add(new BasicNameValuePair("login", user));
 			nameValuePairs.add(new BasicNameValuePair("dive_latitude", Double.toString(dive.getLatitude())));
 			nameValuePairs.add(new BasicNameValuePair("dive_longitude", Double.toString(dive.getLongitude())));
-			nameValuePairs.add(new BasicNameValuePair("dive_date", new SimpleDateFormat("yyyy-MM-dd").format(logDate)));
-			nameValuePairs.add(new BasicNameValuePair("dive_time", new SimpleDateFormat("HH:mm").format(logDate)));
+
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+			nameValuePairs.add(new BasicNameValuePair("dive_date", dateFormat.format(logDate)));
+			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+			timeFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+			nameValuePairs.add(new BasicNameValuePair("dive_time", timeFormat.format(logDate)));
 			nameValuePairs.add(new BasicNameValuePair("dive_name", dive.getName()));
 			request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
 			HttpResponse response = new DefaultHttpClient().execute(request);

@@ -1,6 +1,7 @@
 package org.subsurface;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Timer;
 
 import org.subsurface.dao.DatabaseHelper;
@@ -119,9 +120,12 @@ public class BackgroundLocationService extends Service implements LocationListen
 	public void onLocationChanged(Location location) {
 		Log.d(TAG, "Location received");
 		try { // Add to current DB
+			Calendar diveDate = Calendar.getInstance();
+			diveDate.set(Calendar.SECOND, 0);
+			diveDate.set(Calendar.MILLISECOND, 0);
 			helper.getDiveDao().create(new DiveLocationLog(location,
 					PreferenceManager.getDefaultSharedPreferences(this).getString("background_service_name", getString(R.string.default_dive_name)),
-					System.currentTimeMillis()));
+					diveDate.getTimeInMillis()));
 			for (Messenger messenger : listeners) {
 				try {
 					messenger.send(Message.obtain(null, WHAT_LOCATION_ADDED));
