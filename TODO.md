@@ -1,6 +1,8 @@
 TODO list
 =========
 
-* Menus
-	* Maps (supported one dive by one)
-* Cleaning
+- Maps integration
+- Image position extraction
+- File export
+- GPS service redesign, using PendingIntent
+- Cleaning

@@ -4,7 +4,8 @@ Subsurface Companion for Android
 Description
 -----------
 Utility tool for Subsurface diving log. Allows to upload dive positions.
-For more informations about subsurface, see http://subsurface.hohndel.org/
+For more informations about subsurface, see http://subsurface.hohndel.org/, or download it
+from [Google Play Store][7].
 
 
 How to build
@@ -47,3 +48,4 @@ Licence
 [4]: http://actionbarsherlock.com/
 [5]: http://ormlite.com/
 [6]: http://maven.apache.org/download.cgi
+[7]: https://play.google.com/store/apps/details?id=org.subsurface
