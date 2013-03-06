@@ -8,11 +8,13 @@ import org.subsurface.model.DiveLocationLog;
 import org.subsurface.ws.WsException;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -126,6 +128,7 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 		mode.setTitle(getString(R.string.details_action_mode_title));
 		getSupportMenuInflater().inflate(R.menu.dive_details_edit, menu);
 		setContentView(R.layout.dive_detail_edit);
+		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		((EditText) findViewById(R.id.title)).setText(dive.getName());
 		((TextView) findViewById(R.id.date)).setText(
 				new SimpleDateFormat(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
