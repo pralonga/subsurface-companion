@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.subsurface</groupId>
     <artifactId>subsurface</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
     <packaging>apk</packaging>
     <name>Subsurface Companion</name>
 
@@ -28,12 +28,12 @@
 		<dependency>
 			<groupId>com.j256.ormlite</groupId>
 			<artifactId>ormlite-core</artifactId>
-			<version>4.42</version>
+			<version>4.43</version>
 		</dependency>
 		<dependency>
 			<groupId>com.j256.ormlite</groupId>
 			<artifactId>ormlite-android</artifactId>
-			<version>4.42</version>
+			<version>4.43</version>
 		</dependency>
     </dependencies>
     
@@ -58,6 +58,10 @@
                     <sdk>
                         <platform>15</platform>
                     </sdk>
+                    <zipalign>
+						<verbose>true</verbose>
+					</zipalign>
+					<undeployBeforeDeploy>true</undeployBeforeDeploy>
                 </configuration>
             </plugin>
         </plugins>
