@@ -48,6 +48,10 @@ public class DiveController {
 		}
 	}
 
+	public DatabaseHelper getHelper() {
+		return helper;
+	}
+
 	public void forceUpdate() {
 		try {
 			loaded &= dives.size() == diveDao.queryBuilder()

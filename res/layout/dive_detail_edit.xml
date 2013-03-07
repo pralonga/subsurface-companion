@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_margin="5dp" >
+    android:layout_margin="5dp"
+    android:orientation="vertical" >
 
     <EditText
         android:id="@+id/title"
@@ -11,9 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:ems="10"
+        android:hint="@string/hint_dive_name"
         android:inputType="textAutoComplete"
-        android:maxLines="1"
-        android:ems="10" >
+        android:maxLines="1" >
 
         <requestFocus />
     </EditText>
@@ -32,8 +33,8 @@
         android:id="@+id/coordinates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date"
         android:layout_alignParentLeft="true"
+        android:layout_below="@id/date"
         android:text="@string/details_coordinates"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

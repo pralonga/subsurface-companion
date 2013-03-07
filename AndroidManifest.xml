@@ -20,6 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="SharePicturePositionActivity" android:theme="@style/AppTheme">
+            <intent-filter>
+            	<action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+            	<data android:mimeType="image/jpeg" />
+            </intent-filter>
+        </activity>
         <service android:name="BackgroundLocationService" android:process=":location_service"/>
         <activity android:name="HomeActivity" android:theme="@style/AppTheme" />
         <activity android:name="AccountLinkActivity" android:theme="@style/AppTheme" />

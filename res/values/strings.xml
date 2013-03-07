@@ -63,6 +63,8 @@
     <string name="error_invalid_request">Server did not understand the request</string>
     <string name="error_network">No network. Please retry later</string>
     <string name="error_parse_error">Could not understand server response</string>
+    <string name="error_no_image_location">Could not retrieve image location</string>
+    <string name="error_open_image">Could not open image</string>
     
 
     <string name="account_link_create">Create a new account</string>

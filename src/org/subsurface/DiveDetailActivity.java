@@ -103,17 +103,17 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 			}).start();
 		} else if (item.getItemId() == R.id.menu_delete) {
 			new AlertDialog.Builder(this)
-			.setTitle(R.string.menu_delete)
-			.setMessage(R.string.confirm_delete_dive)
-			.setNegativeButton(android.R.string.cancel, null)
-			.setCancelable(true)
-			.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					DiveController.instance.deleteDiveLog(dive);
-					DiveDetailActivity.this.finish();
-				}
-			}).create().show();
+					.setTitle(R.string.menu_delete)
+					.setMessage(R.string.confirm_delete_dive)
+					.setNegativeButton(android.R.string.cancel, null)
+					.setCancelable(true)
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							DiveController.instance.deleteDiveLog(dive);
+							DiveDetailActivity.this.finish();
+						}
+					}).create().show();
 		} else if (item.getItemId() == R.id.menu_edit) {
 			this.actionMode = startActionMode(DiveDetailActivity.this);
 		} else if (item.getItemId() == R.id.menu_settings) { // Settings
