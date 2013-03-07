@@ -1,0 +1,116 @@
+<resources>
+
+    <string name="app_name">Subsurface</string>
+    <string name="default_url">http://api.hohndel.org</string>
+    <string name="default_duration">30</string>
+    <string name="default_distance">10</string>
+    <string name="default_dive_name">Auto-created dive</string>
+
+    <string name="home_action_mode_title">%s выбран</string>
+    <string name="home_no_account">Учетная запись Subsurface еще не сконфигурирована</string>
+    <string name="home_dive_list_empty">Нет погружений</string>
+
+    <string name="search_date_from">С</string>
+    <string name="search_date_to">По</string>
+
+    <string name="details_coordinates">%1$f <b>C</b> %2$f <b>З</b></string>
+    <string name="details_action_mode_title">Редактировать погружение</string>
+
+    <string name="dialog_location_name">Название точки</string>
+    <string name="dialog_wait">Ожидайте&#8230;</string>
+    <string name="dialog_wait_send">Отправка местоположений&#8230;</string>
+
+    <string name="menu_new">Новое погружение</string>
+    <string name="menu_map">Карта</string>
+    <string name="menu_send">Отправить</string>
+    <string name="menu_locate">Определить текущее местоположение</string>
+    <string name="menu_delete">Удалить</string>
+    <string name="menu_send_all">Отправить все местоположения</string>
+    <string name="menu_refresh">Обновить</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_logoff">Отключиться</string>
+    <string name="menu_search">Поиск</string>
+    <string name="menu_save">Сохранить</string>
+    <string name="menu_time">Время</string>
+    <string name="menu_edit">Редактировать</string>
+    <string name="menu_start_background_service">Запуск службы</string>
+    <string name="menu_stop_background_service">Останов службы</string>
+
+    <string name="notification_background_service_on">Фоновая служба активна</string>
+
+    <string name="confirm_disconnect">Отключить учетную запись ?</string>
+    <string name="confirm_delete_dives">Удалить эти погружения ?</string>
+    <string name="confirm_delete_dive">Удалить это погружение ?</string>
+    <string name="confirm_enable_gps">GPS отключен. Хотите его активировать?</string>
+    <string name="confirm_enable_gps_title">Включить GPS</string>
+
+    <string name="confirmation_location_picked">Местоположение %s добавлено</string>
+    <string name="confirmation_location_sent">Местоположение "%s" отправлено</string>
+    <string name="confirmation_locations_sent">%1$d/%2$d местоположений было отправлено</string>
+
+    <string name="error_location">Невозможно получить местоположение</string>
+    <string name="error_send">Невозможно отправить местоположение</string>
+    <string name="error_no_settings">Выполните настройку перед отправкой дайнных</string>
+    <string name="error_not_yet_implemented">Не реализовано</string>
+    <string name="error_no_associated_dive">Невозможно найти погружение</string>
+    <string name="error_background_service_unstoppable">Невозможно остановить фоновую службу</string>
+    
+    <string name="error_bad_http_code">Сервер вернул ошибочный код HTTP</string>
+    <string name="error_login_invalid">Сервер не распознал вашу учетную запись</string>
+    <string name="error_email_already_exists">Ваш адрес эл.почты уже зарегистрирован на сервере</string>
+    <string name="error_email_unknown">Этот адрес эл.почты неизвестен серверу</string>
+    <string name="error_email_id_not_matching">Не совпадают идентификатор и адрес</string>
+    <string name="error_invalid_request">Сервер не понял запрос</string>
+    <string name="error_network">Нет сети. Попробуйте позже</string>
+    <string name="error_parse_error">Неизвестный ответ сервера</string>
+    
+
+    <string name="account_link_create">Создать учетную запись</string>
+    <string name="account_link_retrieve">Получить учетную запись</string>
+    <string name="account_link_existing">Использовать учетную запись</string>
+
+    <string name="success_user_creation">Учетная запись создана. Проверьте почту, чтобы подтвердить</string>
+    <string name="success_user_retrieval">Вам отправлено письмо с вашим ID. Введите его в Настройках</string>
+    <string name="success_user_existing">Subsurface настроен успешно</string>
+    <string name="success_refresh">Погружения обновлены</string>
+
+    <string name="error_title">Ошибка</string>
+    <string name="error_fatal">Возника фатальная ошибка. Будет осуществлен выход из Subsurface.</string>
+    <string name="error_generic">Произошла ошибка. Проверьте настройки и попробуйте позже</string>
+    
+    <string name="date_format_full">dd.MM.yyyy HH:mm</string>
+    <string name="date_format_short">dd.MM.yyyy</string>
+    <string name="date_format_time">HH:mm</string>
+
+    <string name="hint_email">Эл.почта</string>
+    <string name="hint_id">ID</string>
+    <string name="hint_dive_name">Название погружения</string>
+
+    <string name="settings_category_ws">Сервер и учетная запись</string>
+    <string name="settings_destination_url">URL веб-сервиса</string>
+    <string name="settings_destination_url_summary">URL для синхронизации с сервером</string>
+    <string name="settings_user_id">ID пользователя</string>
+    <string name="settings_user_id_summary">ID регистрации на сервере</string>
+
+    <string name="settings_category_sync">Синхронизация</string>
+    <string name="settings_sync_on_startup">Синхронизация при старте</string>
+    <string name="settings_sync_on_startup_summary">Синхронизация с сервером при запуске</string>
+    <string name="settings_sync_auto_send">Отправлять новые погружения</string>
+    <string name="settings_sync_auto_send_summary">Автоматически отправлять погружения после добавления</string>
+
+    <string name="settings_category_background_service">Фоновая служба</string>
+    <string name="settings_background_duration">Мин. интервал (минуты)</string>
+    <string name="settings_background_duration_summary">Мин. интервал между двумя точками фиксации</string>
+    <string name="settings_background_distance">Мин. расстояние (метры)</string>
+    <string name="settings_background_distance_summary">Мин. расстояние между двумя точками фиксации</string>
+    <string name="settings_background_name">Шаблон имени</string>
+    <string name="settings_background_name_summary">Название автоматически создаваемых погружений</string>
+
+    <string name="settings_category_other">Разное</string>
+    <string name="settings_other_mailing_list">Список рассылки</string>
+    <string name="settings_other_mailing_list_summary">Отправить письмо разработчикам</string>
+    <string name="settings_other_website">Веб-сайт Subsurface</string>
+    <string name="settings_other_website_summary">Открыть сайт проекта</string>
+    <string name="settings_other_version">Версия</string>
+    <string name="settings_other_version_summary">Текущая версия: %s</string>
+</resources>
