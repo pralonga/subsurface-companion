@@ -59,10 +59,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 			Log.e(getClass().getName(), "Unable to reset dives", e);
 		}
 	}
-	
+
+	@SuppressWarnings("unchecked")
 	public Dao<DiveLocationLog, Long> getDiveDao() throws SQLException {
 		if (diveDao == null) {
-			diveDao = getDao(DiveLocationLog.class);
+			diveDao = (Dao<DiveLocationLog, Long>) getDao(DiveLocationLog.class);
 		}
 		return diveDao;
 	}
