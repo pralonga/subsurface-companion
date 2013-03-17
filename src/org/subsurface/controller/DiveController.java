@@ -138,16 +138,16 @@ public class DiveController {
 		}
 	}
 
-	public void deleteDiveLog(DiveLocationLog diveLog) {
+	public void deleteDiveLog(DiveLocationLog diveLog) throws WsException {
 		try {
-			if (diveLog.isSent()) { // WS does not support dive deletion, so we just hide it
-				diveLog.setHidden(true);
-				updateDiveLog(diveLog);
-			} else {
-				diveDao.delete(diveLog);
+			if (diveLog.isSent()) {
+				wsClient.deleteDive(diveLog,
+						UserController.instance.getBaseUrl(),
+						UserController.instance.getUser());
 			}
+			diveDao.delete(diveLog);
 			loaded = false;
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			Log.d(TAG, "Could not delete dive", e);
 		}
 	}

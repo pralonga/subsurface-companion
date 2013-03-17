@@ -63,6 +63,10 @@
     <string name="error_invalid_request">Serverul n-a înțeles cererea</string>
     <string name="error_network">Nici o rețea. Vă rugam să încercați mai târziu</string>
     <string name="error_parse_error">Imposibil de înțeles răspunsul serverului</string>
+    <string name="error_no_image_location">Imposibil de recuperat locația imaginii</string>
+    <string name="error_open_image">Imposibil de deschis imaginea</string>
+    <string name="error_delete_dives">Imposibil de șters scufundările</string>
+    <string name="error_delete_dive">Imposibil de șters scufundarea</string>
 
     <string name="account_link_create">Creare cont nou</string>
     <string name="account_link_retrieve">Recuperare cont</string>

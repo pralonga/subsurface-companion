@@ -110,8 +110,29 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							DiveController.instance.deleteDiveLog(dive);
-							DiveDetailActivity.this.finish();
+							new Thread(new Runnable() {
+								public void run() {
+									int messageCode = R.string.error_delete_dive;
+									try {
+										DiveController.instance.deleteDiveLog(dive);
+										messageCode = -1;
+									} catch (WsException e) {
+										messageCode = e.getCode();
+									} catch (Exception e) {
+										Log.d(TAG, "Could not delete dive", e);
+									}
+									final String message = messageCode == -1 ? null : getString(messageCode);
+									runOnUiThread(new Runnable() {
+										public void run() {
+											if (message != null) {
+												Toast.makeText(DiveDetailActivity.this, message, Toast.LENGTH_SHORT).show();
+											} else {
+												DiveDetailActivity.this.finish();
+											}
+										}
+									});
+								}
+							}).start();
 						}
 					}).create().show();
 		} else if (item.getItemId() == R.id.menu_edit) {

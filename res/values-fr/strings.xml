@@ -65,6 +65,7 @@
     <string name="error_parse_error">Impossible de comprendre la réponse du serveur</string>
     <string name="error_no_image_location">Impossible de récupérer les coordonnées de l\'image</string>
     <string name="error_open_image">Impossible d\'ouvrir l\'image</string>
+    <string name="error_delete_dive">Impossible d\'effacer la plongée</string>
 
     <string name="account_link_create">Créer un nouveau compte</string>
     <string name="account_link_retrieve">Retrouver un compte</string>

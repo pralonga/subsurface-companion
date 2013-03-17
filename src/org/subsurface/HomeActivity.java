@@ -480,10 +480,30 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							for (DiveLocationLog log : dives) {
-								DiveController.instance.deleteDiveLog(log);
-							}
-							((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+							new Thread(new Runnable() {
+								public void run() {
+									int messageCode = R.string.error_delete_dives;
+									try {
+										for (DiveLocationLog log : dives) {
+											DiveController.instance.deleteDiveLog(log);
+										}
+										messageCode = -1;
+									} catch (WsException e) {
+										messageCode = e.getCode();
+									} catch (Exception e) {
+										Log.d(TAG, "Could not delete dives", e);
+									}
+									final String message = messageCode == -1 ? null : getString(messageCode);
+									runOnUiThread(new Runnable() {
+										public void run() {
+											((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+											if (message != null) {
+												Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+											}
+										}
+									});
+								}
+							}).start();
 						}
 					}).create().show();
 			}

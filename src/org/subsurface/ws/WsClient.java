@@ -33,6 +33,7 @@ public class WsClient {
 	private static final String TAG = "WsClient";
 
 	protected static final String ACTION_POST_DIVE = "/api/dive/add/";
+	protected static final String ACTION_DELETE_DIVE = "/api/dive/delete/";
 	protected static final String ACTION_GET_ALL_DIVES = "/api/dive/get/?login=%s";
 	protected static final String ACTION_CREATE_USER = "/api/user/new/%s";
 	protected static final String ACTION_RESEND_USER = "/api/user/lost/%s";
@@ -128,6 +129,50 @@ public class WsClient {
 			throw e;
 		} catch (Exception e) {
 			Log.d(TAG, "postDive : error", e);
+			throw new WsException(e);
+		} finally { // Close stream
+			if (in != null) {
+				try {
+					in.close();
+				} catch (Exception ignored) {}
+			}
+		}
+	}
+
+	public void deleteDive(DiveLocationLog dive, String url, String user) throws WsException {
+		InputStream in = null;
+		try {
+			HttpPost request = new HttpPost();
+			Date logDate = new Date(dive.getTimestamp());
+			prepareRequest(request, url, ACTION_DELETE_DIVE, null);
+			request.setHeader("Content-type", "application/x-www-form-urlencoded");
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+			nameValuePairs.add(new BasicNameValuePair("login", user));
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+			nameValuePairs.add(new BasicNameValuePair("dive_date", dateFormat.format(logDate)));
+			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+			timeFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+			nameValuePairs.add(new BasicNameValuePair("dive_time", timeFormat.format(logDate)));
+			request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
+			HttpResponse response = new DefaultHttpClient().execute(request);
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
+				in = response.getEntity().getContent();
+				throw new WsException(ErrorParser.parseErrorCode(in));
+			} else if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) { // Unknown code
+				throw new WsException(WsException.CODE_BAD_HTTP_CODE);
+			}
+		} catch (IOException e) {
+			Log.d(TAG, "deleteDive : error", e);
+			throw new WsException(WsException.CODE_NETWORK_ERROR);
+		} catch (JSONException e) {
+			Log.d(TAG, "deleteDive : error", e);
+			throw new WsException(WsException.CODE_PARSE_ERROR);
+		} catch (WsException e) {
+			Log.d(TAG, "deleteDive : error", e);
+			throw e;
+		} catch (Exception e) {
+			Log.d(TAG, "deleteDive : error", e);
 			throw new WsException(e);
 		} finally { // Close stream
 			if (in != null) {
