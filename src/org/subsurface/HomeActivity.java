@@ -81,6 +81,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	private LocationManager locationManager = null;
 	private MenuItem refreshItem = null;
 	private ActionMode actionMode;
+	private LocationListener locationListener = null;
 
 	private void showGpsWarning() {
 		new AlertDialog.Builder(this)
@@ -209,10 +210,14 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					@Override
 					public void onCancel(DialogInterface dialog) {
 						cancel.set(true);
+						if (locationListener != null) {
+							locationManager.removeUpdates(locationListener);
+							locationListener = null;
+						}
 						Log.d(TAG, "Location cancelled");
 					}
 				});
-		locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, new LocationListener() {
+		this.locationListener = new LocationListener() {
 			
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -274,7 +279,8 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					}).start();
 				}
 			}
-		}, null);
+		};
+		locationManager.requestSingleUpdate(LocationManager.GPS_PROVIDER, locationListener, null);
 	}
 
 	@Override
