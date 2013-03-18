@@ -4,7 +4,7 @@
     <string name="default_url">http://api.hohndel.org</string>
     <string name="default_duration">30</string>
     <string name="default_distance">10</string>
-    <string name="default_dive_name">Auto-created dive</string>
+    <string name="default_dive_name">Создан автоматически</string>
 
     <string name="home_action_mode_title">%s выбран</string>
     <string name="home_no_account">Учетная запись Subsurface еще не сконфигурирована</string>
@@ -63,6 +63,10 @@
     <string name="error_invalid_request">Сервер не понял запрос</string>
     <string name="error_network">Нет сети. Попробуйте позже</string>
     <string name="error_parse_error">Неизвестный ответ сервера</string>
+    <string name="error_no_image_location">Невозможно получить координаты изображения</string>
+    <string name="error_open_image">Невозможно открыть изображение</string>
+    <string name="error_delete_dives">Невозможно удалить погружения</string>
+    <string name="error_delete_dive">Невозможно удалить погружение</string>
     
 
     <string name="account_link_create">Создать учетную запись</string>
