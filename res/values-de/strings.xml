@@ -62,6 +62,10 @@
     <string name="error_invalid_request">Der Server hat die Anfrage nicht verstanden</string>
     <string name="error_network">Keine Netzwerk Verbindung. Bitte versuchen Sie es später noch einmal.</string>
     <string name="error_parse_error">Server-Antwort nicht verstanden</string>
+    <string name="error_no_image_location">Konnte Bildelage nicht abrufen</string>
+    <string name="error_open_image">Konnte bild nicht öffnen</string>
+    <string name="error_delete_dives">Konnte Tauchgänge nicht löschen</string>
+    <string name="error_delete_dive">Konnte Tauchgang nicht löschen</string>
     
 
     <string name="account_link_create">Neues Benutzerkonto anlegen</string>
