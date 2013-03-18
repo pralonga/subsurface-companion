@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.net
+lang_map = aln-AL:aln, ar-SA:ar, ast-ES:ast, as-IN:as, bal-PK:bal, bg-BG:bg, bn-BD:bn, bn-IN:bn_IN, bs-BA:bs, ca-ES:ca, cs-CZ:cs, da-DK:da, de-CH:de_CH, de-DE:de, el-GR:el, en-GB:en_GB, es-ES:es, et-EE:et, eu-ES:eu, fa-IR:fa, fi-FI:fi, fr-FR:fr, gl-ES:gl, gu-IN:gu, he-IL:he, hi-IN:hi, hr-HR:hr, hu-HU:hu, id-ID:id, is-IS:is, it-IT:it, ja-JP:ja, kn-IN:kn, ko-KR:ko, lt-LT:lt, lv-LV:lv, mai-IN:mai, ml-IN:ml, mr-IN:mr, ms-MY:ms, nb-NO:nb, nds-DE:nds, nl-NL:nl, nn-NO:nn, or-IN:or, pa-IN:pa, pl-PL:pl, pt-BR:pt_BR, pt-PT:pt, ro-RO:ro, ru-RU:ru, si-LK:si, sk-SK:sk, sl-SI:sl, sq-AL:sq, sr-RS:sr, sr-Latn-RS:sr@latin, sv-SE:sv, ta-IN:ta, te-IN:te, tg-TJ:tg, tr-TR:tr, uk-UA:uk, ur-PK:ur, vi-VN:vi, zh-CN:zh_CN, zh-HK:zh_HK, zh-TW:zh_TW
+
+[subsurface.companion]
+source_lang = en
+source_file = res/values/strings.xml
+file_filter = res/values-<lang>/strings.xml
