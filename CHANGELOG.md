@@ -1,6 +1,10 @@
 Subsurface Companion for Android Changelog
 ==========================================
 
+1.5
+---
+- Fixed bug : local time lost
+
 1.4
 ---
 - Added position from image EXIF data
