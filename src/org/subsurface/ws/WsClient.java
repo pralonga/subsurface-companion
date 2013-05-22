@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -22,6 +21,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.util.DateUtils;
 import org.subsurface.ws.json.DiveParser;
 import org.subsurface.ws.json.ErrorParser;
 import org.subsurface.ws.json.UserParser;
@@ -103,12 +103,8 @@ public class WsClient {
 			nameValuePairs.add(new BasicNameValuePair("dive_latitude", Double.toString(dive.getLatitude())));
 			nameValuePairs.add(new BasicNameValuePair("dive_longitude", Double.toString(dive.getLongitude())));
 
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
-			nameValuePairs.add(new BasicNameValuePair("dive_date", dateFormat.format(logDate)));
-			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-			timeFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
-			nameValuePairs.add(new BasicNameValuePair("dive_time", timeFormat.format(logDate)));
+			nameValuePairs.add(new BasicNameValuePair("dive_date", DateUtils.initGMT("yyyy-MM-dd").format(logDate)));
+			nameValuePairs.add(new BasicNameValuePair("dive_time", DateUtils.initGMT("HH:mm").format(logDate)));
 			nameValuePairs.add(new BasicNameValuePair("dive_name", dive.getName()));
 			request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
 			HttpResponse response = new DefaultHttpClient().execute(request);
@@ -148,12 +144,8 @@ public class WsClient {
 			request.setHeader("Content-type", "application/x-www-form-urlencoded");
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			nameValuePairs.add(new BasicNameValuePair("login", user));
-			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
-			nameValuePairs.add(new BasicNameValuePair("dive_date", dateFormat.format(logDate)));
-			SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-			timeFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
-			nameValuePairs.add(new BasicNameValuePair("dive_time", timeFormat.format(logDate)));
+			nameValuePairs.add(new BasicNameValuePair("dive_date", DateUtils.initGMT("yyyy-MM-dd").format(logDate)));
+			nameValuePairs.add(new BasicNameValuePair("dive_time", DateUtils.initGMT("HH:mm").format(logDate)));
 			request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
 			HttpResponse response = new DefaultHttpClient().execute(request);
 			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR) {

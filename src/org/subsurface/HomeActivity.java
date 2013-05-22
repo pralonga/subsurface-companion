@@ -9,6 +9,7 @@ import org.subsurface.controller.UserController;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.ui.DiveArrayAdapter;
 import org.subsurface.ui.DiveArrayAdapter.SelectionListener;
+import org.subsurface.util.DateUtils;
 import org.subsurface.ws.WsException;
 
 import android.app.ActivityManager;
@@ -249,7 +250,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					new Thread(new Runnable() {
 						public void run() {
 							locationLog.setLocation(location);
-							locationLog.setTimestamp(System.currentTimeMillis());
+							locationLog.setTimestamp(DateUtils.getFakeUtcDate());
 							if (UserController.instance.autoSend()) {
 								try {
 									DiveController.instance.sendDiveLog(locationLog);

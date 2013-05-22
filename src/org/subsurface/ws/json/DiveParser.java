@@ -4,15 +4,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.util.DateUtils;
 
 public class DiveParser {
 
@@ -40,12 +39,8 @@ public class DiveParser {
 				dive.setLongitude(jsonDive.getLong("longitude"));
 				dive.setLatitude(jsonDive.getLong("latitude"));
 				try {
-					SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-					dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
-					long timestamp = dateFormat.parse(jsonDive.getString("date")).getTime();
-					SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-					timeFormat.setTimeZone(TimeZone.getTimeZone("GMT+0"));
-					timestamp += timeFormat.parse(jsonDive.getString("time")).getTime();
+					long timestamp = DateUtils.initGMT("yyyy-MM-dd").parse(jsonDive.getString("date")).getTime();
+					timestamp += DateUtils.initGMT("HH:mm").parse(jsonDive.getString("time")).getTime();
 					dive.setTimestamp(timestamp);
 					dives.add(dive);
 				} catch (ParseException pe) {

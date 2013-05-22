@@ -1,10 +1,10 @@
 package org.subsurface;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.util.DateUtils;
 import org.subsurface.ws.WsException;
 
 import android.app.AlertDialog;
@@ -42,7 +42,7 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 		setContentView(R.layout.dive_detail);
 		((TextView) findViewById(R.id.title)).setText(dive.getName());
 		((TextView) findViewById(R.id.date)).setText(
-				new SimpleDateFormat(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
+				DateUtils.initGMT(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
 		((TextView) findViewById(R.id.coordinates)).setText(
 				getString(R.string.details_coordinates, (float) dive.getLatitude(), (float) dive.getLongitude()));
 	}
@@ -152,7 +152,7 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 		((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 		((EditText) findViewById(R.id.title)).setText(dive.getName());
 		((TextView) findViewById(R.id.date)).setText(
-				new SimpleDateFormat(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
+				DateUtils.initGMT(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
 		((TextView) findViewById(R.id.coordinates)).setText(
 				getString(R.string.details_coordinates, (float) dive.getLatitude(), (float) dive.getLongitude()));
 		return true;

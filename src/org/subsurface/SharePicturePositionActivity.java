@@ -1,11 +1,11 @@
 package org.subsurface;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.util.DateUtils;
 import org.subsurface.ws.WsException;
 
 import android.app.AlertDialog;
@@ -73,10 +73,10 @@ public class SharePicturePositionActivity extends SherlockActivity {
 					ExifInterface exif = new ExifInterface(path);
 
 					// Timestamp
-					long timestamp = System.currentTimeMillis();
+					long timestamp = DateUtils.getFakeUtcDate();
 					try {
 						Calendar tsCal = Calendar.getInstance();
-						tsCal.setTime(new SimpleDateFormat("yyyy:MM:dd HH:mm:ss")
+						tsCal.setTime(DateUtils.initGMT("yyyy:MM:dd HH:mm:ss")
 								.parse(exif.getAttribute(ExifInterface.TAG_DATETIME)));
 						tsCal.set(Calendar.SECOND, 0);
 						timestamp = tsCal.getTimeInMillis();
@@ -91,7 +91,7 @@ public class SharePicturePositionActivity extends SherlockActivity {
 						((TextView) findViewById(R.id.coordinates)).setText(
 								getString(R.string.details_coordinates, dive.getLatitude(), dive.getLongitude()));
 						((TextView) findViewById(R.id.date)).setText(
-								new SimpleDateFormat(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
+								DateUtils.initGMT(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
 					} else {
 						Log.d(TAG, "Could not retrieve image location");
 						Toast.makeText(SharePicturePositionActivity.this, R.string.error_no_image_location, Toast.LENGTH_LONG).show();

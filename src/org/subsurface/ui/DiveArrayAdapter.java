@@ -1,6 +1,5 @@
 package org.subsurface.ui;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
@@ -9,6 +8,7 @@ import java.util.List;
 import org.subsurface.R;
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.util.DateUtils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -105,8 +105,8 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 		ViewHolder holder = (ViewHolder) rowView.getTag();
 		DiveLocationLog dive = (DiveLocationLog) getItem(position);
 		holder.title.setText(dive.getName());
-		holder.date.setText(new SimpleDateFormat(dateFormat).format(new Date(dive.getTimestamp())));
-		holder.hour.setText(new SimpleDateFormat(hourFormat).format(new Date(dive.getTimestamp())));
+		holder.date.setText(DateUtils.initGMT(dateFormat).format(new Date(dive.getTimestamp())));
+		holder.hour.setText(DateUtils.initGMT(hourFormat).format(new Date(dive.getTimestamp())));
 		holder.checkbox.setTag(position);
 		holder.checkbox.setChecked(checkedItems.containsKey(position) && checkedItems.get(position));
 		holder.toUpload.setVisibility(dive.isSent() ? View.INVISIBLE : View.VISIBLE);
