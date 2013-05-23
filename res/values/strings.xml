@@ -80,8 +80,9 @@
 
     <string name="error_title">Error</string>
     <string name="error_fatal">Subsurface has encountered a fatal error and must exit.</string>
-    <string name="error_generic">An error has occured. Please check your settings and retry later</string>
+    <string name="error_generic">An error has occurred. Please check your settings and retry later</string>
     
+    <!-- Warning : MM = month, mm = minutes -->
     <string name="date_format_full">MM/dd/yyyy HH:mm</string>
     <string name="date_format_short">MM/dd/yyyy</string>
     <string name="date_format_time">HH:mm</string>

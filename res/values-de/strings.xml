@@ -81,8 +81,8 @@
     <string name="error_fatal">Subsurface muss wegen eines Fehlers beendet werden.</string>
     <string name="error_generic">Ein Fehler ist aufgetreten. Bitte prüfen Sie die Einstellungen und versuchen Sie es erneut</string>
     
-    <string name="date_format_full">dd.mm.yyyy HH:mm</string>
-    <string name="date_format_short">dd.mm.yyyy</string>
+    <string name="date_format_full">dd.MM.yyyy HH:mm</string>
+    <string name="date_format_short">dd.MM.yyyy</string>
     <string name="date_format_time">HH:mm</string>
 
     <string name="hint_email">Email Adresse</string>
