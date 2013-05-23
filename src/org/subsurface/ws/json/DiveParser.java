@@ -36,8 +36,8 @@ public class DiveParser {
 				DiveLocationLog dive = new DiveLocationLog();
 				dive.setSent(true);
 				dive.setName(jsonDive.optString("name", ""));
-				dive.setLongitude(jsonDive.getLong("longitude"));
-				dive.setLatitude(jsonDive.getLong("latitude"));
+				dive.setLongitude(jsonDive.getDouble("longitude"));
+				dive.setLatitude(jsonDive.getDouble("latitude"));
 				try {
 					long timestamp = DateUtils.initGMT("yyyy-MM-dd").parse(jsonDive.getString("date")).getTime();
 					timestamp += DateUtils.initGMT("HH:mm").parse(jsonDive.getString("time")).getTime();
