@@ -1,6 +1,11 @@
 Subsurface Companion for Android Changelog
 ==========================================
 
+1.6
+---
+- Fixed bug : bad date format in german
+- Fixed bug : bad coordinates parsing
+
 1.5
 ---
 - Fixed bug : local time lost
