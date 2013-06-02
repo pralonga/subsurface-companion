@@ -13,7 +13,11 @@
     <string name="search_date_from">С</string>
     <string name="search_date_to">По</string>
 
-    <string name="details_coordinates">%1$f <b>C</b> %2$f <b>З</b></string>
+    <string name="details_coordinates">%1$f <b>%3$s</b> %2$f <b>%4$s</b></string>
+    <string name="cardinal_north">C</string>
+    <string name="cardinal_south">Ю</string>
+    <string name="cardinal_east">В</string>
+    <string name="cardinal_west">З</string>
     <string name="details_action_mode_title">Редактировать погружение</string>
 
     <string name="dialog_location_name">Название точки</string>

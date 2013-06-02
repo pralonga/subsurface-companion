@@ -5,6 +5,7 @@ import java.util.Date;
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.util.DateUtils;
+import org.subsurface.util.GpsUtil;
 import org.subsurface.ws.WsException;
 
 import android.app.AlertDialog;
@@ -44,7 +45,7 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 		((TextView) findViewById(R.id.date)).setText(
 				DateUtils.initGMT(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
 		((TextView) findViewById(R.id.coordinates)).setText(
-				getString(R.string.details_coordinates, (float) dive.getLatitude(), (float) dive.getLongitude()));
+				GpsUtil.buildCoordinatesString(this, dive.getLatitude(), dive.getLongitude()));
 	}
 
 	@Override
@@ -154,7 +155,7 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 		((TextView) findViewById(R.id.date)).setText(
 				DateUtils.initGMT(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
 		((TextView) findViewById(R.id.coordinates)).setText(
-				getString(R.string.details_coordinates, (float) dive.getLatitude(), (float) dive.getLongitude()));
+				GpsUtil.buildCoordinatesString(this, dive.getLatitude(), dive.getLongitude()));
 		return true;
 	}
 

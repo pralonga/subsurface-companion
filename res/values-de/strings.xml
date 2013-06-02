@@ -13,7 +13,11 @@
     <string name="search_date_from">Von</string>
     <string name="search_date_to">Bis</string>
 
-    <string name="details_coordinates">%1$f <b>N</b> %2$f <b>W</b></string>
+    <string name="details_coordinates">%1$f <b>%3$s</b> %2$f <b>%4$s</b></string>
+    <string name="cardinal_north">N</string>
+    <string name="cardinal_south">S</string>
+    <string name="cardinal_east">E</string>
+    <string name="cardinal_west">W</string>
     <string name="details_action_mode_title">Tauchgang bearbeiten</string>
 
     <string name="dialog_location_name">Name des Tauchplatzes</string>

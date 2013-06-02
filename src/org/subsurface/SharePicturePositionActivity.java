@@ -6,6 +6,7 @@ import java.util.Date;
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.util.DateUtils;
+import org.subsurface.util.GpsUtil;
 import org.subsurface.ws.WsException;
 
 import android.app.AlertDialog;
@@ -89,7 +90,7 @@ public class SharePicturePositionActivity extends SherlockActivity {
 						dive.setLatitude(coords[0]);
 						dive.setLongitude(coords[1]);
 						((TextView) findViewById(R.id.coordinates)).setText(
-								getString(R.string.details_coordinates, dive.getLatitude(), dive.getLongitude()));
+								GpsUtil.buildCoordinatesString(this, dive.getLatitude(), dive.getLongitude()));
 						((TextView) findViewById(R.id.date)).setText(
 								DateUtils.initGMT(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
 					} else {
