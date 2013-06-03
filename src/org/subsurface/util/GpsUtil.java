@@ -3,6 +3,8 @@ package org.subsurface.util;
 import org.subsurface.R;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 
 /**
  * Utility class to handle GPS related things.
@@ -28,5 +30,17 @@ public class GpsUtil {
 		lon = Math.abs(lon);
 		
 		return ctx.getString(R.string.details_coordinates, lat, lon, slat, slon);
+	}
+	
+	/**
+	 * Create new ACTION_VIEW geo URI intent for the given coordinates.
+	 * 
+	 * @param lat latitude
+	 * @param lon longitude
+	 * @return new intent
+	 */
+	public static Intent getGeoIntent(double lat, double lon) {
+		String uri = "geo:" + lat + "," + lon;
+		return new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 	}
 }

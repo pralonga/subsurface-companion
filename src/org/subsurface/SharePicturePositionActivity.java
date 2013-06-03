@@ -114,15 +114,27 @@ public class SharePicturePositionActivity extends SherlockActivity {
 	}
 
 	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (dive == null) {
+			return false;
+		}
+		MenuItem mi = menu.findItem(R.id.menu_map);
+		// disable "Show on map" menu item
+		// if no geo URI activities exist
+		boolean hasActivities = getPackageManager().queryIntentActivities(GpsUtil.getGeoIntent(dive.getLatitude(), dive.getLongitude()), 0).size() != 0;
+		mi.setEnabled(hasActivities);
+		mi.setVisible(hasActivities);
+		return true;
+	}
+	
+	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		// Update name
 		dive.setName(((EditText) findViewById(R.id.title)).getText().toString());
 
 		// Perform action
 		if (item.getItemId() == R.id.menu_map) {
-			startActivity(new Intent(
-					Intent.ACTION_VIEW,
-					Uri.parse("geo:" + dive.getLatitude() + "," + dive.getLongitude())));
+			startActivity(GpsUtil.getGeoIntent(dive.getLatitude(), dive.getLongitude()));
 		} else if (item.getItemId() == R.id.menu_send) {
 			new Thread(new Runnable() {
 				public void run() {
