@@ -1,6 +1,11 @@
 Subsurface Companion for Android Changelog
 ==========================================
 
+1.7
+---
+- Fix display of the cardinal directions
+- Fix crash when no geo URI activities installed
+
 1.6
 ---
 - Fixed bug : bad date format in german
