@@ -30,8 +30,8 @@
         <service android:name="BackgroundLocationService" android:process=":location_service"/>
         <activity android:name="HomeActivity" android:theme="@style/AppTheme" />
         <activity android:name="AccountLinkActivity" android:theme="@style/AppTheme" />
-        <activity android:name="SearchDiveActivity" android:theme="@style/AppTheme" />
-        <activity android:name="DiveDetailActivity" android:theme="@style/AppTheme" />
+        <activity android:name="SearchDiveActivity" android:theme="@style/AppTheme.SubScreen" />
+        <activity android:name="DiveDetailActivity" android:theme="@style/AppTheme.SubScreen" />
         <activity android:name="Preferences" android:theme="@style/AppTheme" android:label="@string/menu_settings" android:excludeFromRecents="true" />
     </application>
 

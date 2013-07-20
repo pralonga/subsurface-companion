@@ -2,9 +2,13 @@
 
     <style name="AppTheme" parent="Theme.Sherlock.Light">
         <item name="actionBarStyle">@style/Widget.Styled.ActionBar</item>
-        <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
+        <!-- <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item> -->
         <item name="actionModeStyle">@style/Widget.Styled.ActionMode</item>
-        <item name="android:actionModeStyle">@style/Widget.Styled.ActionMode</item>
+        <!-- <item name="android:actionModeStyle">@style/Widget.Styled.ActionMode</item> -->
+    </style>
+    
+    <style name="AppTheme.SubScreen" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@null</item>
     </style>
 
     <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">

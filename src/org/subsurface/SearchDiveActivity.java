@@ -6,12 +6,14 @@ import org.subsurface.ui.DatePickerButton;
 import org.subsurface.ui.DiveArrayAdapter;
 import org.subsurface.ui.TimePickerButton;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -160,5 +162,27 @@ public class SearchDiveActivity extends HomeActivity {
 	@Override
 	public boolean onSearchRequested() {
 		return true;
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		Intent detailIntent = new Intent(this, DiveDetailActivity.class);
+		detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_POSITION, position);
+		if (dateFilterLayout.getVisibility() == View.VISIBLE) {
+			detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_SEARCH_START, startDate + (startTime * 60000));
+			detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_SEARCH_END, endDate + (endTime * 60000));
+		} else {
+			detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_SEARCH_START, Long.MIN_VALUE);
+			detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_SEARCH_END, Long.MAX_VALUE);
+		}
+		detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_SEARCH_NAME, currentName);
+		startActivity(detailIntent);
+	}
+
+	@Override
+	public void finish() {
+		super.finish();
+		// Disable out animation
+		overridePendingTransition(0, 0);
 	}
 }

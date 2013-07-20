@@ -1,0 +1,21 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.Sherlock.Light">
+        <item name="android:actionBarStyle">@style/Widget.Styled.ActionBar</item>
+        <item name="android:actionModeStyle">@style/Widget.Styled.ActionMode</item>
+    </style>
+    
+    <style name="AppTheme.SubScreen" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="Widget.Styled.ActionBar" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+	    <item name="background">@color/title_action_bar</item>
+	    <item name="android:background">@color/title_action_bar</item>
+	</style>
+	
+    <style name="Widget.Styled.ActionMode" parent="Widget.Sherlock.Light.ActionBar.Solid.Inverse">
+	    <item name="background">@color/title_action_mode</item>
+	    <item name="android:background">@color/title_action_mode</item>
+	</style>
+</resources>

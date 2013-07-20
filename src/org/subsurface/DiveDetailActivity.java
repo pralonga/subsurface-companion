@@ -1,9 +1,11 @@
 package org.subsurface;
 
 import java.util.Date;
+import java.util.List;
 
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.ui.DiveDetailFragment;
 import org.subsurface.util.DateUtils;
 import org.subsurface.util.GpsUtil;
 import org.subsurface.ws.WsException;
@@ -13,13 +15,20 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -29,36 +38,85 @@ import com.actionbarsherlock.view.MenuItem;
  * @author Aurelien PRALONG
  *
  */
-public class DiveDetailActivity extends SherlockActivity implements com.actionbarsherlock.view.ActionMode.Callback {
+public class DiveDetailActivity extends SherlockFragmentActivity implements com.actionbarsherlock.view.ActionMode.Callback {
 
-	public static final String PARAM_DIVE_ID = "PARAM_DIVE_ID";
+	private static final String TAG = DiveDetailActivity.class.getName();
+	public static final String PARAM_DIVE_POSITION = "PARAM_DIVE_POSITION";
+	public static final String PARAM_DIVE_SEARCH_START = "PARAM_DIVE_SEARCH_START";
+	public static final String PARAM_DIVE_SEARCH_END = "PARAM_DIVE_SEARCH_END";
+	public static final String PARAM_DIVE_SEARCH_NAME = "PARAM_DIVE_SEARCH_NAME";
 
-	protected static final String TAG = null;
-
+	private ViewPager pager;
+	private PagerAdapter pagerAdapter;
 	private DiveLocationLog dive = null;
+	private int divePosition = 0;
 	private ActionMode actionMode = null;
+	private TextView positionText = null;
+	private ImageButton previous = null;
+	private ImageButton next = null;
+	private List<DiveLocationLog> dives = null;
 
-	private void initNormalView() {
-		setContentView(R.layout.dive_detail);
-		((TextView) findViewById(R.id.title)).setText(dive.getName());
-		((TextView) findViewById(R.id.date)).setText(
-				DateUtils.initGMT(getString(R.string.date_format_full)).format(new Date(dive.getTimestamp())));
-		((TextView) findViewById(R.id.coordinates)).setText(
-				GpsUtil.buildCoordinatesString(this, dive.getLatitude(), dive.getLongitude()));
+	private void initView() {
+		setContentView(R.layout.dive_detail_pager);
+		this.positionText = (TextView) findViewById(R.id.currentPos);
+		this.previous = (ImageButton) findViewById(R.id.previous);
+		this.next = (ImageButton) findViewById(R.id.next);
+
+		this.pager = (ViewPager) findViewById(R.id.pager);
+		this.pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
+		pager.setAdapter(pagerAdapter);
+		pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int position) {
+				dive = dives.get(position);
+				divePosition = position;
+				positionText.setText((position + 1) + " / " + pagerAdapter.getCount());
+				previous.setEnabled(position > 0);
+				next.setEnabled(position < pagerAdapter.getCount() - 1);
+			}
+			
+			@Override
+			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) { }
+			
+			@Override
+			public void onPageScrollStateChanged(int state) { }
+		});
+		positionText.setText((divePosition + 1) + " / " + pagerAdapter.getCount());
+		pager.setCurrentItem(divePosition, false);
+
+		previous.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				pager.setCurrentItem(divePosition > 0 ? divePosition - 1 : 0, false);
+			}
+		});
+		
+		next.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				pager.setCurrentItem(divePosition < pagerAdapter.getCount() ? divePosition + 1 : pagerAdapter.getCount() - 1, false);
+			}
+		});
+		previous.setEnabled(divePosition > 0);
+		next.setEnabled(divePosition < pagerAdapter.getCount() - 1);
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-		this.dive = DiveController.instance.getDiveById(getIntent().getLongExtra(PARAM_DIVE_ID, 0));
-		if (dive != null) {
-			initNormalView();
+		this.divePosition = getIntent().getIntExtra(PARAM_DIVE_POSITION, 0);
+		long searchStart = getIntent().getLongExtra(PARAM_DIVE_SEARCH_START, 0);
+		long searchEnd = getIntent().getLongExtra(PARAM_DIVE_SEARCH_END, 0);
+		CharSequence searchName = getIntent().getCharSequenceExtra(PARAM_DIVE_SEARCH_NAME);
+		if (searchStart > 0 || searchEnd > 0 || searchName != null) {
+			this.dives = DiveController.instance.getFilteredDives(searchName == null ? null : searchName.toString(), searchStart, searchEnd, false);
 		} else {
-			Toast.makeText(this, R.string.error_no_associated_dive, Toast.LENGTH_SHORT).show();
-			finish();
+			this.dives = DiveController.instance.getDiveLogs();
 		}
+		this.dive = dives.get(divePosition);
+		initView();
 	}
 
 	@Override
@@ -187,7 +245,39 @@ public class DiveDetailActivity extends SherlockActivity implements com.actionba
 
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
-		initNormalView();
+		initView();
 		actionMode = null;
+	}
+
+	/**
+	 * {@link FragmentStatePagerAdapter} for dives.
+	 * @author Aurelien PRALONG
+	 *
+	 */
+	private class ScreenSlidePagerAdapter extends FragmentStatePagerAdapter {
+		public ScreenSlidePagerAdapter(FragmentManager fm) {
+			super(fm);
+		}
+
+		@Override
+		public android.support.v4.app.Fragment getItem(int position) {
+			Fragment fragment = new DiveDetailFragment();
+			Bundle args = new Bundle();
+			args.putLong(DiveDetailFragment.PARAM_DIVE_ID, dives.get(position).getId());
+			fragment.setArguments(args);
+			return fragment;
+		}
+
+		@Override
+		public int getCount() {
+			return dives.size();
+		}
+	}
+
+	@Override
+	public void finish() {
+		super.finish();
+		// Disable out animation
+		overridePendingTransition(0, 0);
 	}
 }

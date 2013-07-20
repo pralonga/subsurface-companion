@@ -371,7 +371,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		Intent detailIntent = new Intent(this, DiveDetailActivity.class);
-		detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_ID, l.getItemIdAtPosition(position));
+		detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_POSITION, position);
 		startActivity(detailIntent);
 	}
 
@@ -436,6 +436,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
         			showGpsWarning();
         		}
     		}
+    		// TODO API Problem
     		invalidateOptionsMenu();
     	}
     	return super.onMenuItemSelected(featureId, item);
