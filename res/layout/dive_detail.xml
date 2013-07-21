@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_margin="5dp" >
+    android:paddingTop="@dimen/default_margin" >
 
     <TextView
         android:id="@+id/title"
@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:paddingLeft="@dimen/default_margin"
         android:text="@string/app_name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
@@ -21,6 +22,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/title"
         android:layout_marginTop="10dp"
+        android:paddingLeft="@dimen/default_margin"
         android:text="@string/date_format_full"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -28,8 +30,9 @@
         android:id="@+id/coordinates"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/date"
         android:layout_alignParentLeft="true"
+        android:layout_below="@id/date"
+        android:paddingLeft="@dimen/default_margin"
         android:text="@string/details_coordinates"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 

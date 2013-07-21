@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dip"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -76,6 +75,7 @@
         android:layout_height="0dip"
         android:layout_weight="1"
         android:choiceMode="none"
+        android:paddingRight="@dimen/default_margin"
         android:textFilterEnabled="true" />
 
     <TextView

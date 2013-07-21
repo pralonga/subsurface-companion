@@ -8,9 +8,9 @@
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_margin="5dip"
         android:layout_weight="1"
-        android:choiceMode="none" />
+        android:choiceMode="none"
+        android:paddingRight="@dimen/default_margin" />
 
     <TextView
         android:id="@android:id/empty"
