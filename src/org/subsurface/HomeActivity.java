@@ -30,6 +30,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.support.v4.app.ActivityCompat;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -436,8 +437,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
         			showGpsWarning();
         		}
     		}
-    		// TODO API Problem
-    		invalidateOptionsMenu();
+    		ActivityCompat.invalidateOptionsMenu(this);
     	}
     	return super.onMenuItemSelected(featureId, item);
 	}
@@ -523,6 +523,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	@Override
 	public void onDestroyActionMode(ActionMode mode) {
 		((DiveArrayAdapter) getListAdapter()).unselectAll();
+		((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 		actionMode = null;
 	}
 
