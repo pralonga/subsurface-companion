@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/hackButton"
             android:layout_alignParentLeft="true"
+            android:paddingLeft="@dimen/default_margin"
             android:text="@string/search_date_from"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
@@ -64,6 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/buttonToDate"
             android:layout_alignLeft="@id/fromText"
+            android:paddingLeft="@dimen/default_margin"
             android:text="@string/search_date_to"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textStyle="bold" />
@@ -75,7 +77,6 @@
         android:layout_height="0dip"
         android:layout_weight="1"
         android:choiceMode="none"
-        android:paddingRight="@dimen/default_margin"
         android:textFilterEnabled="true" />
 
     <TextView
