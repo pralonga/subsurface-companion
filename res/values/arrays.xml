@@ -5,5 +5,10 @@
         <item >@string/account_link_retrieve</item>
         <item >@string/account_link_existing</item>
     </string-array>
+    
+    <string-array name="list_menu_choices">
+        <item >Dives</item>
+        <item >Map</item>
+    </string-array>
 	
 </resources>

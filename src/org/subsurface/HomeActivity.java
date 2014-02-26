@@ -34,16 +34,19 @@ import android.support.v4.app.ActivityCompat;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 
-public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback, SelectionListener {
+public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback, SelectionListener, OnNavigationListener {
 
 	private static final String TAG = "HomeActivity";
 
@@ -305,6 +308,12 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 							}).setCancelable(false).show();
 		}
 
+        ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(
+				this, R.array.list_menu_choices,
+				R.layout.sherlock_spinner_item);
+		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+		getSupportActionBar().setListNavigationCallbacks(listAdapter, this);
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         // Retrieve location service
         this.locationManager  = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     	setContentView(R.layout.dive_list);
@@ -531,5 +540,18 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	public boolean onSearchRequested() {
 		startActivity(new Intent(this, SearchDiveActivity.class));
 		return true;
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		boolean handled = false;
+		if (itemPosition == 0) {
+			handled = true;
+		} else if (itemPosition == 1) {
+			startActivity(new Intent(this, MapActivity.class));
+			getSupportActionBar().setSelectedNavigationItem(0);
+			handled = true;
+		}
+		return handled;
 	}
 }
