@@ -18,7 +18,7 @@ To build the application, you need [the Android SDK][1] and the followings:
 	* $ANDROID_HOME/tools:$ANDROID_HOME/platform-tools (Linux, Mac)
 	* %ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools (Windows)
 	* When executing "mvn install", a folder target and the application in it will be created
-    * Use maven 3.0.1, if android-maven-plugin version is 3.6.0
+    * Use maven 3.0.1, if android-maven-plugin version is 3.6.0, or maven 3.1.1 if 3.8.2
 
 
 Licence
