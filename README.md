@@ -19,6 +19,8 @@ To build the application, you need [the Android SDK][1] and the followings:
 	* %ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools (Windows)
 	* When executing "mvn install", a folder target and the application in it will be created
     * Use maven 3.0.1, if android-maven-plugin version is 3.6.0, or maven 3.1.1 if 3.8.2
+* To use Maps in development, generate your own API key with your debug certificate (.android/debug.keystore), and
+replace in AndroidManifest.xml the value of meta-data com.google.android.maps.v2.API_KEY. See [8] for complete instructions.
 
 
 Licence
@@ -50,3 +52,4 @@ Licence
 [5]: http://ormlite.com/
 [6]: http://maven.apache.org/download.cgi
 [7]: https://play.google.com/store/apps/details?id=org.subsurface
+[8]: https://developers.google.com/console/help/new/#generatingdevkeys
