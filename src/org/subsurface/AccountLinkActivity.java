@@ -112,7 +112,7 @@ public class AccountLinkActivity extends SherlockListActivity {
 		builder.setNegativeButton(android.R.string.cancel, null);
 		if (position == 0) { // Creation
 			edit.setHint(getString(R.string.hint_email));
-			edit.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+			edit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 			builder.setTitle(getString(R.string.account_link_create))
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
@@ -122,7 +122,7 @@ public class AccountLinkActivity extends SherlockListActivity {
 					}).create().show();
 		} else if (position == 1) {
 			edit.setHint(getString(R.string.hint_email));
-			edit.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+			edit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 			builder.setTitle(getString(R.string.account_link_retrieve))
 					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 						@Override
