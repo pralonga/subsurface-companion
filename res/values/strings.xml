@@ -122,4 +122,10 @@
     <string name="settings_other_website_summary">Open project website</string>
     <string name="settings_other_version">Version</string>
     <string name="settings_other_version_summary">Current version: %s</string>
+    
+    <string name="menu_new_current">Current</string>
+    <string name="menu_new_map">Use map</string>
+    <string name="instruction_pickloc">Select the dive point</string>
+    <string name="hint_dive_offset">Minutes past after dive</string>
+    <string name="confirmation_dive_picked_sent">Dive %s has been added and sent</string>    
 </resources>

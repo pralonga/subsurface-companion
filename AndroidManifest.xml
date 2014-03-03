@@ -5,7 +5,7 @@
 
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="15" />
+        android:targetSdkVersion="19" />
     
     <permission android:name="org.subsurface.mapfragment.permission.MAPS_RECEIVE" android:protectionLevel="signature" />
 
@@ -43,10 +43,11 @@
         <activity android:name="DiveDetailActivity" android:theme="@style/AppTheme.SubScreen" />
         <activity android:name="Preferences" android:theme="@style/AppTheme" android:label="@string/menu_settings" android:excludeFromRecents="true" />
         <activity android:name="MapActivity" android:theme="@style/AppTheme.SubScreen"></activity>
+        <activity android:name="PickLocation" android:theme="@style/AppTheme.SubScreen"></activity>
         
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyAwDyRHLxnFRtECtjCU3etsPyD8y2DEtdo" />
+            android:value="AIzaSyDT6q4u6abJkH_VOFWqAS8MV3MhXsaQS3E" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
