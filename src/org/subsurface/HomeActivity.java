@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -30,12 +31,14 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -45,6 +48,7 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.maps.model.LatLng;
 
 public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback, SelectionListener, OnNavigationListener {
 
@@ -52,12 +56,12 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	private IBinder service = null;
 	private final ServiceConnection connection = new ServiceConnection() {
-		
+
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			service = null;
 		}
-		
+
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			HomeActivity.this.service = service;
@@ -95,23 +99,23 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 				.setCancelable(true)
 				.setNegativeButton(android.R.string.no, null)
 				.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-					}
-				}).create().show();
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+							}
+						}).create().show();
 	}
 
 	private boolean isBackgroundLocationServiceStarted() {
 		boolean started = false;
 		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-	        if (BackgroundLocationService.class.getName().equals(service.service.getClassName())) {
-	            started = true;
-	            break;
-	        }
-	    }
-	    return started;
+		for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+			if (BackgroundLocationService.class.getName().equals(service.service.getClassName())) {
+				started = true;
+				break;
+			}
+		}
+		return started;
 	}
 
 	private void refresh() {
@@ -131,10 +135,11 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					}
 					return message;
 				}
+
 				@Override
 				protected void onPostExecute(Integer success) {
 					((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-					Toast.makeText(HomeActivity.this, success, Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomeActivity.this, success,Toast.LENGTH_SHORT).show();
 					refreshItem.setActionView(null);
 				}
 			}.execute();
@@ -160,15 +165,15 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			Toast.makeText(HomeActivity.this, R.string.error_no_settings, Toast.LENGTH_SHORT).show();
 		} else { // Send locations
 			final Handler handler = new Handler() {
-    			@Override
-    			public void handleMessage(Message msg) {
-    				int total = msg.arg1;
-    				dialog.setProgress(total);
-    				if (total >= dives.size()) { // OK, close dialog
-    					dialog.dismiss();
-    				}
-    			}
-    		};
+				@Override
+				public void handleMessage(Message msg) {
+					int total = msg.arg1;
+					dialog.setProgress(total);
+					if (total >= dives.size()) {// OK, close dialog
+						dialog.dismiss();
+					}
+				}
+			};
 			new Thread(new Runnable() {
 				public void run() {
 					int success = 0;
@@ -186,7 +191,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 						handler.sendMessage(msg);
 					}
 
-					// 100 % 
+					// 100 %
 					Message msg = handler.obtainMessage();
 					msg.arg1 = dives.size();
 					handler.sendMessage(msg);
@@ -196,7 +201,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					runOnUiThread(new Runnable() {
 						public void run() {
 							((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-							Toast.makeText(HomeActivity.this, getString(R.string.confirmation_locations_sent, successCount, totalCount), Toast.LENGTH_SHORT).show();
+							Toast.makeText(HomeActivity.this, getString(R.string.confirmation_locations_sent, successCount, totalCount),Toast.LENGTH_SHORT).show();
 						}
 					});
 				}
@@ -204,14 +209,53 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		}
 	}
 
+	//Send location picked from map to the server and update the list
+	public void sendMapDiveLog(String name, LatLng latlng, long timestamp) {
+		if(name.contentEquals(""))
+		{
+			name = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("background_service_name",
+					getResources().getString(R.string.default_dive_name));
+		}
+		DiveLocationLog locationlog = new DiveLocationLog();
+		locationlog.setName(name);
+		locationlog.setLatitude(latlng.latitude);
+		locationlog.setLongitude(latlng.longitude);
+		locationlog.setTimestamp(timestamp);
+		if (UserController.instance.autoSend()) {
+			try {
+				DiveController.instance.sendDiveLog(locationlog);
+				Toast.makeText(HomeActivity.this, getString(R.string.confirmation_dive_picked_sent, name), Toast.LENGTH_SHORT).show();
+			} catch (final WsException e) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(HomeActivity.this, e.getCode(), Toast.LENGTH_SHORT).show();
+					}
+				});
+			} catch (Exception e) {
+				Log.d(TAG, "Could not send dive " + locationlog.getName(), e);
+				runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(HomeActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
+					}
+				});
+			}
+		} else {
+			DiveController.instance.updateDiveLog(locationlog);
+			Toast.makeText(HomeActivity.this, getString(R.string.confirmation_location_picked, name), Toast.LENGTH_SHORT).show();
+		}
+		runOnUiThread(new Runnable() {
+			public void run() {
+				((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+			}
+		});
+	}
+
 	private void sendDiveLog(String name) {
 		final DiveLocationLog locationLog = new DiveLocationLog();
 		locationLog.setName(name);
 		final AtomicBoolean cancel = new AtomicBoolean(false);
-		final ProgressDialog waitDialog = ProgressDialog.show(
-				HomeActivity.this,
-				"", getString(R.string.dialog_wait),
-				true, true, new DialogInterface.OnCancelListener() {
+		final ProgressDialog waitDialog = ProgressDialog.show(HomeActivity.this, "", getString(R.string.dialog_wait), true,
+				true, new DialogInterface.OnCancelListener() {
 					@Override
 					public void onCancel(DialogInterface dialog) {
 						cancel.set(true);
@@ -223,7 +267,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					}
 				});
 		this.locationListener = new LocationListener() {
-			
+
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {
 				if (!cancel.get()) {
@@ -245,12 +289,13 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					Toast.makeText(HomeActivity.this, R.string.error_location, Toast.LENGTH_SHORT).show();
 				}
 			}
-			
+
 			@Override
 			public void onLocationChanged(final Location location) {
 				if (!cancel.get()) {
 					waitDialog.dismiss();
-					Toast.makeText(HomeActivity.this, getString(R.string.confirmation_location_picked, locationLog.getName()), Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomeActivity.this, getString(R.string.confirmation_location_picked,
+									locationLog.getName()), Toast.LENGTH_SHORT).show();
 					new Thread(new Runnable() {
 						public void run() {
 							locationLog.setLocation(location);
@@ -290,9 +335,9 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        UserController.instance.setContext(this);
-        try {
+		super.onCreate(savedInstanceState);
+		UserController.instance.setContext(this);
+		try {
 			DiveController.instance.setContext(this);
 		} catch (Exception e) {
 			new AlertDialog.Builder(this)
@@ -301,31 +346,29 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					.setPositiveButton(android.R.string.ok,
 							new DialogInterface.OnClickListener() {
 								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
+								public void onClick(DialogInterface dialog, int which) {
 									finish();
 								}
 							}).setCancelable(false).show();
 		}
 
-        ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(
-				this, R.array.list_menu_choices,
-				R.layout.sherlock_spinner_item);
+		ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(this, R.array.list_menu_choices,
+						R.layout.sherlock_spinner_item);
 		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		getSupportActionBar().setListNavigationCallbacks(listAdapter, this);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        // Retrieve location service
-        this.locationManager  = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-    	setContentView(R.layout.dive_list);
-    	DiveArrayAdapter adapter = new DiveArrayAdapter(this);
-    	adapter.setListener(this);
-    	setListAdapter(adapter);
-    	getListView().setItemsCanFocus(true);
+		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		// Retrieve location service
+		this.locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		setContentView(R.layout.dive_list);
+		DiveArrayAdapter adapter = new DiveArrayAdapter(this);
+		adapter.setListener(this);
+		setListAdapter(adapter);
+		getListView().setItemsCanFocus(true);
 
-    	// Register for dive service updates
-    	if (isBackgroundLocationServiceStarted()) {
-    		bindService(new Intent(this, BackgroundLocationService.class), connection, Context.BIND_NOT_FOREGROUND);
-    	}
+		// Register for dive service updates
+		if (isBackgroundLocationServiceStarted()) {
+			bindService(new Intent(this, BackgroundLocationService.class), connection, Context.BIND_NOT_FOREGROUND);
+		}
 	}
 
 	@Override
@@ -367,7 +410,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	}
 
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.dives, menu);
 		refreshItem = menu.findItem(R.id.menu_refresh);
 		if (isBackgroundLocationServiceStarted()) {
@@ -375,8 +418,8 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		} else {
 			menu.findItem(R.id.menu_start_background_service).setTitle(getString(R.string.menu_start_background_service));
 		}
-        return true;
-    }
+		return true;
+	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -385,70 +428,130 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		startActivity(detailIntent);
 	}
 
+	
+	private static final int pickreq_code = 999;
+	static int lat;
+	static int lon;
+	//Receive result from map activity for map picker event
+	public void onActivityResult(int requestcode, int resultCode, Intent data) {
+		if (pickreq_code == requestcode && resultCode == RESULT_OK && data != null) {
+			Bundle rec_bundle = data.getExtras();
+			final LatLng loc = (LatLng) rec_bundle.get("location");
+			if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				
+				LinearLayout linlay = new LinearLayout(this);
+				linlay.setOrientation(LinearLayout.VERTICAL);
+				final EditText divename = new EditText(this);
+				divename.setHint(R.string.hint_dive_name);
+				divename.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+				final EditText diveoff = new EditText(this);
+				diveoff.setHint(R.string.hint_dive_offset);
+				diveoff.setInputType(InputType.TYPE_CLASS_NUMBER);
+				linlay.addView(divename);
+				linlay.addView(diveoff);
+
+				builder.setView(linlay);
+				builder.setNegativeButton(android.R.string.cancel, null);
+				builder.setTitle(getString(R.string.dialog_location_name))
+						.setPositiveButton(android.R.string.ok,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										long minuteoff;
+										String mins = diveoff.getText().toString();
+										if(mins.contentEquals(""))
+											minuteoff = 0;
+										else
+											minuteoff = Integer.valueOf(mins);
+										// Dateutils.getFakeUtcDate returns timestamp in milliseconds. To include offset multiply by 60000
+										sendMapDiveLog(divename.getText().toString(), loc, DateUtils.getFakeUtcDate() - minuteoff * 60000);
+									}
+								}).create().show();
+			} else {
+				showGpsWarning();
+			}
+		} else {
+			Toast.makeText(this, "No location detected", Toast.LENGTH_SHORT).show();
+		}
+	}
+
 	@Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-    	if (item.getItemId() == R.id.menu_settings) { // Settings
-    		startActivity(new Intent(this, Preferences.class));
-    		return true;
-    	} else if (item.getItemId() == R.id.menu_new) { // Locate has been clicked
-    		if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-    			final EditText edit = new EditText(this);
-    			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    			builder.setView(edit);
-    			builder.setNegativeButton(android.R.string.cancel, null);
-    			edit.setHint(getString(R.string.hint_dive_name));
-    			edit.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
-    			builder.setTitle(getString(R.string.dialog_location_name))
-    					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-    						@Override
-    						public void onClick(DialogInterface dialog, int which) {
-    							sendDiveLog(edit.getText().toString());
-    						}
-    					}).create().show();
-    		} else {
-    			showGpsWarning();
-    		}
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.menu_settings:
+			// Settings
+			startActivity(new Intent(this, Preferences.class));
 			return true;
-    	} else if (item.getItemId() == R.id.menu_send_all) { // Send has been clicked
-    		sendDives(DiveController.instance.getPendingLogs());
-    		return true;
-    	} else if (item.getItemId() == R.id.menu_logoff) {
-    		new AlertDialog.Builder(this)
-    				.setTitle(R.string.menu_logoff)
-    				.setIcon(android.R.drawable.ic_dialog_alert)
-    				.setMessage(R.string.confirm_disconnect)
-    				.setNegativeButton(android.R.string.cancel, null)
-    				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							DiveController.instance.deleteAll();
-				    		UserController.instance.setUser(null);
-				    		startActivity(new Intent(HomeActivity.this, AccountLinkActivity.class));
-				    		finish();
-						}
+		case R.id.menu_new_map:
+			//Pick a location from map
+			Intent picklocation = new Intent(this, PickLocation.class);
+			startActivityForResult(picklocation, pickreq_code);
+			return true;
+		case R.id.menu_new_current:
+			// Locate has been clicked
+			if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+				final EditText edit = new EditText(this);
+				AlertDialog.Builder builder = new AlertDialog.Builder(this);
+				builder.setView(edit);
+				builder.setNegativeButton(android.R.string.cancel, null);
+				edit.setHint(getString(R.string.hint_dive_name));
+				edit.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+				builder.setTitle(getString(R.string.dialog_location_name))
+						.setPositiveButton(android.R.string.ok,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										sendDiveLog(edit.getText().toString());
+									}
+						}).create().show();
+			} else {
+				showGpsWarning();
+			}
+			return true;
+		case R.id.menu_send_all:
+			// Send has been clicked
+			sendDives(DiveController.instance.getPendingLogs());
+			return true;
+		case R.id.menu_logoff:
+			new AlertDialog.Builder(this)
+				.setTitle(R.string.menu_logoff)
+				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setMessage(R.string.confirm_disconnect)
+				.setNegativeButton(android.R.string.cancel, null)
+				.setPositiveButton(android.R.string.ok,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,	int which) {
+								DiveController.instance.deleteAll();
+								UserController.instance.setUser(null);
+								startActivity(new Intent(HomeActivity.this,	AccountLinkActivity.class));
+								finish();
+							}
 					}).create().show();
-    		return true;
-    	} else if (item.getItemId() == R.id.menu_refresh) {
-    		refresh();
-    		return true;
-    	} else if (item.getItemId() == R.id.menu_search) {
-    		return onSearchRequested();
-    	} else if (item.getItemId() == R.id.menu_start_background_service) {
-    		if (isBackgroundLocationServiceStarted()) { // Stop service
-    			if (!stopService(new Intent(this, BackgroundLocationService.class))) {
-    				Toast.makeText(this, R.string.error_background_service_unstoppable, Toast.LENGTH_SHORT).show();
-    			}
-    		} else { // Start service
-    			if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-    				startService(new Intent(this, BackgroundLocationService.class));
-        			bindService(new Intent(this, BackgroundLocationService.class), connection, Context.BIND_NOT_FOREGROUND);
-        		} else {
-        			showGpsWarning();
-        		}
-    		}
-    		ActivityCompat.invalidateOptionsMenu(this);
-    	}
-    	return super.onMenuItemSelected(featureId, item);
+			return true;
+		case R.id.menu_refresh:
+			refresh();
+			return true;
+		case R.id.menu_search:
+			return onSearchRequested();
+		case R.id.menu_start_background_service:
+			if (isBackgroundLocationServiceStarted()) { // Stop service
+				if (!stopService(new Intent(this, BackgroundLocationService.class))) {
+					Toast.makeText(this, R.string.error_background_service_unstoppable, Toast.LENGTH_SHORT).show();
+				}
+			} else { // Start service
+				if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+					startService(new Intent(this, BackgroundLocationService.class));
+					bindService(new Intent(this, BackgroundLocationService.class), connection, Context.BIND_NOT_FOREGROUND);
+				} else {
+					showGpsWarning();
+				}
+			}
+			ActivityCompat.invalidateOptionsMenu(this);
+			break;
+		}
+		return super.onMenuItemSelected(featureId, item);
 	}
 
 	@Override
@@ -479,7 +582,8 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		final List<DiveLocationLog> dives = ((DiveArrayAdapter) getListAdapter()).getSelectedDives();
-		if (item.getItemId() == R.id.menu_send) {
+		switch (item.getItemId()) {
+		case R.id.menu_send:
 			ArrayList<DiveLocationLog> copy = new ArrayList<DiveLocationLog>();
 			for (DiveLocationLog log : dives) {
 				if (!log.isSent()) {
@@ -487,46 +591,49 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 				}
 			}
 			sendDives(copy);
-		} else if (item.getItemId() == R.id.menu_delete) {
+			break;
+		case R.id.menu_delete:
 			if (!dives.isEmpty()) {
 				new AlertDialog.Builder(this)
-					.setTitle(R.string.menu_delete)
-					.setMessage(R.string.confirm_delete_dives)
-					.setNegativeButton(android.R.string.cancel, null)
-					.setCancelable(true)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							new Thread(new Runnable() {
-								public void run() {
-									int messageCode = R.string.error_delete_dives;
-									try {
-										for (DiveLocationLog log : dives) {
-											DiveController.instance.deleteDiveLog(log);
-										}
-										messageCode = -1;
-									} catch (WsException e) {
-										messageCode = e.getCode();
-									} catch (Exception e) {
-										Log.d(TAG, "Could not delete dives", e);
-									}
-									final String message = messageCode == -1 ? null : getString(messageCode);
-									runOnUiThread(new Runnable() {
-										public void run() {
-											((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-											if (message != null) {
-												Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+						.setTitle(R.string.menu_delete)
+						.setMessage(R.string.confirm_delete_dives)
+						.setNegativeButton(android.R.string.cancel, null)
+						.setCancelable(true)
+						.setPositiveButton(android.R.string.ok,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,	int which) {
+										new Thread(new Runnable() {
+											public void run() {
+												int messageCode = R.string.error_delete_dives;
+												try {
+													for (DiveLocationLog log : dives) {
+														DiveController.instance.deleteDiveLog(log);
+													}
+													messageCode = -1;
+												} catch (WsException e) {
+													messageCode = e.getCode();
+												} catch (Exception e) {
+													Log.d(TAG, "Could not delete dives", e);
+												}
+												final String message = messageCode == -1 ? null : getString(messageCode);
+												runOnUiThread(new Runnable() {
+													public void run() {
+														((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+														if (message != null) {
+															Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+														}
+													}
+												});
 											}
-										}
-									});
-								}
-							}).start();
-						}
-					}).create().show();
+										}).start();
+									}
+								}).create().show();
 			}
+			break;
 		}
 		actionMode.finish();
-		return true;
+		return true;			
 	}
 
 	@Override
@@ -555,3 +662,4 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		return handled;
 	}
 }
+

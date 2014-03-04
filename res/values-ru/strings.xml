@@ -121,4 +121,10 @@
     <string name="settings_other_website_summary">Открыть сайт проекта</string>
     <string name="settings_other_version">Версия</string>
     <string name="settings_other_version_summary">Текущая версия: %s</string>
+    
+    <string name="menu_new_current">ток</string>
+    <string name="menu_new_map">Используйте карту</string>
+    <string name="instruction_pickloc">Выберите точку погружения</string>
+    <string name="hint_dive_offset">Протокол мимо после погружения</string>
+    <string name="confirmation_dive_picked_sent">Была добавлена ​​Dive %s и послал</string>
 </resources>
