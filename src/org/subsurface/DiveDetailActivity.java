@@ -106,6 +106,7 @@ public class DiveDetailActivity extends SherlockFragmentActivity implements com.
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setTitle(null);
 		this.divePosition = getIntent().getIntExtra(PARAM_DIVE_POSITION, 0);
 		long searchStart = getIntent().getLongExtra(PARAM_DIVE_SEARCH_START, 0);
 		long searchEnd = getIntent().getLongExtra(PARAM_DIVE_SEARCH_END, 0);

@@ -36,11 +36,12 @@ public class MapActivity extends SherlockFragmentActivity implements OnNavigatio
 		
 		ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(
 				this, R.array.list_menu_choices,
-				R.layout.sherlock_spinner_item);
+				R.layout.spinner_item);
 		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getSupportActionBar().setListNavigationCallbacks(listAdapter, this);
 		getSupportActionBar().setSelectedNavigationItem(1);
+		getSupportActionBar().setTitle(null);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		
 		setContentView(R.layout.dive_map);

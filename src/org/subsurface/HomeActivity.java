@@ -310,8 +310,9 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
         ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(
 				this, R.array.list_menu_choices,
-				R.layout.sherlock_spinner_item);
+				R.layout.spinner_item);
 		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+		getSupportActionBar().setTitle(null);
 		getSupportActionBar().setListNavigationCallbacks(listAdapter, this);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         // Retrieve location service
