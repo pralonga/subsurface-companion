@@ -120,10 +120,5 @@
     <string name="settings_other_website_summary">Subsurface Webseite anzeigen</string>
     <string name="settings_other_version">Version</string>
     <string name="settings_other_version_summary">Aktuelle Version: %s</string>
-    
-    <string name="menu_new_current">Strom</string>
-    <string name="menu_new_map">Verwenden Karte</string>
-    <string name="instruction_pickloc">Wählen Sie das Tauchpunkt</string>
-    <string name="hint_dive_offset">Minuten nach dem letzten Tauchgang</string>
-    <string name="confirmation_dive_picked_sent">Dive %s hinzugefügt wurde und gesendet</string>
 </resources>
+

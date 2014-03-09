@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+    <CheckBox
+        android:id="@+id/cbGpxDive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:focusable="false"
+        android:padding="2dp" />
+
+    <TextView
+        android:id="@+id/tvGpxDiveDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:gravity="right"
+        android:textAlignment="gravity"
+        android:textSize="12sp"
+        android:text="Dive Date" />
+
+    <TextView
+        android:id="@+id/tvGpxDiveTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tvGpxDiveDate"
+        android:gravity="right"
+        android:textAlignment="gravity"
+        android:textSize="12sp"
+        android:text="Dive time" />
+
+    <TextView
+        android:id="@+id/tvGpxDiveName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/cbGpxDive"
+        android:layout_toLeftOf="@id/tvGpxDiveDate"
+        android:layout_alignBottom="@id/tvGpxDiveTime"
+        android:layout_alignTop="@id/tvGpxDiveDate"
+        android:layout_centerVertical="true"
+        android:ellipsize="middle"
+        android:singleLine="true"
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical|left"
+        android:textAlignment="gravity"
+        android:textSize="17sp"
+        android:text="Dive Name"
+        />
+
+    <TextView
+        android:id="@+id/tvGpxDiveLoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/cbGpxDive"
+        android:layout_below="@id/tvGpxDiveTime"
+        android:gravity="center_vertical|right"
+        android:paddingTop="3dp"
+        android:textAlignment="gravity"
+        android:textSize="12sp"
+        android:text="(Latitude, Longitude)" />
+
+</RelativeLayout>

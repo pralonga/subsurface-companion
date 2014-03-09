@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.res.Resources;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -139,7 +138,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 				@Override
 				protected void onPostExecute(Integer success) {
 					((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-					Toast.makeText(HomeActivity.this, success,Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomeActivity.this, success, Toast.LENGTH_SHORT).show();
 					refreshItem.setActionView(null);
 				}
 			}.execute();
@@ -201,7 +200,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					runOnUiThread(new Runnable() {
 						public void run() {
 							((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-							Toast.makeText(HomeActivity.this, getString(R.string.confirmation_locations_sent, successCount, totalCount),Toast.LENGTH_SHORT).show();
+							Toast.makeText(HomeActivity.this, getString(R.string.confirmation_locations_sent, successCount, totalCount), Toast.LENGTH_SHORT).show();
 						}
 					});
 				}
@@ -294,8 +293,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			public void onLocationChanged(final Location location) {
 				if (!cancel.get()) {
 					waitDialog.dismiss();
-					Toast.makeText(HomeActivity.this, getString(R.string.confirmation_location_picked,
-									locationLog.getName()), Toast.LENGTH_SHORT).show();
+					Toast.makeText(HomeActivity.this, getString(R.string.confirmation_location_picked, locationLog.getName()), Toast.LENGTH_SHORT).show();
 					new Thread(new Runnable() {
 						public void run() {
 							locationLog.setLocation(location);
@@ -428,51 +426,55 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		startActivity(detailIntent);
 	}
 
-	
-	private static final int pickreq_code = 999;
-	static int lat;
-	static int lon;
+	private static final int pick_map_reqcode = 999;
+	private static final int pick_gpxfile_reqcode = 998;
 	//Receive result from map activity for map picker event
 	public void onActivityResult(int requestcode, int resultCode, Intent data) {
-		if (pickreq_code == requestcode && resultCode == RESULT_OK && data != null) {
+		if(resultCode == RESULT_OK && data != null) {
 			Bundle rec_bundle = data.getExtras();
-			final LatLng loc = (LatLng) rec_bundle.get("location");
-			if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(this);
-				
-				LinearLayout linlay = new LinearLayout(this);
-				linlay.setOrientation(LinearLayout.VERTICAL);
-				final EditText divename = new EditText(this);
-				divename.setHint(R.string.hint_dive_name);
-				divename.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
-				final EditText diveoff = new EditText(this);
-				diveoff.setHint(R.string.hint_dive_offset);
-				diveoff.setInputType(InputType.TYPE_CLASS_NUMBER);
-				linlay.addView(divename);
-				linlay.addView(diveoff);
-
-				builder.setView(linlay);
-				builder.setNegativeButton(android.R.string.cancel, null);
-				builder.setTitle(getString(R.string.dialog_location_name))
-						.setPositiveButton(android.R.string.ok,
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog, int which) {
-										long minuteoff;
-										String mins = diveoff.getText().toString();
-										if(mins.contentEquals(""))
-											minuteoff = 0;
-										else
-											minuteoff = Integer.valueOf(mins);
-										// Dateutils.getFakeUtcDate returns timestamp in milliseconds. To include offset multiply by 60000
-										sendMapDiveLog(divename.getText().toString(), loc, DateUtils.getFakeUtcDate() - minuteoff * 60000);
-									}
-								}).create().show();
-			} else {
-				showGpsWarning();
+			switch(requestcode) {
+			case pick_map_reqcode:
+				final LatLng loc = (LatLng) rec_bundle.get("location");
+				if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(this);
+					LinearLayout linlay = new LinearLayout(this);
+					linlay.setOrientation(LinearLayout.VERTICAL);
+					final EditText divename = new EditText(this);
+					divename.setHint(R.string.hint_dive_name);
+					divename.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
+					final EditText diveoff = new EditText(this);
+					diveoff.setHint(R.string.hint_dive_offset);
+					diveoff.setInputType(InputType.TYPE_CLASS_NUMBER);
+					linlay.addView(divename);
+					linlay.addView(diveoff);
+					builder.setView(linlay);
+					builder.setNegativeButton(android.R.string.cancel, null);
+					builder.setTitle(getString(R.string.dialog_location_name))
+							.setPositiveButton(android.R.string.ok,
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog, int which) {
+											long minuteoff;
+											String mins = diveoff.getText().toString();
+											if(mins.contentEquals(""))
+												minuteoff = 0;
+											else
+												minuteoff = Integer.valueOf(mins);
+											// Dateutils.getFakeUtcDate returns timestamp in milliseconds. To include offset multiply by 60000
+											sendMapDiveLog(divename.getText().toString(), loc, DateUtils.getFakeUtcDate() - minuteoff * 60000);
+										}
+									}).create().show();
+				} else {
+					showGpsWarning();
+				}
+				return;
+			case pick_gpxfile_reqcode:
+				List<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get("gpxdivelog");
+				sendDives(gpxdivelogs);
+				return;
 			}
-		} else {
-			Toast.makeText(this, "No location detected", Toast.LENGTH_SHORT).show();
+		} else { // either some error has occurred or no data has been received
+			Toast.makeText(this, R.string.error_no_dive_found, Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -485,8 +487,8 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			return true;
 		case R.id.menu_new_map:
 			//Pick a location from map
-			Intent picklocation = new Intent(this, PickLocation.class);
-			startActivityForResult(picklocation, pickreq_code);
+			Intent picklocation = new Intent(this, PickLocationMap.class);
+			startActivityForResult(picklocation, pick_map_reqcode);
 			return true;
 		case R.id.menu_new_current:
 			// Locate has been clicked
@@ -508,6 +510,11 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			} else {
 				showGpsWarning();
 			}
+			return true;
+		case R.id.menu_new_import:
+			// Pick a GPX file from sd card
+			Intent pickGpx = new Intent(this, PickGpx.class);
+			startActivityForResult(pickGpx, pick_gpxfile_reqcode);
 			return true;
 		case R.id.menu_send_all:
 			// Send has been clicked
@@ -633,7 +640,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			break;
 		}
 		actionMode.finish();
-		return true;			
+		return true;
 	}
 
 	@Override
