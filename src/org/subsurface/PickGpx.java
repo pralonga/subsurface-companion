@@ -23,12 +23,18 @@ import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
-
+/**
+ * Activity for choosing Gpx file present in the SD Card
+ * @author Venkatesh Shukla
+ */
 public class PickGpx extends SherlockListActivity implements OnItemClickListener
 {
-	ArrayList<GpxFileInfo> allgpxfiles;
-	File sd_card;
-	GpxListAdapter gla;
+	private ArrayList<GpxFileInfo> allgpxfiles;
+	private File sd_card;
+	private GpxListAdapter gla;
+	private static final int pick_gpxlocation_reqcode = 997;
+	private static final String GPX_DIVE_LOG = "gpxdivelog";
+	private static final String GPX_FILE_PATH = "gpxfilepath";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,9 @@ public class PickGpx extends SherlockListActivity implements OnItemClickListener
 		listview.setOnItemClickListener(this);
 	}
 
+	/**
+	 * Find all gpx files present in the sd card and make a ListAdapter from them
+	 */
 	private void createAdapter() {
 		String sd_state = Environment.getExternalStorageState();
 		if(sd_state.contentEquals(Environment.MEDIA_MOUNTED) || sd_state.contentEquals(Environment.MEDIA_MOUNTED_READ_ONLY)) {
@@ -59,7 +68,11 @@ public class PickGpx extends SherlockListActivity implements OnItemClickListener
 		}
 	}
 
-	//Recursively get all the GPX files in the SD card
+	/**
+	 * Recursively get all the GPX files in the SD card
+	 * @param file Gpx file to be parsed
+	 * @return ArrayList containing all GpxFileInfo
+	 */
 	private ArrayList<GpxFileInfo> getGpxInDir(File file) {
 		ArrayList<GpxFileInfo> gpxfiles = new ArrayList<GpxFileInfo>();
 		File[] filelist =  file.listFiles();
@@ -83,6 +96,9 @@ public class PickGpx extends SherlockListActivity implements OnItemClickListener
 		return gpxfiles;
 	}
 
+	/**
+	 * Asynchronous task of getting all Gpx files in the SD card and updating the ListAdapter 
+	 */
 	private class GetAllGpx extends AsyncTask<File, Void, Void> {
 
 		@Override
@@ -112,24 +128,23 @@ public class PickGpx extends SherlockListActivity implements OnItemClickListener
 		}
 	}
 
-	private static final int pick_gpxlocation_reqcode = 997;
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		Intent parseGpxIntent = new Intent(this,PickLocationGpx.class);
-		parseGpxIntent.putExtra("gpx_filepath", allgpxfiles.get(position).getPath());
+		parseGpxIntent.putExtra(GPX_FILE_PATH, allgpxfiles.get(position).getPath());
 		startActivityForResult(parseGpxIntent, pick_gpxlocation_reqcode);
 	}
-
+	
+	@Override
 	public void onActivityResult(int requestcode, int resultCode, Intent data) {
 		if(resultCode == RESULT_OK && data != null) {
 			Bundle rec_bundle = data.getExtras();
 			switch(requestcode) {
 			case pick_gpxlocation_reqcode:
-				@SuppressWarnings("unchecked")
-				ArrayList<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get("gpxdivelog");
+				ArrayList<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get(GPX_DIVE_LOG);
 				Intent resultIntent = new Intent();
 				Bundle diveBundle = new Bundle();
-				diveBundle.putParcelableArrayList("gpxdivelog", gpxdivelogs);
+				diveBundle.putParcelableArrayList(GPX_DIVE_LOG, gpxdivelogs);
 				resultIntent.putExtras(diveBundle);
 				setResult(Activity.RESULT_OK, resultIntent);
 				finish();
@@ -139,6 +154,7 @@ public class PickGpx extends SherlockListActivity implements OnItemClickListener
 			Toast.makeText(this, R.string.error_no_dive_found, Toast.LENGTH_SHORT).show();
 		}
 	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {

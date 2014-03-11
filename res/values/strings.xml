@@ -43,7 +43,9 @@
     <string name="menu_new_map">Use map</string>
     <string name="menu_new_gpx">Import local GPX file</string>
     <string name="menu_accept">Accept</string>
-
+    <string name="menu_select_all">Accept</string>
+    <string name="menu_unselect_all">Accept</string>
+        
     <string name="notification_background_service_on">Background location service active</string>
 
     <string name="confirm_disconnect">Do you really want to disconnect ?</string>
@@ -132,8 +134,6 @@
     <string name="settings_other_website_summary">Open project website</string>
     <string name="settings_other_version">Version</string>
     <string name="settings_other_version_summary">Current version: %s</string>
-    
-    <string name="instruction_pickloc">Select the dive point</string>
 
     <string name="gpx_dummy_name">Name of GPX file</string>
     <string name="gpx_dummy_path">Path to GPX file : qwertyuiopasdfghjklzxcvbnm</string>
@@ -142,6 +142,6 @@
 
     <string name="title_picklocationgpx">Select Locations</string>
     <string name="title_pickgpx">Select GPX file</string>
-    <string name="title_picklocationmap">Select Location</string>
+    <string name="title_picklocationmap">Click to select</string>
     <string name="title_map_marker">Dive Spot</string>
 </resources>

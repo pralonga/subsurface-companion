@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
+/**
+ * Custom list adapter for list of Gpx files in the SD card
+ * @author Venkatesh Shukla
+ */
 public class GpxListAdapter extends BaseAdapter
 {
 	private final ArrayList<GpxFileInfo> gpxfiles;

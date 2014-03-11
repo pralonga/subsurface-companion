@@ -52,15 +52,20 @@ import com.google.android.gms.maps.model.LatLng;
 public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback, SelectionListener, OnNavigationListener {
 
 	private static final String TAG = "HomeActivity";
+	private static final int pick_map_reqcode = 999;
+	private static final int pick_gpxfile_reqcode = 998;
+	private static final String LOCATION = "location";
+	private static final String GPX_DIVE_LOGS  = "gpxdivelogs";
+
 
 	private IBinder service = null;
 	private final ServiceConnection connection = new ServiceConnection() {
-		
+
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			service = null;
 		}
-		
+
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service) {
 			HomeActivity.this.service = service;
@@ -108,13 +113,13 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	private boolean isBackgroundLocationServiceStarted() {
 		boolean started = false;
 		ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
-	    for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-	        if (BackgroundLocationService.class.getName().equals(service.service.getClassName())) {
-	            started = true;
-	            break;
-	        }
-	    }
-	    return started;
+		for (RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+			if (BackgroundLocationService.class.getName().equals(service.service.getClassName())) {
+				started = true;
+				break;
+			}
+		}
+		return started;
 	}
 
 	private void refresh() {
@@ -163,15 +168,15 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			Toast.makeText(HomeActivity.this, R.string.error_no_settings, Toast.LENGTH_SHORT).show();
 		} else { // Send locations
 			final Handler handler = new Handler() {
-    			@Override
-    			public void handleMessage(Message msg) {
-    				int total = msg.arg1;
-    				dialog.setProgress(total);
-    				if (total >= dives.size()) { // OK, close dialog
-    					dialog.dismiss();
-    				}
-    			}
-    		};
+				@Override
+				public void handleMessage(Message msg) {
+					int total = msg.arg1;
+					dialog.setProgress(total);
+					if (total >= dives.size()) {// OK, close dialog
+						dialog.dismiss();
+					}
+				}
+			};
 			new Thread(new Runnable() {
 				public void run() {
 					int success = 0;
@@ -207,7 +212,12 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		}
 	}
 
-	//Send location picked from map to the server and update the list
+	/**
+	 * Send location picked from map to the server and update the list
+	 * @param name Name of the dive
+	 * @param latlng Latlng of the dive
+	 * @param timestamp timestamp of the dive
+	 */
 	public void sendMapDiveLog(String name, LatLng latlng, long timestamp) {
 		if(name.contentEquals(""))
 		{
@@ -267,7 +277,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					}
 				});
 		this.locationListener = new LocationListener() {
-			
+
 			@Override
 			public void onStatusChanged(String provider, int status, Bundle extras) {
 				if (!cancel.get()) {
@@ -289,7 +299,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					Toast.makeText(HomeActivity.this, R.string.error_location, Toast.LENGTH_SHORT).show();
 				}
 			}
-			
+
 			@Override
 			public void onLocationChanged(final Location location) {
 				if (!cancel.get()) {
@@ -334,9 +344,9 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        UserController.instance.setContext(this);
-        try {
+		super.onCreate(savedInstanceState);
+		UserController.instance.setContext(this);
+		try {
 			DiveController.instance.setContext(this);
 		} catch (Exception e) {
 			new AlertDialog.Builder(this)
@@ -345,18 +355,17 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					.setPositiveButton(android.R.string.ok,
 							new DialogInterface.OnClickListener() {
 								@Override
-								public void onClick(DialogInterface dialog,
-										int which) {
+								public void onClick(DialogInterface dialog, int which) {
 									finish();
 								}
 							}).setCancelable(false).show();
 		}
 
-        ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(
+		ArrayAdapter<CharSequence> listAdapter = ArrayAdapter.createFromResource(
 				this, R.array.list_menu_choices,
 				R.layout.spinner_item);
-		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		getSupportActionBar().setTitle(null);
+		listAdapter.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
 		getSupportActionBar().setListNavigationCallbacks(listAdapter, this);
 		getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		// Retrieve location service
@@ -412,7 +421,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	}
 
 	@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) {
 		getSupportMenuInflater().inflate(R.menu.dives, menu);
 		refreshItem = menu.findItem(R.id.menu_refresh);
 		if (isBackgroundLocationServiceStarted()) {
@@ -420,8 +429,8 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		} else {
 			menu.findItem(R.id.menu_start_background_service).setTitle(getString(R.string.menu_start_background_service));
 		}
-        return true;
-    }
+		return true;
+	}
 
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -430,15 +439,13 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		startActivity(detailIntent);
 	}
 
-	private static final int pick_map_reqcode = 999;
-	private static final int pick_gpxfile_reqcode = 998;
-	//Receive result from map activity for map picker event
+	@Override
 	public void onActivityResult(int requestcode, int resultCode, Intent data) {
 		if(resultCode == RESULT_OK && data != null) {
 			Bundle rec_bundle = data.getExtras();
 			switch(requestcode) {
 			case pick_map_reqcode:
-				final LatLng loc = (LatLng) rec_bundle.get("location");
+				final LatLng loc = (LatLng) rec_bundle.get(LOCATION);
 				if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 					AlertDialog.Builder builder = new AlertDialog.Builder(this);
 					LinearLayout linlay = new LinearLayout(this);
@@ -473,7 +480,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 				}
 				return;
 			case pick_gpxfile_reqcode:
-				List<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get("gpxdivelog");
+				List<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get(GPX_DIVE_LOGS);
 				sendDives(gpxdivelogs);
 				return;
 			}
@@ -610,9 +617,9 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					.setMessage(R.string.confirm_delete_dives)
 					.setNegativeButton(android.R.string.cancel, null)
 					.setCancelable(true)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					.setPositiveButton(android.R.string.ok,	new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int which) {
+						public void onClick(DialogInterface dialog,	int which) {
 							new Thread(new Runnable() {
 								public void run() {
 									int messageCode = R.string.error_delete_dives;
@@ -627,14 +634,14 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 										Log.d(TAG, "Could not delete dives", e);
 									}
 									final String message = messageCode == -1 ? null : getString(messageCode);
-									runOnUiThread(new Runnable() {
-										public void run() {
-											((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-											if (message != null) {
-												Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+										runOnUiThread(new Runnable() {
+											public void run() {
+												((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
+												if (message != null) {
+													Toast.makeText(HomeActivity.this, message, Toast.LENGTH_SHORT).show();
+												}
 											}
-										}
-									});
+										});
 								}
 							}).start();
 						}

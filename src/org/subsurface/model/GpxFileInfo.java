@@ -2,21 +2,24 @@ package org.subsurface.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-
+/**
+ * Model for information on Gpx present in the SD card
+ * @author Venkatesh Shukla
+ */
 public class GpxFileInfo
 {
 	private String name;
 	private String path;
 	private String date;
 	private String directory;
-	private final SimpleDateFormat sdf;
-
+	private static final String DATEFORMAT = "MM/dd/yy HH:mm:ss";
+	
 	public GpxFileInfo(String name, String path, long timestamp, String directory)
 	{
 		super();
 		this.name = name;
 		this.path = path;
-		sdf = new SimpleDateFormat("MM/dd/yy HH:mm:ss", Locale.getDefault());
+		SimpleDateFormat sdf = new SimpleDateFormat(DATEFORMAT, Locale.getDefault());
 		this.date = sdf.format(timestamp);
 		this.directory = directory;
 
@@ -30,7 +33,6 @@ public class GpxFileInfo
 	public void setName(String name)
 	{
 		this.name = name;
-		return;
 	}
 
 	public String getPath()
@@ -41,7 +43,6 @@ public class GpxFileInfo
 	public void setPath(String path)
 	{
 		this.path = path;
-		return;
 	}
 
 	public String getDate()
@@ -51,8 +52,8 @@ public class GpxFileInfo
 
 	public void setDate(long timestamp)
 	{
+		SimpleDateFormat sdf = new SimpleDateFormat(DATEFORMAT, Locale.getDefault());
 		this.date = sdf.format(timestamp);
-		return;
 	}
 
 
@@ -64,7 +65,6 @@ public class GpxFileInfo
 	public void setDirectory(String directory)
 	{
 		this.directory = directory;
-		return;
 	}
 }
 

@@ -10,22 +10,4 @@
         android:padding="3dp"
         class="com.google.android.gms.maps.SupportMapFragment" />
 
-    <LinearLayout
- 	  	android:id="@+id/linearLayout1"
-    	android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:background="#000"
-    	android:orientation="vertical" >
-
-        <TextView
-        	android:id="@+id/locinfo"
-	        android:layout_width="match_parent"
-    	    android:layout_height="wrap_content"
-    	    android:padding="1dp"
-    	    android:textColor="#eee"
-    	    android:textSize="20sp"
-    	    android:gravity="center"
-        	android:text="@string/instruction_pickloc" 
-        	/>
-    </LinearLayout>
 </RelativeLayout>
