@@ -33,7 +33,7 @@ public class PickGpx extends SherlockListActivity implements OnItemClickListener
 	private File sd_card;
 	private GpxListAdapter gla;
 	private static final int pick_gpxlocation_reqcode = 997;
-	private static final String GPX_DIVE_LOG = "gpxdivelog";
+	private static final String GPX_DIVE_LOGS = "gpxdivelogs";
 	private static final String GPX_FILE_PATH = "gpxfilepath";
 
 	@Override
@@ -141,10 +141,10 @@ public class PickGpx extends SherlockListActivity implements OnItemClickListener
 			Bundle rec_bundle = data.getExtras();
 			switch(requestcode) {
 			case pick_gpxlocation_reqcode:
-				ArrayList<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get(GPX_DIVE_LOG);
+				ArrayList<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get(GPX_DIVE_LOGS);
 				Intent resultIntent = new Intent();
 				Bundle diveBundle = new Bundle();
-				diveBundle.putParcelableArrayList(GPX_DIVE_LOG, gpxdivelogs);
+				diveBundle.putParcelableArrayList(GPX_DIVE_LOGS, gpxdivelogs);
 				resultIntent.putExtras(diveBundle);
 				setResult(Activity.RESULT_OK, resultIntent);
 				finish();

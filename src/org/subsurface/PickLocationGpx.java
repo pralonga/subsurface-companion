@@ -38,7 +38,7 @@ public class PickLocationGpx extends SherlockListActivity implements OnItemClick
 	private ListView listview;
 	private ArrayList<DiveLocationLog> allgpxlogs;
 	private Intent resultIntent;
-	private static final String GPX_DIVE_LOG = "gpxdivelog";
+	private static final String GPX_DIVE_LOGS = "gpxdivelogs";
 	private static final String GPX_FILE_PATH = "gpxfilepath";
 	private static final String TAG = "PickLocationGpx";
 	
@@ -79,7 +79,7 @@ public class PickLocationGpx extends SherlockListActivity implements OnItemClick
 			return true;
 		case R.id.gpxmenu_send:
 			Bundle diveBundle = new Bundle();
-			diveBundle.putParcelableArrayList(GPX_DIVE_LOG, gpxDla.getSelectedDives());
+			diveBundle.putParcelableArrayList(GPX_DIVE_LOGS, gpxDla.getSelectedDives());
 			resultIntent.putExtras(diveBundle);
 			setResult(Activity.RESULT_OK, resultIntent);
 			finish();
