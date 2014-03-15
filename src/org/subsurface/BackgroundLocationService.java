@@ -1,7 +1,6 @@
 package org.subsurface;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Timer;
 
 import org.subsurface.dao.DatabaseHelper;

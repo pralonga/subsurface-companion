@@ -5,6 +5,7 @@
     <string name="default_duration">30</string>
     <string name="default_distance">10</string>
     <string name="default_dive_name">Auto-created dive</string>
+    <string name="default_map_dive_name">Map Picked dive</string>
 
     <string name="home_action_mode_title">%s selected</string>
     <string name="home_no_account">You have not yet configured your Subsurface account</string>

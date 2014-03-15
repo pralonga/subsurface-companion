@@ -37,7 +37,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -47,17 +46,14 @@ import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.gms.maps.model.LatLng;
 
 public class HomeActivity extends SherlockListActivity implements com.actionbarsherlock.view.ActionMode.Callback, SelectionListener, OnNavigationListener {
 
 	private static final String TAG = "HomeActivity";
 	private static final int pick_map_reqcode = 999;
 	private static final int pick_gpxfile_reqcode = 998;
-	private static final String LOCATION = "location";
 	private static final String GPX_DIVE_LOGS  = "gpxdivelogs";
-
-
+	private static final String MAP_DIVE_LOG  = "mapdivelog";
 	private IBinder service = null;
 	private final ServiceConnection connection = new ServiceConnection() {
 
@@ -214,25 +210,13 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 
 	/**
 	 * Send location picked from map to the server and update the list
-	 * @param name Name of the dive
-	 * @param latlng Latlng of the dive
-	 * @param timestamp timestamp of the dive
+	 * @param divelog DiveLocationLog of the dive
 	 */
-	public void sendMapDiveLog(String name, LatLng latlng, long timestamp) {
-		if(name.contentEquals(""))
-		{
-			name = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("background_service_name",
-					getResources().getString(R.string.default_dive_name));
-		}
-		DiveLocationLog locationlog = new DiveLocationLog();
-		locationlog.setName(name);
-		locationlog.setLatitude(latlng.latitude);
-		locationlog.setLongitude(latlng.longitude);
-		locationlog.setTimestamp(timestamp);
+	public void sendMapDiveLog(DiveLocationLog divelog) {
 		if (UserController.instance.autoSend()) {
 			try {
-				DiveController.instance.sendDiveLog(locationlog);
-				Toast.makeText(HomeActivity.this, getString(R.string.confirmation_dive_picked_sent, name), Toast.LENGTH_SHORT).show();
+				DiveController.instance.sendDiveLog(divelog);
+				Toast.makeText(HomeActivity.this, getString(R.string.confirmation_dive_picked_sent, divelog.getName()), Toast.LENGTH_SHORT).show();
 			} catch (final WsException e) {
 				runOnUiThread(new Runnable() {
 					public void run() {
@@ -240,7 +224,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 					}
 				});
 			} catch (Exception e) {
-				Log.d(TAG, "Could not send dive " + locationlog.getName(), e);
+				Log.d(TAG, "Could not send dive " + divelog.getName(), e);
 				runOnUiThread(new Runnable() {
 					public void run() {
 						Toast.makeText(HomeActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
@@ -248,8 +232,8 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 				});
 			}
 		} else {
-			DiveController.instance.updateDiveLog(locationlog);
-			Toast.makeText(HomeActivity.this, getString(R.string.confirmation_location_picked, name), Toast.LENGTH_SHORT).show();
+			DiveController.instance.updateDiveLog(divelog);
+			Toast.makeText(HomeActivity.this, getString(R.string.confirmation_location_picked, divelog.getName()), Toast.LENGTH_SHORT).show();
 		}
 		runOnUiThread(new Runnable() {
 			public void run() {
@@ -259,6 +243,8 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 	}
 
 	private void sendDiveLog(String name) {
+		if(name.contentEquals("")) name = PreferenceManager.getDefaultSharedPreferences(this)
+				.getString("background_service_name", getString(R.string.default_dive_name));
 		final DiveLocationLog locationLog = new DiveLocationLog();
 		locationLog.setName(name);
 		final AtomicBoolean cancel = new AtomicBoolean(false);
@@ -445,39 +431,8 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 			Bundle rec_bundle = data.getExtras();
 			switch(requestcode) {
 			case pick_map_reqcode:
-				final LatLng loc = (LatLng) rec_bundle.get(LOCATION);
-				if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(this);
-					LinearLayout linlay = new LinearLayout(this);
-					linlay.setOrientation(LinearLayout.VERTICAL);
-					final EditText divename = new EditText(this);
-					divename.setHint(R.string.hint_dive_name);
-					divename.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE);
-					final EditText diveoff = new EditText(this);
-					diveoff.setHint(R.string.hint_dive_offset);
-					diveoff.setInputType(InputType.TYPE_CLASS_NUMBER);
-					linlay.addView(divename);
-					linlay.addView(diveoff);
-					builder.setView(linlay);
-					builder.setNegativeButton(android.R.string.cancel, null);
-					builder.setTitle(getString(R.string.dialog_location_name))
-							.setPositiveButton(android.R.string.ok,
-									new DialogInterface.OnClickListener() {
-										@Override
-										public void onClick(DialogInterface dialog, int which) {
-											long minuteoff;
-											String mins = diveoff.getText().toString();
-											if(mins.contentEquals(""))
-												minuteoff = 0;
-											else
-												minuteoff = Integer.valueOf(mins);
-											// Dateutils.getFakeUtcDate returns timestamp in milliseconds. To include offset multiply by 60000
-											sendMapDiveLog(divename.getText().toString(), loc, DateUtils.getFakeUtcDate() - minuteoff * 60000);
-										}
-									}).create().show();
-				} else {
-					showGpsWarning();
-				}
+				DiveLocationLog mapdivelog = (DiveLocationLog) rec_bundle.get(MAP_DIVE_LOG);
+				sendMapDiveLog(mapdivelog);
 				return;
 			case pick_gpxfile_reqcode:
 				List<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get(GPX_DIVE_LOGS);
