@@ -11,6 +11,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.NavUtils;
@@ -23,9 +24,16 @@ import android.widget.TimePicker;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationButtonClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -34,18 +42,26 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * Activity to choose the dive location on the map
  * @author Venkatesh Shukla
  */
-public class PickLocationMap extends SherlockFragmentActivity implements OnMapLongClickListener, OnMarkerClickListener {
+public class PickLocationMap extends SherlockFragmentActivity
+	implements OnMapLongClickListener, OnMarkerClickListener,
+	ConnectionCallbacks, OnConnectionFailedListener, OnMyLocationButtonClickListener, LocationListener{
+
 	private GoogleMap mMap;
+	private LocationClient mLocationClient;
 	private static LatLng latlng;
 	private static final String MAP_DIVE_LOG  = "mapdivelog";
 	private MarkerOptions markeropt;
+	private static final LocationRequest REQUEST = LocationRequest.create()
+			.setInterval(5000)
+			.setFastestInterval(16)
+		        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(R.string.title_picklocationmap);
 		setContentView(R.layout.dive_picklocation);
-		setUpMapIfNeeded();
 		markeropt = new MarkerOptions()
 			.title(getString(R.string.title_map_marker))
 			.draggable(true);
@@ -93,17 +109,35 @@ public class PickLocationMap extends SherlockFragmentActivity implements OnMapLo
 	@Override
 	protected void onResume() {
 		super.onResume();
-		setUpMapIfNeeded();
+		setUpMap();
+		setUpLocationClient();
+		mLocationClient.connect();
 	}
 
-	private void setUpMapIfNeeded() {
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (mLocationClient != null) {
+			mLocationClient.disconnect();
+		}
+	}
+
+	private void setUpMap() {
 		if (mMap == null) {
 			mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
 			if (mMap != null) {
 				mMap.setOnMapLongClickListener(this);
+				mMap.setOnMyLocationButtonClickListener(this);
+				mMap.setMyLocationEnabled(true);
 			}
 		}
 	}
+
+	private void setUpLocationClient() {
+        if (mLocationClient == null) {
+            mLocationClient = new LocationClient( getApplicationContext(), this, this);
+        }
+    }
 
 	@Override
 	public void onMapLongClick(LatLng loc) {
@@ -119,7 +153,26 @@ public class PickLocationMap extends SherlockFragmentActivity implements OnMapLo
 		return false;
 	}
 
-	public static class MyAlertDialogFragment extends DialogFragment {
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        mLocationClient.requestLocationUpdates( REQUEST, this);
+    }
+
+    @Override
+	public void onDisconnected() {}
+
+   @Override
+	public void onConnectionFailed(ConnectionResult arg0) {}
+
+    @Override
+	public void onLocationChanged(Location arg0) {}
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+        return false;
+    }
+
+    public static class MyAlertDialogFragment extends DialogFragment {
 		private EditText etDiveName;
 		private DatePicker datePickerMap;
 		private TimePicker timePickerMap;
