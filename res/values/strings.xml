@@ -81,7 +81,7 @@
     <string name="error_delete_dive">Could not delete dive</string>
 
     <string name="error_sd_unavailable">SD Card Error</string>
-    <string name="error_no_dive_found">No dive info recieved</string>
+    <string name="error_no_dive_found">No dive info received</string>
     <string name="error_gpx_no_file_found">No GPX file found in the SD card</string>
     <string name="error_gpx_no_dive_found">No Divepoints found in the GPX file</string>
 
@@ -144,5 +144,5 @@
     <string name="title_picklocationgpx">Select Locations</string>
     <string name="title_pickgpx">Select GPX file</string>
     <string name="title_picklocationmap">Click to select</string>
-    <string name="title_map_marker">Dive Spot</string>
+    <string name="title_map_marker">Dive informations</string>
 </resources>

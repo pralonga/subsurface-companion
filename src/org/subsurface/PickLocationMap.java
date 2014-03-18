@@ -38,6 +38,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 /**
  * Activity to choose the dive location on the map
  * @author Venkatesh Shukla
@@ -46,15 +47,16 @@ public class PickLocationMap extends SherlockFragmentActivity
 	implements OnMapLongClickListener, OnMarkerClickListener,
 	ConnectionCallbacks, OnConnectionFailedListener, OnMyLocationButtonClickListener, LocationListener{
 
-	private GoogleMap mMap;
-	private LocationClient mLocationClient;
-	private static LatLng latlng;
 	private static final String MAP_DIVE_LOG  = "mapdivelog";
-	private MarkerOptions markeropt;
 	private static final LocationRequest REQUEST = LocationRequest.create()
 			.setInterval(5000)
 			.setFastestInterval(16)
-		        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+			.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+	private GoogleMap mMap;
+	private LocationClient mLocationClient;
+	private LatLng latlng;
+	private MarkerOptions markeropt;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +157,7 @@ public class PickLocationMap extends SherlockFragmentActivity
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        mLocationClient.requestLocationUpdates( REQUEST, this);
+        mLocationClient.requestLocationUpdates(REQUEST, this);
     }
 
     @Override
@@ -173,43 +175,35 @@ public class PickLocationMap extends SherlockFragmentActivity
     }
 
     public static class MyAlertDialogFragment extends DialogFragment {
-		private EditText etDiveName;
-		private DatePicker datePickerMap;
-		private TimePicker timePickerMap;
-		private View dialogView;
-		private int hour, minute, day, month, year;
-		private String divename;
-		private long timestamp;
+		
 	    @Override
 	    public Dialog onCreateDialog(Bundle savedInstanceState) {
-		dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.datetimedialog, null);
-		etDiveName = (EditText) dialogView.findViewById(R.id.etMapDiveName);
-		datePickerMap = (DatePicker) dialogView.findViewById(R.id.datePickerMap);
-		timePickerMap = (TimePicker) dialogView.findViewById(R.id.timePickerMap);
+	    	final View dialogView = LayoutInflater.from(getActivity()).inflate(R.layout.datetimedialog, null);
+			final EditText etDiveName = (EditText) dialogView.findViewById(R.id.etMapDiveName);
+			final DatePicker datePickerMap = (DatePicker) dialogView.findViewById(R.id.datePickerMap);
+			final TimePicker timePickerMap = (TimePicker) dialogView.findViewById(R.id.timePickerMap);
 
-	        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-	        builder.setIcon(R.drawable.ic_menu_map);
-	        builder.setTitle(R.string.title_map_marker);
-	        builder.setView(dialogView);
-	        builder.setNegativeButton(android.R.string.cancel, null);
-	        builder.setPositiveButton(android.R.string.ok,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-				divename = etDiveName.getText().toString();
-				if(divename.contentEquals("")) divename = getString(R.string.default_map_dive_name);
-				minute = timePickerMap.getCurrentMinute();
-				hour = timePickerMap.getCurrentHour();
-				year = datePickerMap.getYear();
-				month = datePickerMap.getMonth();
-				day = datePickerMap.getDayOfMonth();
-				Calendar cal = new GregorianCalendar(year, month, day, hour, minute);
-				cal.setTimeZone(TimeZone.getTimeZone("GMT"));
-				timestamp = cal.getTime().getTime();
-				((PickLocationMap) getActivity()).doPositiveClick(timestamp, divename);
-                        }
-                    }
-                );
-            return builder.create();
+			return new AlertDialog.Builder(getActivity())
+					.setTitle(R.string.title_map_marker)
+					.setView(dialogView)
+					.setNegativeButton(android.R.string.cancel, null)
+					.setPositiveButton(android.R.string.ok,
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog, int whichButton) {
+									String divename = etDiveName.getText().toString();
+									if (divename.isEmpty()) {
+										divename = getString(R.string.default_map_dive_name);
+									}
+									int minute = timePickerMap.getCurrentMinute();
+									int hour = timePickerMap.getCurrentHour();
+									int year = datePickerMap.getYear();
+									int month = datePickerMap.getMonth();
+									int day = datePickerMap.getDayOfMonth();
+									Calendar cal = new GregorianCalendar(year, month, day, hour, minute);
+									cal.setTimeZone(TimeZone.getTimeZone("GMT"));
+									((PickLocationMap) getActivity()).doPositiveClick(cal.getTime().getTime(), divename);
+								}
+					}).create();
 	    }
 	}
 }
