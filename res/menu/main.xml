@@ -15,7 +15,19 @@
         android:id="@+id/menu_new"
         android:icon="@drawable/ic_menu_new"
         android:showAsAction="always"
-        android:title="@string/menu_new"/>
+        android:title="@string/menu_new">
+        <menu>
+            <item
+                android:id="@+id/menu_new_current"
+                android:title="@string/menu_new_current"/>
+            <item
+                android:id="@+id/menu_new_map"
+                android:title="@string/menu_new_map"/>
+            <item
+                android:id="@+id/menu_new_import"
+                android:title="@string/menu_new_gpx"/>
+        </menu>
+    </item>
     <item
         android:id="@+id/menu_start_background_service"
         android:icon="@android:drawable/ic_menu_mylocation"

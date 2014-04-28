@@ -21,6 +21,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import android.location.Location;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Model for GPS location.
@@ -28,7 +30,7 @@ import android.location.Location;
  *
  */
 @DatabaseTable(tableName = "dives")
-public class DiveLocationLog {
+public class DiveLocationLog implements Parcelable {
 
 	public static final String KEY_ID = "_id";
 	public static final String KEY_LATITUDE = "latitude";
@@ -155,4 +157,37 @@ public class DiveLocationLog {
 				.append(longitude).append('/')
 				.append(sent).toString();
 	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel out, int flags) {
+		out.writeDouble(this.latitude);
+		out.writeDouble(this.longitude);
+		out.writeString(this.name);
+		out.writeLong(timestamp);
+	}
+
+	public static final Parcelable.Creator<DiveLocationLog> CREATOR = new Parcelable.Creator<DiveLocationLog>() {
+		public DiveLocationLog createFromParcel(Parcel in) {
+			return new DiveLocationLog(in);
+		}
+
+		public DiveLocationLog[] newArray(int size) {
+			return new DiveLocationLog[size];
+		}
+	};
+
+	private DiveLocationLog(Parcel in) {
+		this.latitude = in.readDouble();
+		this.longitude = in.readDouble();
+		this.name = in.readString();
+		this.timestamp = in.readLong();
+		this.sent = false;
+	}
+
 }

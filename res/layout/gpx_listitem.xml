@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/tvGpxName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerVertical="true"
+        android:text="@string/gpx_dummy_name"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/tvGpxDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/tvGpxName"
+        android:padding="2dp"
+        android:text="@string/gpx_dummy_date"
+        android:gravity="center_vertical|right"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/tvGpxDirectory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@id/tvGpxName"
+        android:layout_below="@id/tvGpxDate"
+        android:ellipsize="start"
+        android:padding="2dp"
+        android:singleLine="true"
+        android:text="@string/gpx_dummy_path"
+        android:gravity="center_vertical|right"
+        android:textSize="12sp" />
+
+</RelativeLayout>
+

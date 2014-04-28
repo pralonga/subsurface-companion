@@ -31,9 +31,9 @@
         </activity>
         <activity android:name="SharePicturePositionActivity" android:theme="@style/AppTheme">
             <intent-filter>
-            	<action android:name="android.intent.action.SEND" />
+		<action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
-            	<data android:mimeType="image/jpeg" />
+		<data android:mimeType="image/jpeg" />
             </intent-filter>
         </activity>
         <service android:name="BackgroundLocationService" android:process=":location_service"/>
@@ -43,7 +43,31 @@
         <activity android:name="DiveDetailActivity" android:theme="@style/AppTheme.SubScreen" />
         <activity android:name="Preferences" android:theme="@style/AppTheme" android:label="@string/menu_settings" android:excludeFromRecents="true" />
         <activity android:name="MapActivity" android:theme="@style/AppTheme.SubScreen"></activity>
-        
+	<activity
+            android:name="PickGpx"
+            android:theme="@style/AppTheme.SubScreen"
+            android:parentActivityName="HomeActivity">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="org.subsurface.HomeActivity" />
+        </activity>
+        <activity
+            android:name="PickLocationMap"
+            android:theme="@style/AppTheme.SubScreen"
+            android:parentActivityName="HomeActivity">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="org.subsurface.HomeActivity" />
+        </activity>
+        <activity
+            android:name="PickLocationGpx"
+            android:theme="@style/AppTheme.SubScreen"
+            android:parentActivityName="PickGpx">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="org.subsurface.PickGpx" />
+        </activity>
+
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyAwDyRHLxnFRtECtjCU3etsPyD8y2DEtdo" />
@@ -54,3 +78,4 @@
     </application>
 
 </manifest>
+

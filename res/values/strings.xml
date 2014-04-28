@@ -5,6 +5,7 @@
     <string name="default_duration">30</string>
     <string name="default_distance">10</string>
     <string name="default_dive_name">Auto-created dive</string>
+    <string name="default_map_dive_name">Map Picked dive</string>
 
     <string name="home_action_mode_title">%s selected</string>
     <string name="home_no_account">You have not yet configured your Subsurface account</string>
@@ -39,7 +40,13 @@
     <string name="menu_edit">Edit</string>
     <string name="menu_start_background_service">Start service</string>
     <string name="menu_stop_background_service">Stop service</string>
-
+    <string name="menu_new_current">Current</string>
+    <string name="menu_new_map">Use map</string>
+    <string name="menu_new_gpx">Import local GPX file</string>
+    <string name="menu_accept">Accept</string>
+    <string name="menu_select_all">Accept</string>
+    <string name="menu_unselect_all">Accept</string>
+        
     <string name="notification_background_service_on">Background location service active</string>
 
     <string name="confirm_disconnect">Do you really want to disconnect ?</string>
@@ -51,6 +58,7 @@
     <string name="confirmation_location_picked">Location %s has been added</string>
     <string name="confirmation_location_sent">Location "%s" has been sent</string>
     <string name="confirmation_locations_sent">%1$d/%2$d locations have been sent</string>
+    <string name="confirmation_dive_picked_sent">Dive %s has been added and sent</string>
 
     <string name="error_location">Could not receive location</string>
     <string name="error_send">Could not send location</string>
@@ -71,7 +79,11 @@
     <string name="error_open_image">Could not open image</string>
     <string name="error_delete_dives">Could not delete dives</string>
     <string name="error_delete_dive">Could not delete dive</string>
-    
+
+    <string name="error_sd_unavailable">SD Card Error</string>
+    <string name="error_no_dive_found">No dive info received</string>
+    <string name="error_gpx_no_file_found">No GPX file found in the SD card</string>
+    <string name="error_gpx_no_dive_found">No Divepoints found in the GPX file</string>
 
     <string name="account_link_create">Create a new account</string>
     <string name="account_link_retrieve">Retrieve an account</string>
@@ -94,6 +106,7 @@
     <string name="hint_email">Email address</string>
     <string name="hint_id">ID</string>
     <string name="hint_dive_name">Dive name</string>
+    <string name="hint_dive_offset">Minutes past after dive</string>
 
     <string name="settings_category_ws">Server and account</string>
     <string name="settings_destination_url">Web-service URL</string>
@@ -122,4 +135,14 @@
     <string name="settings_other_website_summary">Open project website</string>
     <string name="settings_other_version">Version</string>
     <string name="settings_other_version_summary">Current version: %s</string>
+
+    <string name="gpx_dummy_name">Name of GPX file</string>
+    <string name="gpx_dummy_path">Path to GPX file : qwertyuiopasdfghjklzxcvbnm</string>
+    <string name="gpx_dummy_date">yyyy-MMM-dd KK:mm:ss a</string>
+    <string name="gpx_dialog_search">Searching for GPX files</string>
+
+    <string name="title_picklocationgpx">Select Locations</string>
+    <string name="title_pickgpx">Select GPX file</string>
+    <string name="title_picklocationmap">Click to select</string>
+    <string name="title_map_marker">Dive informations</string>
 </resources>

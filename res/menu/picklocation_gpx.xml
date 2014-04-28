@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+     <item
+        android:id="@+id/gpxmenu_select_all"
+        android:icon="@drawable/ic_action_select_all"
+        android:showAsAction="always"
+	android:title="@string/menu_select_all"/>
+
+    <item
+        android:id="@+id/gpxmenu_send"
+        android:icon="@drawable/ic_action_accept"
+        android:showAsAction="always"
+        android:title="@string/menu_accept"/>
+
+</menu>
+
