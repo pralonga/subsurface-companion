@@ -20,7 +20,7 @@ public class StartupActivity extends Activity {
 		if (user == null || user.trim().isEmpty()) {
 			startActivity(new Intent(this, AccountLinkActivity.class));
 		} else {
-			startActivity(new Intent(this, HomeActivity.class));
+			startActivity(new Intent(this, DiveListActivity.class));
 		}
 		finish();
 	}

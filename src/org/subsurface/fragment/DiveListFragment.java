@@ -17,7 +17,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,35 +38,7 @@ public class DiveListFragment extends SherlockListFragment implements com.action
 
 	private static final String TAG = "DiveListFragment";
 
-	private MenuItem refreshItem = null;
 	private ActionMode actionMode;
-
-	private void refresh() {
-		if (refreshItem != null) {
-			refreshItem.setActionView(R.layout.refresh);
-			new AsyncTask<Void, Void, Integer>() {
-				@Override
-				protected Integer doInBackground(Void... params) {
-					Integer message = R.string.error_generic;
-					try {
-						DiveController.instance.startUpdate();
-						message = R.string.success_refresh;
-					} catch (WsException e) {
-						message = e.getCode();
-					} catch (Exception e) {
-						Log.d(TAG, "Could not complete update", e);
-					}
-					return message;
-				}
-				@Override
-				protected void onPostExecute(Integer success) {
-					((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-					Toast.makeText(getActivity(), success, Toast.LENGTH_SHORT).show();
-					refreshItem.setActionView(null);
-				}
-			}.execute();
-		}
-	}
 
 	private void sendDives(final List<DiveLocationLog> dives) {
 		// Should be get in a thread, but ProgressDialog does not allow post-show modifications...
@@ -133,35 +104,47 @@ public class DiveListFragment extends SherlockListFragment implements com.action
 	}
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View result = inflater.inflate(R.layout.dive_list, null);
 		DiveArrayAdapter adapter = new DiveArrayAdapter(getActivity());
     	adapter.setListener(this);
     	setListAdapter(adapter);
-    	getListView().setItemsCanFocus(true);
+    	//getListView().setItemsCanFocus(true);
 		return result;
 	}
 
 	@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		inflater.inflate(R.menu.dives, menu);
-		refreshItem = menu.findItem(R.id.menu_refresh);
     }
+
+	@Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+		boolean handled = false;
+
+    	switch (item.getItemId()) {
+		case R.id.menu_send_all:
+			sendDives(DiveController.instance.getPendingLogs());
+			handled = true;
+			break;
+		default:
+			break;
+		}
+
+    	return handled || super.onOptionsItemSelected(item);
+	}
 
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		Intent detailIntent = new Intent(getActivity(), DiveDetailActivity.class);
 		detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_POSITION, position);
 		startActivity(detailIntent);
-	}
-
-	@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-    	if (item.getItemId() == R.id.menu_refresh) {
-    		refresh();
-    		return true;
-    	}
-    	return super.onOptionsItemSelected(item);
 	}
 
 	@Override
