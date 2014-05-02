@@ -2,24 +2,20 @@ package org.subsurface.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.subsurface.DiveDetailActivity;
+import org.subsurface.DiveListActivity;
 import org.subsurface.R;
 import org.subsurface.controller.DiveController;
-import org.subsurface.controller.UserController;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.ui.DiveArrayAdapter;
 import org.subsurface.ui.DiveArrayAdapter.SelectionListener;
 import org.subsurface.ws.WsException;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,74 +30,11 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 
-public class DiveListFragment extends SherlockListFragment implements com.actionbarsherlock.view.ActionMode.Callback, SelectionListener {
+public class DiveListFragment extends SherlockListFragment implements com.actionbarsherlock.view.ActionMode.Callback, SelectionListener, DiveReceiver {
 
 	private static final String TAG = "DiveListFragment";
 
 	private ActionMode actionMode;
-
-	private void sendDives(final List<DiveLocationLog> dives) {
-		// Should be get in a thread, but ProgressDialog does not allow post-show modifications...
-		final ProgressDialog dialog = new ProgressDialog(getActivity());
-		final AtomicBoolean cancel = new AtomicBoolean(false);
-		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-		dialog.setMax(dives.size());
-		dialog.setProgress(0);
-		dialog.setMessage(getString(R.string.dialog_wait_send));
-		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				cancel.set(true);
-			}
-		});
-		dialog.show();
-		if (UserController.instance.getBaseUrl() == null) {
-			Toast.makeText(getActivity(), R.string.error_no_settings, Toast.LENGTH_SHORT).show();
-		} else { // Send locations
-			final Handler handler = new Handler() {
-    			@Override
-    			public void handleMessage(Message msg) {
-    				int total = msg.arg1;
-    				dialog.setProgress(total);
-    				if (total >= dives.size()) { // OK, close dialog
-    					dialog.dismiss();
-    				}
-    			}
-    		};
-			new Thread(new Runnable() {
-				public void run() {
-					int success = 0;
-					for (int i = 0; i < dives.size() && !cancel.get(); ++i) {
-						DiveLocationLog log = dives.get(i);
-						try {
-							DiveController.instance.sendDiveLog(log);
-							++success;
-						} catch (Exception e) {
-							Log.d(TAG, "Could not send dive", e);
-						}
-						// Update progress
-						Message msg = handler.obtainMessage();
-						msg.arg1 = i + 1;
-						handler.sendMessage(msg);
-					}
-
-					// 100 % 
-					Message msg = handler.obtainMessage();
-					msg.arg1 = dives.size();
-					handler.sendMessage(msg);
-
-					final int successCount = success;
-					final int totalCount = dives.size();
-					getActivity().runOnUiThread(new Runnable() {
-						public void run() {
-							((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
-							Toast.makeText(getActivity(), getString(R.string.confirmation_locations_sent, successCount, totalCount), Toast.LENGTH_SHORT).show();
-						}
-					});
-				}
-			}).start();
-		}
-	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -130,7 +63,7 @@ public class DiveListFragment extends SherlockListFragment implements com.action
 
     	switch (item.getItemId()) {
 		case R.id.menu_send_all:
-			sendDives(DiveController.instance.getPendingLogs());
+			((DiveListActivity) getActivity()).sendDives(DiveController.instance.getPendingLogs());
 			handled = true;
 			break;
 		default:
@@ -175,24 +108,26 @@ public class DiveListFragment extends SherlockListFragment implements com.action
 	@Override
 	public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 		final List<DiveLocationLog> dives = ((DiveArrayAdapter) getListAdapter()).getSelectedDives();
-		if (item.getItemId() == R.id.menu_send) {
+		switch (item.getItemId()) {
+		case R.id.menu_send:
 			ArrayList<DiveLocationLog> copy = new ArrayList<DiveLocationLog>();
 			for (DiveLocationLog log : dives) {
 				if (!log.isSent()) {
 					copy.add(log);
 				}
 			}
-			sendDives(copy);
-		} else if (item.getItemId() == R.id.menu_delete) {
+			((DiveListActivity) getActivity()).sendDives(copy);
+			break;
+		case R.id.menu_delete:
 			if (!dives.isEmpty()) {
 				new AlertDialog.Builder(getActivity())
 					.setTitle(R.string.menu_delete)
 					.setMessage(R.string.confirm_delete_dives)
 					.setNegativeButton(android.R.string.cancel, null)
 					.setCancelable(true)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					.setPositiveButton(android.R.string.ok,	new DialogInterface.OnClickListener() {
 						@Override
-						public void onClick(DialogInterface dialog, int which) {
+						public void onClick(DialogInterface dialog,	int which) {
 							new Thread(new Runnable() {
 								public void run() {
 									int messageCode = R.string.error_delete_dives;
@@ -220,6 +155,7 @@ public class DiveListFragment extends SherlockListFragment implements com.action
 						}
 					}).create().show();
 			}
+			break;
 		}
 		actionMode.finish();
 		return true;
@@ -230,5 +166,10 @@ public class DiveListFragment extends SherlockListFragment implements com.action
 		((DiveArrayAdapter) getListAdapter()).unselectAll();
 		((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 		actionMode = null;
+	}
+
+	@Override
+	public void onRefreshDives() {
+		((DiveArrayAdapter) getListAdapter()).notifyDataSetChanged();
 	}
 }

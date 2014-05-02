@@ -1,15 +1,14 @@
 package org.subsurface;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.subsurface.controller.DiveController;
 import org.subsurface.controller.UserController;
 import org.subsurface.fragment.DiveListFragment;
+import org.subsurface.fragment.DiveMapFragment;
+import org.subsurface.fragment.DiveReceiver;
 import org.subsurface.model.DiveLocationLog;
 import org.subsurface.util.DateUtils;
 import org.subsurface.ws.WsException;
@@ -33,7 +32,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -47,17 +45,15 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.ActionMode;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class DiveListActivity extends SherlockFragmentActivity implements OnNavigationListener {
 
 	private static final String TAG = "DiveListActivity";
+
+	private static final int PICK_MAP_REQCODE = 999;
+	private static final int PICK_GPXFILE_REQCODE = 998;
+	private static final String GPX_DIVE_LOGS  = "gpxdivelogs";
+	private static final String MAP_DIVE_LOG  = "mapdivelog";
 
 	private IBinder service = null;
 	private final ServiceConnection connection = new ServiceConnection() {
@@ -86,7 +82,7 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 			switch (msg.what) {
 			default:
 				DiveController.instance.forceUpdate();
-				//TODO Update
+				currentFragment.onRefreshDives();
 				break;
 			}
 		}
@@ -96,14 +92,14 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 	private MenuItem refreshItem = null;
 	private ActionMode actionMode;
 	private LocationListener locationListener = null;
-	private Map<Marker, Integer> allMarkersMap = new HashMap<Marker, Integer>();
 
 	// Search
 	private View dateFilterLayout;
 
 	// Fragments
-	private SupportMapFragment mapsFragment = new SupportMapFragment();
-	private Fragment diveListFragment = new DiveListFragment();
+	private DiveMapFragment mapsFragment = new DiveMapFragment();
+	private DiveListFragment diveListFragment = new DiveListFragment();
+	private DiveReceiver currentFragment = null;
 
 	private void showGpsWarning() {
 		new AlertDialog.Builder(this)
@@ -150,12 +146,109 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 				}
 				@Override
 				protected void onPostExecute(Integer success) {
-					// TODO Update
+					currentFragment.onRefreshDives();
 					Toast.makeText(DiveListActivity.this, success, Toast.LENGTH_SHORT).show();
 					refreshItem.setActionView(null);
 				}
 			}.execute();
 		}
+	}
+
+	public void sendDives(final List<DiveLocationLog> dives) {
+		// Should be get in a thread, but ProgressDialog does not allow post-show modifications...
+		final ProgressDialog dialog = new ProgressDialog(this);
+		final AtomicBoolean cancel = new AtomicBoolean(false);
+		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+		dialog.setMax(dives.size());
+		dialog.setProgress(0);
+		dialog.setMessage(getString(R.string.dialog_wait_send));
+		dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				cancel.set(true);
+			}
+		});
+		dialog.show();
+		if (UserController.instance.getBaseUrl() == null) {
+			Toast.makeText(this, R.string.error_no_settings, Toast.LENGTH_SHORT).show();
+		} else { // Send locations
+			final Handler handler = new Handler() {
+    			@Override
+    			public void handleMessage(Message msg) {
+    				int total = msg.arg1;
+    				dialog.setProgress(total);
+    				if (total >= dives.size()) { // OK, close dialog
+    					dialog.dismiss();
+    				}
+    			}
+    		};
+			new Thread(new Runnable() {
+				public void run() {
+					int success = 0;
+					for (int i = 0; i < dives.size() && !cancel.get(); ++i) {
+						DiveLocationLog log = dives.get(i);
+						try {
+							DiveController.instance.sendDiveLog(log);
+							++success;
+						} catch (Exception e) {
+							Log.d(TAG, "Could not send dive", e);
+						}
+						// Update progress
+						Message msg = handler.obtainMessage();
+						msg.arg1 = i + 1;
+						handler.sendMessage(msg);
+					}
+
+					// 100 % 
+					Message msg = handler.obtainMessage();
+					msg.arg1 = dives.size();
+					handler.sendMessage(msg);
+
+					final int successCount = success;
+					final int totalCount = dives.size();
+					runOnUiThread(new Runnable() {
+						public void run() {
+							currentFragment.onRefreshDives();
+							Toast.makeText(DiveListActivity.this, getString(R.string.confirmation_locations_sent, successCount, totalCount), Toast.LENGTH_SHORT).show();
+						}
+					});
+				}
+			}).start();
+		}
+	}
+
+	/**
+	 * Send location picked from map to the server and update the list
+	 * @param divelog DiveLocationLog of the dive
+	 */
+	public void sendMapDiveLog(DiveLocationLog divelog) {
+		if (UserController.instance.autoSend()) {
+			try {
+				DiveController.instance.sendDiveLog(divelog);
+				Toast.makeText(DiveListActivity.this, getString(R.string.confirmation_dive_picked_sent, divelog.getName()), Toast.LENGTH_SHORT).show();
+			} catch (final WsException e) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(DiveListActivity.this, e.getCode(), Toast.LENGTH_SHORT).show();
+					}
+				});
+			} catch (Exception e) {
+				Log.d(TAG, "Could not send dive " + divelog.getName(), e);
+				runOnUiThread(new Runnable() {
+					public void run() {
+						Toast.makeText(DiveListActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
+					}
+				});
+			}
+		} else {
+			DiveController.instance.updateDiveLog(divelog);
+			Toast.makeText(DiveListActivity.this, getString(R.string.confirmation_location_picked, divelog.getName()), Toast.LENGTH_SHORT).show();
+		}
+		runOnUiThread(new Runnable() {
+			public void run() {
+				currentFragment.onRefreshDives();
+			}
+		});
 	}
 
 	private void sendDiveLog(String name) {
@@ -231,7 +324,7 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 							}
 							runOnUiThread(new Runnable() {
 								public void run() {
-									//TODO Update
+									currentFragment.onRefreshDives();
 								}
 							});
 						}
@@ -316,7 +409,7 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 	@Override
 	public boolean onSearchRequested() {
 		dateFilterLayout.setVisibility(View.VISIBLE);
-		
+		// TODO Handle search via this activity, not a separate activity
 		startActivity(new Intent(this, SearchDiveActivity.class));
 		return true;
 	}
@@ -326,43 +419,33 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 		boolean handled = false;
 		if (itemPosition == 0) {
 			getSupportFragmentManager().beginTransaction().replace(R.id.divePart, diveListFragment).commit();
+			currentFragment = diveListFragment;
 			handled = true;
 		} else if (itemPosition == 1) {
-			//startActivity(new Intent(this, MapActivity.class));
-			//getSupportActionBar().setSelectedNavigationItem(0);
-			int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-	        if (resultCode != ConnectionResult.SUCCESS) {
-	        	GooglePlayServicesUtil.getErrorDialog(resultCode, this, 0).show();
-	        } else {
-    			getSupportFragmentManager().beginTransaction().replace(R.id.divePart, mapsFragment).commit();
-	        	GoogleMap map = mapsFragment.getMap();
-	    		if (map != null) {
-	    			SimpleDateFormat formatter = DateUtils.initGMT(getString(R.string.date_format_full));
-	    			List<DiveLocationLog> dives = DiveController.instance.getDiveLogs();
-	    			for (int i = 0; i < dives.size(); ++i) {
-	    				DiveLocationLog dive = dives.get(i);
-	    				Marker marker = map.addMarker(new MarkerOptions()
-	    						.position(new LatLng(dive.getLatitude(), dive.getLongitude()))
-	    						.title(dive.getName())
-	    						.snippet(formatter.format(new Date(dive.getTimestamp()))));
-	    				allMarkersMap.put(marker, i);
-	    			}
-	    			map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-						@Override
-						public void onInfoWindowClick(Marker marker) {
-							Intent detailIntent = new Intent(DiveListActivity.this, DiveDetailActivity.class);
-							detailIntent.putExtra(DiveDetailActivity.PARAM_DIVE_POSITION, allMarkersMap.get(marker));
-							startActivity(detailIntent);
-						}
-					});
-	    		} else {
-	    			Log.w(TAG, "Could not get GoogleMap object");
-	    		}
-	        }
-			
+			getSupportFragmentManager().beginTransaction().replace(R.id.divePart, mapsFragment).commit();
+			currentFragment = mapsFragment;
 			handled = true;
 		}
 		return handled;
+	}
+
+	@Override
+	public void onActivityResult(int requestcode, int resultCode, Intent data) {
+		if(resultCode == RESULT_OK && data != null) {
+			Bundle rec_bundle = data.getExtras();
+			switch(requestcode) {
+			case PICK_MAP_REQCODE:
+				DiveLocationLog mapdivelog = (DiveLocationLog) rec_bundle.get(MAP_DIVE_LOG);
+				sendMapDiveLog(mapdivelog);
+				return;
+			case PICK_GPXFILE_REQCODE:
+				List<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get(GPX_DIVE_LOGS);
+				sendDives(gpxdivelogs);
+				return;
+			}
+		} else { // either some error has occurred or no data has been received
+			Toast.makeText(this, R.string.error_no_dive_found, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	@Override
@@ -386,7 +469,11 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 			startActivity(new Intent(this, Preferences.class));
 			handled = true;
 			break;
-		case R.id.menu_new:
+		case R.id.menu_new_map:
+			startActivityForResult(new Intent(this, PickLocationMap.class), PICK_MAP_REQCODE);
+			handled = true;
+			break;
+		case R.id.menu_new_current:
 			if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
     			final EditText edit = new EditText(this);
     			AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -404,6 +491,10 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
     		} else {
     			showGpsWarning();
     		}
+			handled = true;
+			break;
+		case R.id.menu_new_import:
+			startActivityForResult(new Intent(this, PickGpx.class), PICK_GPXFILE_REQCODE);
 			handled = true;
 			break;
 		case R.id.menu_logoff:
