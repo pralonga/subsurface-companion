@@ -104,7 +104,7 @@ public class WsClient {
 			nameValuePairs.add(new BasicNameValuePair("dive_longitude", Double.toString(dive.getLongitude())));
 
 			nameValuePairs.add(new BasicNameValuePair("dive_date", DateUtils.initGMT("yyyy-MM-dd").format(logDate)));
-			nameValuePairs.add(new BasicNameValuePair("dive_time", DateUtils.initGMT("HH:mm").format(logDate)));
+			nameValuePairs.add(new BasicNameValuePair("dive_time", DateUtils.initGMT("HH:mm:ss").format(logDate)));
 			nameValuePairs.add(new BasicNameValuePair("dive_name", dive.getName()));
 			request.setEntity(new UrlEncodedFormEntity(nameValuePairs, HTTP.UTF_8));
 			HttpResponse response = new DefaultHttpClient().execute(request);

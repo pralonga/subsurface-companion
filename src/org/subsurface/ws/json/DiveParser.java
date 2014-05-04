@@ -40,7 +40,7 @@ public class DiveParser {
 				dive.setLatitude(jsonDive.getDouble("latitude"));
 				try {
 					long timestamp = DateUtils.initGMT("yyyy-MM-dd").parse(jsonDive.getString("date")).getTime();
-					timestamp += DateUtils.initGMT("HH:mm").parse(jsonDive.getString("time")).getTime();
+					timestamp += DateUtils.initGMT("HH:mm:ss").parse(jsonDive.getString("time")).getTime();
 					dive.setTimestamp(timestamp);
 					dives.add(dive);
 				} catch (ParseException pe) {
