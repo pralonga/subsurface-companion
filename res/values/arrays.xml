@@ -7,8 +7,8 @@
     </string-array>
     
     <string-array name="list_menu_choices">
-        <item >Dives</item>
-        <item >Map</item>
+        <item >@string/menu_dives</item>
+        <item >@string/menu_map</item>
     </string-array>
 	
 </resources>

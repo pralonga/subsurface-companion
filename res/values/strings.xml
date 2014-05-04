@@ -26,6 +26,7 @@
     <string name="dialog_wait_send">Sending locations&#8230;</string>
 
     <string name="menu_new">New dive</string>
+    <string name="menu_dives">Dives</string>
     <string name="menu_map">Map</string>
     <string name="menu_send">Send</string>
     <string name="menu_locate">Locate current position</string>
