@@ -13,6 +13,7 @@ import org.subsurface.util.GpxParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -38,6 +39,8 @@ public class PickLocationGpx extends SherlockListActivity implements OnItemClick
 	private ListView listview;
 	private ArrayList<DiveLocationLog> allgpxlogs;
 	private Intent resultIntent;
+	private Context context;
+
 	private static final String GPX_DIVE_LOGS = "gpxdivelogs";
 	private static final String GPX_FILE_PATH = "gpxfilepath";
 	private static final String TAG = "PickLocationGpx";
@@ -56,6 +59,7 @@ public class PickLocationGpx extends SherlockListActivity implements OnItemClick
 		gdfg.execute(gpx_filepath);
 		listview = getListView();
 		listview.setOnItemClickListener(this);
+		context = this;
 	}
 
 	@Override
@@ -111,7 +115,7 @@ public class PickLocationGpx extends SherlockListActivity implements OnItemClick
 				try
 				{
 					xmlstream = new FileInputStream(path);
-					parser = new GpxParser();
+					parser = new GpxParser(context);
 					allgpxlogs.addAll(parser.parse(xmlstream));
 				}
 				catch (FileNotFoundException e)

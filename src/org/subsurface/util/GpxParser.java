@@ -6,13 +6,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Date;
 
 import org.subsurface.model.DiveLocationLog;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.content.Context;
 import android.location.Location;
 import android.util.Xml;
+
+import org.subsurface.R;
 /**
  * Parser for Gpx files
  * @author Venkatesh Shukla
@@ -22,6 +26,12 @@ public class GpxParser {
 
 	private static final String ns = null;
 	private static final String DATEFORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+
+	private Context context;
+
+	public GpxParser(Context context) {
+		this.context = context;
+	}
 	/**
 	 * Parse the GPX file
 	 * @param in InputStream of the GPX file
@@ -79,10 +89,9 @@ public class GpxParser {
 	 * @throws IOException
 	 * @throws ParseException
 	 */
-	// 
 	private DiveLocationLog readEntry(XmlPullParser parser)	throws XmlPullParserException, IOException, ParseException {
 		parser.require(XmlPullParser.START_TAG, ns, "wpt");
-		String divename = null, divesym = null;
+		String divename = null, divesym = null, divetag=null;
 		Location diveloc = new Location("");
 		long divetimestamp = -1;
 		while (parser.next() != XmlPullParser.END_TAG) {
@@ -100,7 +109,23 @@ public class GpxParser {
 				skip(parser);
 			}
 		}
-		return new DiveLocationLog(diveloc, String.format("%s (%s)", divename, divesym), divetimestamp);
+		if (divename == null) {
+			if (divesym == null) {
+				divetag = context.getString(R.string.default_gpximport_divename);
+			} else {
+				divetag = divesym;
+			}
+		} else {
+			if (divesym == null) {
+				divetag = divename;
+			} else {
+				divetag = String.format("%s (%s)", divename, divesym);
+			}
+		}
+		if (divetimestamp == -1) {
+			divetimestamp = new Date().getTime();
+		}
+		return new DiveLocationLog(diveloc, divetag, divetimestamp);
 	}
 
 	/**
@@ -116,7 +141,7 @@ public class GpxParser {
 		parser.require(XmlPullParser.END_TAG, ns, "name");
 		return title;
 	}
-	
+
 	/**
 	 * Processes sym tags in the feed.
 	 * @param parser The XmlPullParser in its present state
@@ -130,9 +155,9 @@ public class GpxParser {
 		parser.require(XmlPullParser.END_TAG, ns, "sym");
 		return sym;
 	}
-	
+
 	/**
-	 * Extracts latitude and longitude attributr from wpt tag in the feed.
+	 * Extracts latitude and longitude attribute from wpt tag in the feed.
 	 * @param parser The XmlPullParser in its present state
 	 * @return Location of the waypoint extracted from the attributes of wpt tag
 	 * @throws IOException
@@ -184,7 +209,7 @@ public class GpxParser {
 	}
 
 	/**
-	 * Skips the tag names not require
+	 * Skips the tag names not required
 	 * @param parser The XmlPullParser in its present state
 	 * @throws XmlPullParserException
 	 * @throws IOException
