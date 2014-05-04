@@ -1,6 +1,6 @@
-[main]
-host = https://www.transifex.net
-lang_map = aln-AL:aln, ar-SA:ar, ast-ES:ast, as-IN:as, bal-PK:bal, bg-BG:bg, bn-BD:bn, bn-IN:bn_IN, bs-BA:bs, ca-ES:ca, cs-CZ:cs, da-DK:da, de-CH:de_CH, de-DE:de, el-GR:el, en-GB:en_GB, es-ES:es, et-EE:et, eu-ES:eu, fa-IR:fa, fi-FI:fi, fr-FR:fr, gl-ES:gl, gu-IN:gu, he-IL:he, hi-IN:hi, hr-HR:hr, hu-HU:hu, id-ID:id, is-IS:is, it-IT:it, ja-JP:ja, kn-IN:kn, ko-KR:ko, lt-LT:lt, lv-LV:lv, mai-IN:mai, ml-IN:ml, mr-IN:mr, ms-MY:ms, nb-NO:nb, nds-DE:nds, nl-NL:nl, nn-NO:nn, or-IN:or, pa-IN:pa, pl-PL:pl, pt-BR:pt_BR, pt-PT:pt, ro-RO:ro, ru-RU:ru, si-LK:si, sk-SK:sk, sl-SI:sl, sq-AL:sq, sr-RS:sr, sr-Latn-RS:sr@latin, sv-SE:sv, ta-IN:ta, te-IN:te, tg-TJ:tg, tr-TR:tr, uk-UA:uk, ur-PK:ur, vi-VN:vi, zh-CN:zh_CN, zh-HK:zh_HK, zh-TW:zh_TW
+[main]_
+host = https://www.transifex.com
+lang_map = aln_AL:aln, ar_SA:ar, ast_ES:ast, as_IN:as, bal_PK:bal, bg_BG:bg, bn_BD:bn, bn_IN:bn-rIN, bs_BA:bs, ca_ES:ca, cs_CZ:cs, da_DK:da, de_CH:de-rCH, de_DE:de, el_GR:el, en_GB:en-rGB, es_ES:es, et_EE:et, eu_ES:eu, fa_IR:fa, fi_FI:fi, fr_FR:fr, gl_ES:gl, gu_IN:gu, he_IL:he, hi_IN:hi, hr_HR:hr, hu_HU:hu, id_ID:id, is_IS:is, it_IT:it, ja_JP:ja, kn_IN:kn, ko_KR:ko, lt_LT:lt, lv_LV:lv, mai_IN:mai, ml_IN:ml, mr_IN:mr, ms_MY:ms, nb_NO:nb, nds_DE:nds, nl_NL:nl, nn_NO:nn, or_IN:or, pa_IN:pa, pl_PL:pl, pt_BR:pt-rBR, pt_PT:pt, ro_RO:ro, ru_RU:ru, si_LK:si, sk_SK:sk, sl_SI:sl, sq_AL:sq, sr_RS:sr, sr_Latn-RS:sr@latin, sv_SE:sv, sw_KE:sw-RKE, ta_IN:ta, te_IN:te, tg_TJ:tg, tr_TR:tr, uk_UA:uk, ur_PK:ur, vi_VN:vi, zh_CN:zh-rCN, zh_HK:zh-rHK, zh_TW:zh-rTW
 
 [subsurface.companion]
 source_lang = en
