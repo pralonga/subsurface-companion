@@ -44,7 +44,7 @@ public class AccountLinkActivity extends SherlockListActivity {
 					String user = wsClient.createUser(UserController.instance.getBaseUrl(), email);
 					if (user != null) {
 						UserController.instance.setUser(user);
-						startActivity(new Intent(AccountLinkActivity.this, HomeActivity.class));
+						startActivity(new Intent(AccountLinkActivity.this, DiveListActivity.class));
 						AccountLinkActivity.this.finish();
 						message = R.string.success_user_creation;
 					}
@@ -138,7 +138,7 @@ public class AccountLinkActivity extends SherlockListActivity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							UserController.instance.setUser(edit.getText().toString());
-							startActivity(new Intent(AccountLinkActivity.this, HomeActivity.class));
+							startActivity(new Intent(AccountLinkActivity.this, DiveListActivity.class));
 							AccountLinkActivity.this.finish();
 						}
 					}).create().show();
