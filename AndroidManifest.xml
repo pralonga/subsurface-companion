@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.subsurface"
-    android:versionCode="9"
+    android:versionCode="10"
     android:versionName="2.0" >
 
     <uses-sdk

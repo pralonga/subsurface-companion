@@ -45,13 +45,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
  */
 public class PickLocationMap extends SherlockFragmentActivity
 	implements OnMapLongClickListener, OnMarkerClickListener,
-	ConnectionCallbacks, OnConnectionFailedListener, OnMyLocationButtonClickListener, LocationListener{
+	ConnectionCallbacks, OnConnectionFailedListener, OnMyLocationButtonClickListener, LocationListener {
 
-	private static final String MAP_DIVE_LOG  = "mapdivelog";
 	private static final LocationRequest REQUEST = LocationRequest.create()
 			.setInterval(5000)
 			.setFastestInterval(16)
 			.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+	public static final String MAP_DIVE_LOG  = "mapdivelog";
 
 	private GoogleMap mMap;
 	private LocationClient mLocationClient;
@@ -89,9 +89,13 @@ public class PickLocationMap extends SherlockFragmentActivity
 	}
 
 	void showDialog() {
-	    DialogFragment newFragment = new MyAlertDialogFragment();
-	    newFragment.setShowsDialog(true);
-	    newFragment.show(getSupportFragmentManager(), "dialog");
+		if (latlng != null) {
+			DialogFragment newFragment = new MyAlertDialogFragment();
+		    newFragment.setShowsDialog(true);
+		    newFragment.show(getSupportFragmentManager(), "dialog");
+		} else {
+			finish();
+		}
 	}
 
 	public void doPositiveClick(long timestamp, String divename) {

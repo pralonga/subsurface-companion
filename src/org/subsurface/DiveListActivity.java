@@ -52,8 +52,6 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 
 	private static final int PICK_MAP_REQCODE = 999;
 	private static final int PICK_GPXFILE_REQCODE = 998;
-	private static final String GPX_DIVE_LOGS  = "gpxdivelogs";
-	private static final String MAP_DIVE_LOG  = "mapdivelog";
 
 	private IBinder service = null;
 	private final ServiceConnection connection = new ServiceConnection() {
@@ -435,12 +433,16 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 			Bundle rec_bundle = data.getExtras();
 			switch(requestcode) {
 			case PICK_MAP_REQCODE:
-				DiveLocationLog mapdivelog = (DiveLocationLog) rec_bundle.get(MAP_DIVE_LOG);
-				sendMapDiveLog(mapdivelog);
+				DiveLocationLog mapdivelog = (DiveLocationLog) rec_bundle.get(PickLocationMap.MAP_DIVE_LOG);
+				if (mapdivelog != null) {
+					sendMapDiveLog(mapdivelog);
+				}
 				return;
 			case PICK_GPXFILE_REQCODE:
-				List<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get(GPX_DIVE_LOGS);
-				sendDives(gpxdivelogs);
+				List<DiveLocationLog> gpxdivelogs = (ArrayList<DiveLocationLog>) rec_bundle.get(PickLocationGpx.GPX_DIVE_LOGS);
+				if (gpxdivelogs != null) {
+					sendDives(gpxdivelogs);
+				}
 				return;
 			}
 		} else { // either some error has occurred or no data has been received

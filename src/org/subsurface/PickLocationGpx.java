@@ -41,9 +41,9 @@ public class PickLocationGpx extends SherlockListActivity implements OnItemClick
 	private Intent resultIntent;
 	private Context context;
 
-	private static final String GPX_DIVE_LOGS = "gpxdivelogs";
 	private static final String GPX_FILE_PATH = "gpxfilepath";
 	private static final String TAG = "PickLocationGpx";
+	public static final String GPX_DIVE_LOGS = "gpxdivelogs";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
