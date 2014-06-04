@@ -45,31 +45,31 @@
             android:layout_toRightOf="@id/buttonFromDate"
             android:text="@string/date_format_time" />
 
+        <TextView
+            android:id="@+id/toText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/hackButton"
+            android:layout_toLeftOf="@id/buttonToDate"
+            android:text="@string/search_date_to"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textStyle="bold" />
+
         <Button
             android:id="@+id/buttonToDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/buttonFromDate"
-            android:layout_below="@+id/buttonFromDate"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@id/buttonToHour"
             android:text="@string/date_format_short" />
 
         <Button
             android:id="@+id/buttonToHour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/buttonFromHour"
-            android:layout_below="@+id/buttonFromDate"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:text="@string/date_format_time" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/buttonToDate"
-            android:layout_alignLeft="@id/fromText"
-            android:paddingLeft="@dimen/default_margin"
-            android:text="@string/search_date_to"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold" />
     </RelativeLayout>
 
     <FrameLayout

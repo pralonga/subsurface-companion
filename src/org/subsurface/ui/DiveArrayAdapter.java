@@ -8,6 +8,7 @@ import java.util.List;
 import org.subsurface.R;
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.model.SearchCriterii;
 import org.subsurface.util.DateUtils;
 
 import android.content.Context;
@@ -38,8 +39,8 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 		@Override
 		protected FilterResults performFiltering(CharSequence constraint) {
 			FilterResults results = new FilterResults();
-			List<DiveLocationLog> list = DiveController.instance.getFilteredDives(
-					constraint == null ? null : constraint.toString(), startDate, endDate, false);
+			DiveController.instance.setSearchCriterii(new SearchCriterii(constraint == null ? null : constraint.toString(), startDate, endDate, false));
+			List<DiveLocationLog> list = DiveController.instance.getDiveLogs();
 			results.values = list;
 			results.count = list.size();
 			return results;

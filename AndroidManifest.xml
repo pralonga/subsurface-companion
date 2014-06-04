@@ -71,10 +71,6 @@
             android:label="@string/menu_settings"
             android:theme="@style/AppTheme" />
         <activity
-            android:name="MapActivity"
-            android:theme="@style/AppTheme.SubScreen" >
-        </activity>
-        <activity
             android:name="DiveListActivity"
             android:theme="@style/AppTheme" >
         </activity>

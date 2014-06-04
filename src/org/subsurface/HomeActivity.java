@@ -627,7 +627,7 @@ public class HomeActivity extends SherlockListActivity implements com.actionbars
 		if (itemPosition == 0) {
 			handled = true;
 		} else if (itemPosition == 1) {
-			startActivity(new Intent(this, MapActivity.class));
+			//startActivity(new Intent(this, MapActivity.class));
 			getSupportActionBar().setSelectedNavigationItem(0);
 			handled = true;
 		}

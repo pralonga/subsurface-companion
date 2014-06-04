@@ -7,11 +7,6 @@
         android:showAsAction="always"
         android:title="@string/menu_refresh"/>
     <item
-        android:id="@+id/menu_search"
-        android:icon="@drawable/ic_menu_search"
-        android:showAsAction="ifRoom"
-        android:title="@string/menu_search"/>
-    <item
         android:id="@+id/menu_new"
         android:icon="@drawable/ic_menu_new"
         android:showAsAction="always"
@@ -28,6 +23,18 @@
                 android:title="@string/menu_new_gpx"/>
         </menu>
     </item>
+    <item
+        android:id="@+id/menu_search"
+        android:actionLayout="@layout/collapsible_edittext"
+        android:icon="@drawable/ic_menu_search"
+        android:showAsAction="always|collapseActionView"
+        android:title="@string/menu_search"/>
+    <item
+        android:id="@+id/menu_time"
+        android:icon="@drawable/ic_menu_time"
+        android:showAsAction="always"
+        android:title="@string/menu_time"
+        android:visible="false"/>
     <item
         android:id="@+id/menu_start_background_service"
         android:icon="@android:drawable/ic_menu_mylocation"

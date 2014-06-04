@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.subsurface.dao.DatabaseHelper;
 import org.subsurface.model.DiveLocationLog;
+import org.subsurface.model.SearchCriterii;
 import org.subsurface.ws.WsClient;
 import org.subsurface.ws.WsException;
 
@@ -31,10 +32,14 @@ public class DiveController {
 	private DatabaseHelper helper;
 	private Dao<DiveLocationLog, Long> diveDao;
 	private final List<DiveLocationLog> dives;
+	private final List<DiveLocationLog> filteredDives;
 	private boolean loaded = false;
+	private boolean filteredLoaded = false;
+	private SearchCriterii searchCriterii = null;
 
 	private DiveController() {
 		this.dives = new ArrayList<DiveLocationLog>();
+		this.filteredDives = new ArrayList<DiveLocationLog>();
 	}
 
 	public void setContext(Context context) throws SQLException {
@@ -61,6 +66,7 @@ public class DiveController {
 	}
 
 	public List<DiveLocationLog> getDiveLogs() {
+		List<DiveLocationLog> result = dives;
 		try {
 			if (!loaded) {
 				dives.clear();
@@ -73,25 +79,28 @@ public class DiveController {
 				}
 				loaded = true;
 			}
+
+			// Refine search if needed
+			if (searchCriterii != null) {
+				result = filteredDives;
+				if (!filteredLoaded) {
+					Log.d(TAG, "Searching from " + new Date(searchCriterii.getStartDate()) + " to " + new Date(searchCriterii.getEndDate()) + ", name = " + searchCriterii.getName());
+					filteredDives.clear();
+					String lName = searchCriterii.getName() == null ? null : searchCriterii.getName().toLowerCase();
+					for (DiveLocationLog log : dives) {
+						if ((lName == null || (log.getName() != null && log.getName().toLowerCase().contains(lName)))
+								&& searchCriterii.getStartDate() <= log.getTimestamp() && log.getTimestamp() <= searchCriterii.getEndDate()
+								&& (!searchCriterii.isPendingOnly() || log.isSent())) {
+							filteredDives.add(log);
+						}
+					}
+					filteredLoaded = true;
+				}
+			}
 		} catch (Exception e) {
 			Log.d(TAG, "Could not retrieve dives", e);
 		}
-		return dives;
-	}
-
-	public List<DiveLocationLog> getFilteredDives(String name, long startDate, long endDate, boolean pendingOnly) {
-		Log.d(TAG, "Searching from " + new Date(startDate) + " to " + new Date(endDate));
-		List<DiveLocationLog> allLogs = getDiveLogs();
-		ArrayList<DiveLocationLog> filteredLogs = new ArrayList<DiveLocationLog>();
-		String lName = name == null ? null : name.toLowerCase();
-		for (DiveLocationLog log : allLogs) {
-			if ((lName == null || (log.getName() != null && log.getName().toLowerCase().contains(lName)))
-					&& startDate <= log.getTimestamp() && log.getTimestamp() <= endDate
-					&& (!pendingOnly || log.isSent())) {
-				filteredLogs.add(log);
-			}
-		}
-		return filteredLogs;
+		return result;
 	}
 
 	public List<DiveLocationLog> getPendingLogs() {
@@ -170,5 +179,14 @@ public class DiveController {
 				Log.d(TAG, "Could not retrieve dive", e);
 			}
 		}
+	}
+
+	public SearchCriterii getSearchCriterii() {
+		return searchCriterii;
+	}
+
+	public void setSearchCriterii(SearchCriterii searchCriterii) {
+		filteredLoaded = false;
+		this.searchCriterii = searchCriterii;
 	}
 }
