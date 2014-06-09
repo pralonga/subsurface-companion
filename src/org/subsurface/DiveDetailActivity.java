@@ -108,14 +108,6 @@ public class DiveDetailActivity extends SherlockFragmentActivity implements com.
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setTitle(null);
 		this.divePosition = getIntent().getIntExtra(PARAM_DIVE_POSITION, 0);
-//		long searchStart = getIntent().getLongExtra(PARAM_DIVE_SEARCH_START, 0);
-//		long searchEnd = getIntent().getLongExtra(PARAM_DIVE_SEARCH_END, 0);
-//		CharSequence searchName = getIntent().getCharSequenceExtra(PARAM_DIVE_SEARCH_NAME);
-//		if (searchStart > 0 || searchEnd > 0 || searchName != null) {
-//			this.dives = DiveController.instance.getFilteredDives(searchName == null ? null : searchName.toString(), searchStart, searchEnd, false);
-//		} else {
-//			this.dives = DiveController.instance.getDiveLogs();
-//		}
 		this.dives = DiveController.instance.getDiveLogs();
 		this.dive = dives.get(divePosition);
 		initView();

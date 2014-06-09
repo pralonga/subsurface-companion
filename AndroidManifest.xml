@@ -54,17 +54,8 @@
             android:process=":location_service" />
 
         <activity
-            android:name="HomeActivity"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name="AccountLinkActivity"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name="SearchDiveActivity"
-            android:theme="@style/AppTheme.SubScreen" />
-        <activity
-            android:name="DiveDetailActivity"
-            android:theme="@style/AppTheme.SubScreen" />
         <activity
             android:name="Preferences"
             android:excludeFromRecents="true"
@@ -74,6 +65,13 @@
             android:name="DiveListActivity"
             android:theme="@style/AppTheme"
             android:configChanges="orientation" />
+        <activity
+            android:name="DiveDetailActivity"
+            android:theme="@style/AppTheme.SubScreen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.subsurface.DiveListActivity" />
+        </activity>
         <activity
             android:name="PickGpx"
             android:parentActivityName="DiveListActivity"

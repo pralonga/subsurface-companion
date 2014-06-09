@@ -8,7 +8,6 @@ import java.util.List;
 import org.subsurface.R;
 import org.subsurface.controller.DiveController;
 import org.subsurface.model.DiveLocationLog;
-import org.subsurface.model.SearchCriterii;
 import org.subsurface.util.DateUtils;
 
 import android.content.Context;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,27 +30,6 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 		void onSelectedItemsChanged(List<DiveLocationLog> dives);
 	}
 
-	private class DiveFilter extends Filter {
-		public long startDate;
-		public long endDate;
-
-		@Override
-		protected FilterResults performFiltering(CharSequence constraint) {
-			FilterResults results = new FilterResults();
-			DiveController.instance.setSearchCriterii(new SearchCriterii(constraint == null ? null : constraint.toString(), startDate, endDate, false));
-			List<DiveLocationLog> list = DiveController.instance.getDiveLogs();
-			results.values = list;
-			results.count = list.size();
-			return results;
-		}
-
-		@Override
-		protected void publishResults(CharSequence constraint, FilterResults results) {
-			filteredLogs = (List<DiveLocationLog>) results.values;
-			notifyDataSetChanged();
-		}
-	}
-
 	private static class ViewHolder {
 		public CheckBox checkbox;
 		public TextView title;
@@ -64,7 +41,6 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 	private final Context context;
 	private final String dateFormat;
 	private final String hourFormat;
-	private final DiveFilter filter;
 	private final Hashtable<Integer, Boolean> checkedItems = new Hashtable<Integer, Boolean>();
 	private List<DiveLocationLog> filteredLogs;
 	private boolean isFilterEnabled;
@@ -75,7 +51,6 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 		this.context = context;
 		this.dateFormat = context.getString(R.string.date_format_short);
 		this.hourFormat = context.getString(R.string.date_format_time);
-		this.filter = new DiveFilter();
 		this.isFilterEnabled = false;
 	}
 
@@ -128,17 +103,6 @@ public class DiveArrayAdapter extends ArrayAdapter<DiveLocationLog> {
 	public long getItemId(int position) {
 		DiveLocationLog found = getItem(position);
 		return found == null ? -1 : found.getId();
-	}
-
-	public DiveFilter getFilter() {
-		return filter;
-	}
-
-	public void filter(String name, long start, long end) {
-		this.isFilterEnabled = true;
-		filter.startDate = start;
-		filter.endDate = end;
-		filter.filter(name);
 	}
 
 	public void setListener(SelectionListener listener) {
