@@ -1,124 +1,127 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-
-    <string name="app_name">Subsurface</string>
-    <string name="default_url">http://api.hohndel.org</string>
-    <string name="default_duration">30</string>
-    <string name="default_distance">10</string>
-    <string name="default_dive_name">Automatisch erzeugter Tauchgang</string>
-
-    <string name="home_action_mode_title">%s ausgewählt</string>
-    <string name="home_no_account">Sie haben Ihr Subsurface-Benutzerkonto noch nicht konfiguriert</string>
-    <string name="home_dive_list_empty">Keine Tauchgänge</string>
-
-    <string name="search_date_from">Von</string>
-    <string name="search_date_to">Bis</string>
-
-    <string name="details_coordinates">%1$f <b>%3$s</b> %2$f <b>%4$s</b></string>
-    <string name="cardinal_north">N</string>
-    <string name="cardinal_south">S</string>
-    <string name="cardinal_east">E</string>
-    <string name="cardinal_west">W</string>
-    <string name="details_action_mode_title">Tauchgang bearbeiten</string>
-
-    <string name="dialog_location_name">Name des Tauchplatzes</string>
-    <string name="dialog_wait">Bitte warten&#8230;</string>
-    <string name="dialog_wait_send">Tauchplätze werden gesendet&#8230;</string>
-
-    <string name="menu_new">Neuer Tauchgang</string>
-    <string name="menu_map">Karte</string>
-    <string name="menu_send">Senden</string>
-    <string name="menu_locate">Aktuelle Position bestimmen</string>
-    <string name="menu_delete">Löschen</string>
-    <string name="menu_send_all">Sende alle Tauchplätze</string>
-    <string name="menu_refresh">Neu laden</string>
-    <string name="menu_settings">Einstellungen</string>
-    <string name="menu_logoff">Verbindung trennen</string>
-    <string name="menu_search">Suchen</string>
-    <string name="menu_save">Speichern</string>
-    <string name="menu_time">Zeit</string>
-    <string name="menu_edit">Bearbeiten</string>
-    <string name="menu_start_background_service">Service starten</string>
-    <string name="menu_stop_background_service">Service beenden</string>
-
-    <string name="notification_background_service_on">Standortdienst läuft im Hintergrund</string>
-
-    <string name="confirm_disconnect">Wollen Sie die Verbindung wirklich trennen?</string>
-    <string name="confirm_delete_dives">Wollen Sie diese Tauchgänge wirklich löschen?</string>
-    <string name="confirm_delete_dive">Wollen Sie diesen Tauchgang wirklich löschen?</string>
-    <string name="confirm_enable_gps">Ihr GPS ist ausgeschaltet. Wollen Sie es einschalten?</string>
-    <string name="confirm_enable_gps_title">GPS Einschalten</string>
-
-    <string name="confirmation_location_picked">Tauchplatz %s wurde gespeichert</string>
-    <string name="confirmation_location_sent">Tauchplatz "%s" wurde gesendet</string>
-    <string name="confirmation_locations_sent">%1$d/%2$d Tauchplätze wurden gesendet</string>
-
-    <string name="error_location">Konnte den Ort nicht bestimmen</string>
-    <string name="error_send">Konnte den Tauchplatz nicht senden</string>
-    <string name="error_no_settings">Bitte konfigurieren Sie Ihre Einstellungen, bevor sie Daten versenden können</string>
-    <string name="error_not_yet_implemented">Noch nicht implementiert</string>
-    <string name="error_no_associated_dive">Kann den zugehörigen Tauchgang nicht finden</string>
-    <string name="error_background_service_unstoppable">Kann den Hintergrund-Dienst nicht beenden</string>
-    <string name="error_bad_http_code">Ungültige HTTP Antwort vom Server</string>
-    <string name="error_login_invalid">Ihr Login wurde vom Server abgewiesen</string>
-    <string name="error_email_already_exists">Ihre Email Adresse ist bereits auf dem Server registriert</string>
-    <string name="error_email_unknown">Ihre Email Adresse ist keinem Benutzerkonto auf dem Server zugeordnet</string>
-    <string name="error_email_id_not_matching">Ihre Email Adresse und Benutzer-Kennung stimmen nicht überein</string>
-    <string name="error_invalid_request">Der Server hat die Anfrage nicht verstanden</string>
-    <string name="error_network">Keine Netzwerk Verbindung. Bitte versuchen Sie es später noch einmal.</string>
-    <string name="error_parse_error">Server-Antwort nicht verstanden</string>
-    <string name="error_no_image_location">Konnte Bildelage nicht abrufen</string>
-    <string name="error_open_image">Konnte bild nicht öffnen</string>
-    <string name="error_delete_dives">Konnte Tauchgänge nicht löschen</string>
-    <string name="error_delete_dive">Konnte Tauchgang nicht löschen</string>
-    
-
-    <string name="account_link_create">Neues Benutzerkonto anlegen</string>
-    <string name="account_link_retrieve">Hole Benutzerkonto</string>
-    <string name="account_link_existing">Verwende existierendes Benutzerkonto</string>
-
-    <string name="success_user_creation">Ihr Benutzerkonto wurde angelegt. Bitte bestätigen Sie dies mittels Ihres Email-Kontos.</string>
-    <string name="success_user_retrieval">Eine Email mit Ihrem Benutzer-Kennung wurde verschickt. Bitte geben Sie diese unter dem Menü Einstellungen ein.</string>
-    <string name="success_user_existing">Subsurface ist nun konfiguriert</string>
-    <string name="success_refresh">Tauchgänge wurden aktualisiert</string>
-
-    <string name="error_title">Fehler</string>
-    <string name="error_fatal">Subsurface muss wegen eines Fehlers beendet werden.</string>
-    <string name="error_generic">Ein Fehler ist aufgetreten. Bitte prüfen Sie die Einstellungen und versuchen Sie es erneut</string>
-    
-    <string name="date_format_full">dd.MM.yyyy HH:mm</string>
-    <string name="date_format_short">dd.MM.yyyy</string>
-    <string name="date_format_time">HH:mm</string>
-
-    <string name="hint_email">Email Adresse</string>
-    <string name="hint_id">ID</string>
-    <string name="hint_dive_name">Name des Tauchgangs</string>
-
-    <string name="settings_category_ws">Server und Benutzer-Kennung</string>
-    <string name="settings_destination_url">Web-service URL</string>
-    <string name="settings_destination_url_summary">URL für die Server Synchronisation</string>
-    <string name="settings_user_id">Benutzer-Kennung</string>
-    <string name="settings_user_id_summary">Benutzer-Kennung wurde auf dem Server angelegt</string>
-
-    <string name="settings_category_sync">Synchronisation</string>
-    <string name="settings_sync_on_startup">Synchronisiere beim Programm-Start</string>
-    <string name="settings_sync_on_startup_summary">Synchronisiere mit dem Server beim Programm-Start</string>
-    <string name="settings_sync_auto_send">Neue Tauchgänge zum Server senden</string>
-    <string name="settings_sync_auto_send_summary">Wenn ein Tauchgang hinzugefügt wird, sende diesen automatisch zum Server</string>
-
-    <string name="settings_category_background_service">Hintergrund-Dienst</string>
-    <string name="settings_background_duration">Minimale Dauer (Minuten)</string>
-    <string name="settings_background_duration_summary">Minimale Zeit zwischen zwei Positionsbestimmungen</string>
-    <string name="settings_background_distance">Minimale Distanz (Meter)</string>
-    <string name="settings_background_distance_summary">Minimale Distanz zwischen zwei Positionsbestimmungen</string>
-    <string name="settings_background_name">Namesformat</string>
-    <string name="settings_background_name_summary">Automatisch erzeugte namen für Tauchgänge</string>
-
-    <string name="settings_category_other">Anderes</string>
-    <string name="settings_other_mailing_list">Mailing Liste</string>
-    <string name="settings_other_mailing_list_summary">Versende eine Email an alle Mitglieder</string>
-    <string name="settings_other_website">Subsurface Webseite</string>
-    <string name="settings_other_website_summary">Subsurface Webseite anzeigen</string>
-    <string name="settings_other_version">Version</string>
-    <string name="settings_other_version_summary">Aktuelle Version: %s</string>
+  <string name="app_name">Subsurface</string>
+  <string name="default_url">http://api.hohndel.org</string>
+  <string name="default_duration">30</string>
+  <string name="default_distance">10</string>
+  <string name="default_dive_name">Automatisch erzeugter Tauchgang</string>
+  <string name="default_map_dive_name">Tauchplatz über Karte ermittelt</string>
+  <string name="home_action_mode_title">%s ausgewählt</string>
+  <string name="home_no_account">Sie haben Ihr Subsurface-Benutzerkonto noch nicht konfiguriert</string>
+  <string name="home_dive_list_empty">Keine Tauchgänge</string>
+  <string name="search_date_from">Von</string>
+  <string name="search_date_to">Bis</string>
+  <string name="details_coordinates">%1$f <b>%3$s</b> %2$f <b>%4$s</b></string>
+  <string name="cardinal_north">N</string>
+  <string name="cardinal_south">S</string>
+  <string name="cardinal_east">O</string>
+  <string name="cardinal_west">W</string>
+  <string name="details_action_mode_title">Tauchgang bearbeiten</string>
+  <string name="dialog_location_name">Name des Tauchplatzes</string>
+  <string name="dialog_wait">Bitte warten…</string>
+  <string name="dialog_wait_send">Tauchplätze werden gesendet…</string>
+  <string name="menu_new">Neuer Tauchgang</string>
+  <string name="menu_dives">Tauchgänge</string>
+  <string name="menu_map">Karte</string>
+  <string name="menu_send">Senden</string>
+  <string name="menu_locate">Aktuelle Position bestimmen</string>
+  <string name="menu_delete">Löschen</string>
+  <string name="menu_send_all">Sende alle Tauchplätze</string>
+  <string name="menu_refresh">Neu laden</string>
+  <string name="menu_settings">Einstellungen</string>
+  <string name="menu_logoff">Verbindung trennen</string>
+  <string name="menu_search">Suchen</string>
+  <string name="menu_save">Speichern</string>
+  <string name="menu_time">Zeit</string>
+  <string name="menu_edit">Bearbeiten</string>
+  <string name="menu_start_background_service">Service starten</string>
+  <string name="menu_stop_background_service">Service beenden</string>
+  <string name="menu_new_current">Aktuelle Position</string>
+  <string name="menu_new_map">Benutze Karte</string>
+  <string name="menu_new_gpx">GPX Datei importiren</string>
+  <string name="menu_accept">Übernehmen</string>
+  <string name="menu_select_all">Übernehmen</string>
+  <string name="menu_unselect_all">Übernehmen</string>
+  <string name="notification_background_service_on">Standortdienst läuft im Hintergrund</string>
+  <string name="confirm_disconnect">Wollen Sie die Verbindung wirklich trennen?</string>
+  <string name="confirm_delete_dives">Wollen Sie diese Tauchgänge wirklich löschen?</string>
+  <string name="confirm_delete_dive">Wollen Sie diesen Tauchgang wirklich löschen?</string>
+  <string name="confirm_enable_gps">Ihr GPS ist ausgeschaltet. Wollen Sie es einschalten?</string>
+  <string name="confirm_enable_gps_title">GPS Einschalten</string>
+  <string name="confirmation_location_picked">Tauchplatz %s wurde gespeichert</string>
+  <string name="confirmation_location_sent">Tauchplatz \"%s\" wurde gesendet</string>
+  <string name="confirmation_locations_sent">%1$d/%2$d Tauchplätze wurden gesendet</string>
+  <string name="confirmation_dive_picked_sent">Tauchplatz %s wurde gespeichert und gesendet</string>
+  <string name="error_location">Konnte den Ort nicht bestimmen</string>
+  <string name="error_send">Konnte den Tauchplatz nicht senden</string>
+  <string name="error_no_settings">Bitte konfigurieren Sie Ihre Einstellungen, bevor sie Daten versenden können</string>
+  <string name="error_not_yet_implemented">Noch nicht implementiert</string>
+  <string name="error_no_associated_dive">Kann den zugehörigen Tauchgang nicht finden</string>
+  <string name="error_background_service_unstoppable">Kann den Hintergrund-Dienst nicht beenden</string>
+  <string name="error_bad_http_code">Ungültige HTTP Antwort vom Server</string>
+  <string name="error_login_invalid">Ihr Login wurde vom Server abgewiesen</string>
+  <string name="error_email_already_exists">Ihre Email Adresse ist bereits auf dem Server registriert</string>
+  <string name="error_email_unknown">Ihre Email Adresse ist keinem Benutzerkonto auf dem Server zugeordnet</string>
+  <string name="error_email_id_not_matching">Ihre Email Adresse und Benutzer-Kennung stimmen nicht überein</string>
+  <string name="error_invalid_request">Der Server hat die Anfrage nicht verstanden</string>
+  <string name="error_network">Keine Netzwerk Verbindung. Bitte versuchen Sie es später noch einmal.</string>
+  <string name="error_parse_error">Server-Antwort nicht verstanden</string>
+  <string name="error_no_image_location">Das Bild konnte nicht geladen werden</string>
+  <string name="error_open_image">Bild konnte nicht geöffnet werden</string>
+  <string name="error_delete_dives">Die Tauchgänge konnten nicht gelöscht werden</string>
+  <string name="error_delete_dive">Der Tauchgang konnte nicht gelöscht werden</string>
+  <string name="error_sd_unavailable">Fehler SD-Karte</string>
+  <string name="error_no_dive_found">Keine Tauchplatz Information erhalten</string>
+  <string name="error_gpx_no_file_found">Kein GPX Datei auf der SD-Karte gefunden</string>
+  <string name="error_gpx_no_dive_found">Kein Tauchplätze in GPX Datei gefunden</string>
+  <string name="account_link_create">Neues Benutzerkonto anlegen</string>
+  <string name="account_link_retrieve">Hole Benutzerkonto</string>
+  <string name="account_link_existing">Verwende existierendes Benutzerkonto</string>
+  <string name="success_user_creation">Ihr Benutzerkonto wurde angelegt. Bitte bestätigen Sie dies mittels Ihres Email-Kontos.</string>
+  <string name="success_user_retrieval">Eine Email mit Ihrem Benutzer-Kennung wurde verschickt. Bitte geben Sie diese unter dem Menü Einstellungen ein.</string>
+  <string name="success_user_existing">Subsurface ist nun konfiguriert</string>
+  <string name="success_refresh">Tauchgänge wurden aktualisiert</string>
+  <string name="error_title">Fehler</string>
+  <string name="error_fatal">Subsurface muss wegen eines Fehlers beendet werden.</string>
+  <string name="error_generic">Ein Fehler ist aufgetreten. Bitte prüfen Sie die Einstellungen und versuchen Sie es erneut</string>
+  <!--Warning : MM = month, mm = minutes-->
+  <string name="date_format_full">dd.mm.yyyy HH:mm</string>
+  <string name="date_format_short">dd.mm.yyyy</string>
+  <string name="date_format_time">HH:mm</string>
+  <string name="hint_email">Email Adresse</string>
+  <string name="hint_id">ID</string>
+  <string name="hint_dive_name">Name des Tauchgangs</string>
+  <string name="hint_dive_offset">Vergangene Minuten seit dem Tauchgang</string>
+  <string name="settings_category_ws">Server und Benutzer-Kennung</string>
+  <string name="settings_destination_url">Web-service URL</string>
+  <string name="settings_destination_url_summary">URL für die Server-Synchronisierung</string>
+  <string name="settings_user_id">Benutzer-Kennung</string>
+  <string name="settings_user_id_summary">Benutzer-Kennung wurde auf dem Server angelegt</string>
+  <string name="settings_category_sync">Synchronisation</string>
+  <string name="settings_sync_on_startup">Synchronisiere beim Programm-Start</string>
+  <string name="settings_sync_on_startup_summary">Synchronisiere mit dem Server beim Programm-Start</string>
+  <string name="settings_sync_auto_send">Neue Tauchgänge zum Server senden</string>
+  <string name="settings_sync_auto_send_summary">Wenn ein Tauchgang hinzugefügt wird, sende diesen automatisch zum Server</string>
+  <string name="settings_category_background_service">Hintergrund-Dienst</string>
+  <string name="settings_background_duration">Minimale Dauer (Minuten)</string>
+  <string name="settings_background_duration_summary">Minimale Zeit zwischen zwei Positionsbestimmungen</string>
+  <string name="settings_background_distance">Minimale Distanz (Meter)</string>
+  <string name="settings_background_distance_summary">Minimale Distanz zwischen zwei Positionsbestimmungen</string>
+  <string name="settings_background_name">Namesformat</string>
+  <string name="settings_background_name_summary">Automatisch erzeugte Namen für Tauchgänge</string>
+  <string name="settings_category_other">Anderes</string>
+  <string name="settings_other_mailing_list">Mailing Liste</string>
+  <string name="settings_other_mailing_list_summary">Versende eine Email an alle Mitglieder</string>
+  <string name="settings_other_website">Subsurface Webseite</string>
+  <string name="settings_other_website_summary">Subsurface Webseite anzeigen</string>
+  <string name="settings_other_version">Version</string>
+  <string name="settings_other_version_summary">Aktuelle Version: %s</string>
+  <string name="gpx_dummy_name">Name der GPX Datei</string>
+  <string name="gpx_dummy_path">Pfad zur GPX Datei: qwertyuiopasdfghjklzxcvbnm</string>
+  <string name="gpx_dummy_date">yyyy-MMM-dd HH:mm:ss</string>
+  <string name="gpx_dialog_search">Suche GPX Datei</string>
+  <string name="title_picklocationgpx">Wähle die Standorte</string>
+  <string name="title_pickgpx">Wähle GPX Datei</string>
+  <string name="title_picklocationmap">Zur Auswahl berühren</string>
+  <string name="title_map_marker">Tauchplatz Informationen</string>
 </resources>
-

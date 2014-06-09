@@ -1,124 +1,104 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
-
-    <string name="app_name">Subsurface</string>
-    <string name="default_url">http://api.hohndel.org</string>
-    <string name="default_duration">30</string>
-    <string name="default_distance">10</string>
-    <string name="default_dive_name">Plongée auto-générée</string>
-
-    <string name="home_action_mode_title">%s sélectionnées</string>
-    <string name="home_no_account">Vous n\'avez pas encore configuré votre compte Subsurface</string>
-    <string name="home_dive_list_empty">Aucune plongée</string>
-
-    <string name="search_date_from">De</string>
-    <string name="search_date_to">À</string>
-
-    <string name="details_coordinates">%1$f <b>%3$s</b> %2$f <b>%4$s</b></string>
-    <string name="cardinal_north">N</string>
-    <string name="cardinal_south">S</string>
-    <string name="cardinal_east">E</string>
-    <string name="cardinal_west">O</string>
-    <string name="details_action_mode_title">Editer la plongée</string>
-
-    <string name="dialog_location_name">Nom du lieu</string>
-    <string name="dialog_wait">Veuillez patienter&#8230;</string>
-    <string name="dialog_wait_send">Envoi en cours&#8230;</string>
-
-    <string name="menu_new">Nouvelle plongée</string>
-    <string name="menu_map">Carte</string>
-    <string name="menu_send">Envoyer</string>
-    <string name="menu_locate">Localiser la position courante</string>
-    <string name="menu_delete">Effacer</string>
-    <string name="menu_send_all">Envoyer toutes les plongées</string>
-    <string name="menu_refresh">Rafraîchir</string>
-    <string name="menu_settings">Paramètres</string>
-    <string name="menu_logoff">Déconnecter</string>
-    <string name="menu_search">Rechercher</string>
-    <string name="menu_save">Sauvegarder</string>
-    <string name="menu_time">Temps</string>
-    <string name="menu_edit">Editer</string>
-    <string name="menu_start_background_service">Démarrer le service</string>
-    <string name="menu_stop_background_service">Arrêter le service</string>
-
-    <string name="notification_background_service_on">Service de localisation actif</string>
-
-    <string name="confirm_disconnect">Voulez-vous vraiment vous déconnecter ?</string>
-    <string name="confirm_delete_dives">Voulez-vous vraiment effacer ces plongées ?</string>
-    <string name="confirm_delete_dive">Voulez-vous vraiment effacer cette plongée ?</string>
-    <string name="confirm_enable_gps">Votre GPS est désactivé. Voulez-vous l\'activer ?</string>
-    <string name="confirm_enable_gps_title">Activer le GPS</string>
-
-    <string name="confirmation_location_picked">Le lieu %s a été ajouté</string>
-    <string name="confirmation_location_sent">Le lieu "%s" a été envoyé</string>
-    <string name="confirmation_locations_sent">%1$d/%2$d lieux ont été envoyés</string>
-
-    <string name="error_location">Impossible de trouver la localisation</string>
-    <string name="error_send">Impossible d\'envoyer la localisation</string>
-    <string name="error_no_settings">Veuillez saisir les paramètres avant d\'envoyer les données</string>
-    <string name="error_not_yet_implemented">En développement</string>
-    <string name="error_no_associated_dive">Impossible de trouver la plongée associée</string>
-    <string name="error_background_service_unstoppable">Impossible d\'arrêter le service de localisation</string>
-
-    <string name="error_bad_http_code">Le serveur a retourné un mauvais code d\'erreur HTTP</string>
-    <string name="error_login_invalid">Le serveur n\'a pas reconnu votre login</string>
-    <string name="error_email_already_exists">Votre email est déjà enregistré sur le serveur</string>
-    <string name="error_email_unknown">Cet email est inconnu du serveur</string>
-    <string name="error_email_id_not_matching">Votre email et votre ID ne correspondent pas</string>
-    <string name="error_invalid_request">Le serveur n\'a pas compris la requête</string>
-    <string name="error_network">Aucun réseau. Veuillez réessayer plus tard</string>
-    <string name="error_parse_error">Impossible de comprendre la réponse du serveur</string>
-    <string name="error_no_image_location">Impossible de récupérer les coordonnées de l\'image</string>
-    <string name="error_open_image">Impossible d\'ouvrir l\'image</string>
-    <string name="error_delete_dives">Impossible d\'effacer les plongées</string>
-    <string name="error_delete_dive">Impossible d\'effacer la plongée</string>
-
-    <string name="account_link_create">Créer un nouveau compte</string>
-    <string name="account_link_retrieve">Retrouver un compte</string>
-    <string name="account_link_existing">Utiliser un compte existant</string>
-
-    <string name="success_user_creation">Votre compte a été créé. Vérifiez vos emails pour le valider</string>
-    <string name="success_user_retrieval">Un email contenant votre ID a été envoyé. Rentrez-le via le menu paramètres</string>
-    <string name="success_user_existing">Subsurface a été configuré</string>
-    <string name="success_refresh">Les plongées ont été mises à jour</string>
-
-    <string name="error_title">Erreur</string>
-    <string name="error_fatal">Subsurface a rencontré une erreur fatale et doit à présent se fermer</string>
-    <string name="error_generic">Une erreur est survenue. Veuillez vérifier vos paramètres et essayer ultérieurement</string>
-    
-    <string name="date_format_full">dd/MM/yyyy HH:mm</string>
-    <string name="date_format_short">dd/MM/yyyy</string>
-    <string name="date_format_time">HH:mm</string>
-
-    <string name="hint_email">Adresse email</string>
-    <string name="hint_id">ID</string>
-    <string name="hint_dive_name">Nom de la plongée</string>
-
-    <string name="settings_category_ws">Serveur et compte</string>
-    <string name="settings_destination_url">URL du service web</string>
-    <string name="settings_destination_url_summary">URL pour la synchronisation des données</string>
-    <string name="settings_user_id">ID utilisateur</string>
-    <string name="settings_user_id_summary">ID enregistré sur le serveur</string>
-
-    <string name="settings_category_sync">Synchronisation</string>
-    <string name="settings_sync_on_startup">Synchroniser au démarrage</string>
-    <string name="settings_sync_on_startup_summary">Synchroniser avec le serveur au démarrage de l\'application</string>
-    <string name="settings_sync_auto_send">Téléverser les nouvelles plongées</string>
-    <string name="settings_sync_auto_send_summary">Quand une plongée est ajoutée, l\'envoyer automatiquement</string>
-
-    <string name="settings_category_background_service">Service</string>
-    <string name="settings_background_duration">Durée minimale (minutes)</string>
-    <string name="settings_background_duration_summary">Durée minimale entre deux points GPS</string>
-    <string name="settings_background_distance">Distance minimale (mètres)</string>
-    <string name="settings_background_distance_summary">Distance minimale entre deux points GPS</string>
-    <string name="settings_background_name">Format de nom</string>
-    <string name="settings_background_name_summary">Nom pour les plongées créées par le service</string>
-
-    <string name="settings_category_other">Autres</string>
-    <string name="settings_other_mailing_list">Liste de diffusion</string>
-    <string name="settings_other_mailing_list_summary">Envoyer un email à tous les membres</string>
-    <string name="settings_other_website">Site web de Subsurface</string>
-    <string name="settings_other_website_summary">Ouvrir la page du projet</string>
-    <string name="settings_other_version">Version</string>
-    <string name="settings_other_version_summary">Version actuelle : %s</string>
+  <string name="app_name">Subsurface</string>
+  <string name="default_url">http://api.hohndel.org</string>
+  <string name="default_duration">30</string>
+  <string name="default_distance">10</string>
+  <string name="default_dive_name">Plongée auto-générée</string>
+  <string name="home_action_mode_title">%s sélectionnées</string>
+  <string name="home_no_account">Vous n\'avez pas encore configuré votre compte Subsurface</string>
+  <string name="home_dive_list_empty">Aucune plongée</string>
+  <string name="search_date_from">De</string>
+  <string name="search_date_to">À</string>
+  <string name="cardinal_north">N</string>
+  <string name="cardinal_south">S</string>
+  <string name="cardinal_east">E</string>
+  <string name="cardinal_west">O</string>
+  <string name="details_action_mode_title">Editer la plongée</string>
+  <string name="dialog_location_name">Nom du lieu</string>
+  <string name="dialog_wait">Veuillez patienter…</string>
+  <string name="dialog_wait_send">Envoi en cours…</string>
+  <string name="menu_new">Nouvelle plongée</string>
+  <string name="menu_dives">Plongées</string>
+  <string name="menu_map">Carte</string>
+  <string name="menu_send">Envoyer</string>
+  <string name="menu_locate">Localiser la position courante</string>
+  <string name="menu_delete">Effacer</string>
+  <string name="menu_send_all">Envoyer toutes les plongées</string>
+  <string name="menu_refresh">Rafraîchir</string>
+  <string name="menu_settings">Paramètres</string>
+  <string name="menu_logoff">Déconnecter</string>
+  <string name="menu_search">Rechercher</string>
+  <string name="menu_save">Sauvegarder</string>
+  <string name="menu_time">Temps</string>
+  <string name="menu_edit">Editer</string>
+  <string name="menu_start_background_service">Démarrer le service</string>
+  <string name="menu_stop_background_service">Arrêter le service</string>
+  <string name="notification_background_service_on">Service de localisation actif</string>
+  <string name="confirm_disconnect">Voulez-vous vraiment vous déconnecter ?</string>
+  <string name="confirm_delete_dives">Voulez-vous vraiment effacer ces plongées ?</string>
+  <string name="confirm_delete_dive">Voulez-vous vraiment effacer cette plongée ?</string>
+  <string name="confirm_enable_gps">Votre GPS est désactivé. Voulez-vous l\'activer ?</string>
+  <string name="confirm_enable_gps_title">Activer le GPS</string>
+  <string name="confirmation_location_picked">Le lieu %s a été ajouté</string>
+  <string name="confirmation_location_sent">Le lieu \"%s\" a été envoyé</string>
+  <string name="confirmation_locations_sent">%1$d/%2$d lieux ont été envoyés</string>
+  <string name="error_location">Impossible de trouver la localisation</string>
+  <string name="error_send">Impossible d\'envoyer la localisation</string>
+  <string name="error_no_settings">Veuillez saisir les paramètres avant d\'envoyer les données</string>
+  <string name="error_not_yet_implemented">En développement</string>
+  <string name="error_no_associated_dive">Impossible de trouver la plongée associée</string>
+  <string name="error_background_service_unstoppable">Impossible d\'arrêter le service de localisation</string>
+  <string name="error_bad_http_code">Le serveur a retourné un mauvais code d\'erreur HTTP</string>
+  <string name="error_login_invalid">Le serveur n\'a pas reconnu votre login</string>
+  <string name="error_email_already_exists">Votre email est déjà enregistré sur le serveur</string>
+  <string name="error_email_unknown">Cet email est inconnu du serveur</string>
+  <string name="error_email_id_not_matching">Votre email et votre ID ne correspondent pas</string>
+  <string name="error_invalid_request">Le serveur n\'a pas compris la requête</string>
+  <string name="error_network">Aucun réseau. Veuillez réessayer plus tard</string>
+  <string name="error_parse_error">Impossible de comprendre la réponse du serveur</string>
+  <string name="error_no_image_location">Impossible de récupérer les coordonnées de l\'image</string>
+  <string name="error_open_image">Impossible d\'ouvrir l\'image</string>
+  <string name="error_delete_dives">Impossible d\'effacer les plongées</string>
+  <string name="error_delete_dive">Impossible d\'effacer la plongée</string>
+  <string name="account_link_create">Créer un nouveau compte</string>
+  <string name="account_link_retrieve">Retrouver un compte</string>
+  <string name="account_link_existing">Utiliser un compte existant</string>
+  <string name="success_user_creation">Votre compte a été créé. Vérifiez vos emails pour le valider</string>
+  <string name="success_user_retrieval">Un email contenant votre ID a été envoyé. Rentrez-le via le menu paramètres</string>
+  <string name="success_user_existing">Subsurface a été configuré</string>
+  <string name="success_refresh">Les plongées ont été mises à jour</string>
+  <string name="error_title">Erreur</string>
+  <string name="error_fatal">Subsurface a rencontré une erreur fatale et doit à présent se fermer</string>
+  <!--Warning : MM = month, mm = minutes-->
+  <string name="date_format_full">dd/MM/yyyy HH:mm</string>
+  <string name="date_format_short">dd/MM/yyyy</string>
+  <string name="date_format_time">HH:mm</string>
+  <string name="hint_email">Adresse email</string>
+  <string name="hint_id">ID</string>
+  <string name="hint_dive_name">Nom de la plongée</string>
+  <string name="settings_category_ws">Serveur et compte</string>
+  <string name="settings_destination_url">URL du service web</string>
+  <string name="settings_destination_url_summary">URL pour la synchronisation des données</string>
+  <string name="settings_user_id">ID utilisateur</string>
+  <string name="settings_user_id_summary">ID enregistré sur le serveur</string>
+  <string name="settings_category_sync">Synchronisation</string>
+  <string name="settings_sync_on_startup">Synchroniser au démarrage</string>
+  <string name="settings_sync_on_startup_summary">Synchroniser avec le serveur au démarrage de l\'application</string>
+  <string name="settings_sync_auto_send">Téléverser les nouvelles plongées</string>
+  <string name="settings_sync_auto_send_summary">Quand une plongée est ajoutée, l\'envoyer automatiquement</string>
+  <string name="settings_category_background_service">Service</string>
+  <string name="settings_background_duration">Durée minimale (minutes)</string>
+  <string name="settings_background_duration_summary">Durée minimale entre deux points GPS</string>
+  <string name="settings_background_distance">Distance minimale (mètres)</string>
+  <string name="settings_background_distance_summary">Distance minimale entre deux points GPS</string>
+  <string name="settings_background_name">Format de nom</string>
+  <string name="settings_background_name_summary">Nom pour les plongées créées par le service</string>
+  <string name="settings_category_other">Autres</string>
+  <string name="settings_other_mailing_list">Liste de diffusion</string>
+  <string name="settings_other_mailing_list_summary">Envoyer un email à tous les membres</string>
+  <string name="settings_other_website">Site web de Subsurface</string>
+  <string name="settings_other_website_summary">Ouvrir la page du projet</string>
+  <string name="settings_other_version">Version</string>
+  <string name="settings_other_version_summary">Version actuelle : %s</string>
 </resources>
-
