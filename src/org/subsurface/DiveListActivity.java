@@ -55,6 +55,7 @@ import com.actionbarsherlock.view.MenuItem;
 public class DiveListActivity extends SherlockFragmentActivity implements OnNavigationListener {
 
 	private static final String TAG = "DiveListActivity";
+	private static final String CURRENT_FRAGMENT_TAG = "CURRENT_FRAGMENT_TAG";
 
 	private static final long ONE_DAY_MS = 24 * 60 * 60 * 1000;
 	private static final int PICK_MAP_REQCODE = 999;
@@ -87,7 +88,12 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 			switch (msg.what) {
 			default:
 				DiveController.instance.forceUpdate();
-				currentFragment.onRefreshDives();
+				runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						currentFragment.onRefreshDives();
+					}
+				});
 				break;
 			}
 		}
@@ -385,6 +391,7 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 		getSupportActionBar().setTitle(null);
 		getSupportActionBar().setListNavigationCallbacks(listAdapter, this);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+
         // Retrieve location service
         this.locationManager  = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
     	setContentView(R.layout.main_view);
@@ -445,6 +452,11 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 
     	// Hide search
     	dateFilterLayout.setVisibility(View.GONE);
+
+    	// Init fragment
+    	int indexNavigation = bundle != null ? bundle.getInt(CURRENT_FRAGMENT_TAG) : 0;
+    	getSupportActionBar().setSelectedNavigationItem(indexNavigation);
+        onNavigationItemSelected(indexNavigation, 0);
 	}
 
 	@Override
@@ -476,6 +488,11 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 		}
 	}
 
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(CURRENT_FRAGMENT_TAG, getSupportActionBar().getSelectedNavigationIndex());
+	}
+
 	@Override
 	public boolean onSearchRequested() {
 		//actionMode = startActionMode(this);
@@ -485,22 +502,19 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		boolean handled = false;
-		if (itemPosition == 0) {
-			getSupportFragmentManager().beginTransaction().replace(R.id.divePart, diveListFragment).commit();
-			currentFragment = diveListFragment;
-			handled = true;
-		} else if (itemPosition == 1) {
-			getSupportFragmentManager().beginTransaction().replace(R.id.divePart, mapsFragment).commit();
+		if (itemPosition == 1) {
 			currentFragment = mapsFragment;
-			handled = true;
+		} else {
+			currentFragment = diveListFragment;
 		}
-		return handled;
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.divePart, (android.support.v4.app.Fragment) currentFragment).commit();
+		return true;
 	}
 
 	@Override
 	public void onActivityResult(int requestcode, int resultCode, Intent data) {
-		if(resultCode == RESULT_OK && data != null) {
+		if (resultCode == RESULT_OK && data != null) {
 			Bundle rec_bundle = data.getExtras();
 			switch(requestcode) {
 			case PICK_MAP_REQCODE:

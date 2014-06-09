@@ -72,8 +72,8 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name="DiveListActivity"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:theme="@style/AppTheme"
+            android:configChanges="orientation" />
         <activity
             android:name="PickGpx"
             android:parentActivityName="DiveListActivity"
