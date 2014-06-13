@@ -5,6 +5,8 @@
   <string name="default_duration">30</string>
   <string name="default_distance">10</string>
   <string name="default_dive_name">Scufundare auto-generat</string>
+  <string name="default_map_dive_name">Scufundare selectionata pe harta</string>
+  <string name="default_gpximport_divename">Scufundare importata din GPX</string>
   <string name="home_action_mode_title">%s selectate</string>
   <string name="home_no_account">Nu ați configurat contul dumneavoastră</string>
   <string name="home_dive_list_empty">Nici o scufundare înregistrată</string>
@@ -34,6 +36,12 @@
   <string name="menu_edit">Editare</string>
   <string name="menu_start_background_service">Pornire serviciu</string>
   <string name="menu_stop_background_service">Oprire serviciu</string>
+  <string name="menu_new_current">Poziție curentă</string>
+  <string name="menu_new_map">Foloseste harta</string>
+  <string name="menu_new_gpx">Importa fisier GPX</string>
+  <string name="menu_accept">Accepta</string>
+  <string name="menu_select_all">Selectioneaza tot</string>
+  <string name="menu_unselect_all">Deselectioneaza tot</string>
   <string name="notification_background_service_on">Serviciu de localizare activ</string>
   <string name="confirm_disconnect">Vreți să vă deconectați?</string>
   <string name="confirm_delete_dives">Vreți să ștergeți scufundările acestea?</string>
@@ -43,6 +51,7 @@
   <string name="confirmation_location_picked">Locul %s a fost adăugat</string>
   <string name="confirmation_location_sent">Locul \"%s\" a fost trimis</string>
   <string name="confirmation_locations_sent">%1$d/%2$d locurile au fost trimise</string>
+  <string name="confirmation_dive_picked_sent">Scufundarea %s a fost adaugata si trimisa</string>
   <string name="error_location">Imposibil de localizat</string>
   <string name="error_send">Imposibil de trimis</string>
   <string name="error_no_settings">Vă rugăm să introduceți parametrii înainte de a trimite datele</string>
@@ -61,6 +70,10 @@
   <string name="error_open_image">Imposibil de deschis imaginea</string>
   <string name="error_delete_dives">Imposibil de șters scufundările</string>
   <string name="error_delete_dive">Imposibil de șters scufundarea</string>
+  <string name="error_sd_unavailable">Eroare card SD</string>
+  <string name="error_no_dive_found">Nici o informatie receptionata</string>
+  <string name="error_gpx_no_file_found">Nici un fisier GPX gasit pe cardul SD</string>
+  <string name="error_gpx_no_dive_found">Nici o coordonata de scufundare gasita in fisierul GPX</string>
   <string name="account_link_create">Creare cont nou</string>
   <string name="account_link_retrieve">Recuperare cont</string>
   <string name="account_link_existing">Utilizare cont existent</string>
@@ -70,6 +83,7 @@
   <string name="success_refresh">Scufundările au fost actualizate</string>
   <string name="error_title">Eroare</string>
   <string name="error_fatal">Subsurface a suferit o eroare fatală și trebuie să se închidă</string>
+  <string name="error_generic">O eroare a survenit. Vă rugăm să verificați parametrii dumneavoastră și să încercați mai târziu</string>
   <!--Warning : MM = month, mm = minutes-->
   <string name="date_format_full">dd/MM/yyyy HH:mm</string>
   <string name="date_format_short">dd/MM/yyyy</string>
@@ -77,6 +91,7 @@
   <string name="hint_email">Email</string>
   <string name="hint_id">ID</string>
   <string name="hint_dive_name">Numele scufundări</string>
+  <string name="hint_dive_offset">Minute trecute dupa scufundare</string>
   <string name="settings_category_ws">Server și cont</string>
   <string name="settings_destination_url">URL-ul serviciului web</string>
   <string name="settings_destination_url_summary">URL pentru sincronizare de date</string>
@@ -101,4 +116,10 @@
   <string name="settings_other_website_summary">Deschide pagina proiectului</string>
   <string name="settings_other_version">Versiune</string>
   <string name="settings_other_version_summary">Versiune actuală: %s</string>
+  <string name="gpx_dummy_name">Numele fisierului GPX</string>
+  <string name="gpx_dialog_search">Cautare fisiere GPX</string>
+  <string name="title_picklocationgpx">Selectioneaza locatie</string>
+  <string name="title_pickgpx">Selectioneaza fisier GPX</string>
+  <string name="title_picklocationmap">Clic pentru selectionare</string>
+  <string name="title_map_marker">Informații scufundare</string>
 </resources>

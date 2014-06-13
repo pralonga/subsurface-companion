@@ -5,6 +5,8 @@
   <string name="default_duration">30</string>
   <string name="default_distance">10</string>
   <string name="default_dive_name">Plongée auto-générée</string>
+  <string name="default_map_dive_name">Plongée récupérée depuis la carte</string>
+  <string name="default_gpximport_divename">Plongée importée de GPX</string>
   <string name="home_action_mode_title">%s sélectionnées</string>
   <string name="home_no_account">Vous n\'avez pas encore configuré votre compte Subsurface</string>
   <string name="home_dive_list_empty">Aucune plongée</string>
@@ -34,6 +36,12 @@
   <string name="menu_edit">Editer</string>
   <string name="menu_start_background_service">Démarrer le service</string>
   <string name="menu_stop_background_service">Arrêter le service</string>
+  <string name="menu_new_current">Position actuelle</string>
+  <string name="menu_new_map">Importer depuis la carte</string>
+  <string name="menu_new_gpx">Importer depuis un fichier GPX</string>
+  <string name="menu_accept">Accepter</string>
+  <string name="menu_select_all">Tout sélectionner</string>
+  <string name="menu_unselect_all">Tout désélectionner</string>
   <string name="notification_background_service_on">Service de localisation actif</string>
   <string name="confirm_disconnect">Voulez-vous vraiment vous déconnecter ?</string>
   <string name="confirm_delete_dives">Voulez-vous vraiment effacer ces plongées ?</string>
@@ -43,6 +51,7 @@
   <string name="confirmation_location_picked">Le lieu %s a été ajouté</string>
   <string name="confirmation_location_sent">Le lieu \"%s\" a été envoyé</string>
   <string name="confirmation_locations_sent">%1$d/%2$d lieux ont été envoyés</string>
+  <string name="confirmation_dive_picked_sent">La plongée %s a été ajoutée et envoyée</string>
   <string name="error_location">Impossible de trouver la localisation</string>
   <string name="error_send">Impossible d\'envoyer la localisation</string>
   <string name="error_no_settings">Veuillez saisir les paramètres avant d\'envoyer les données</string>
@@ -61,6 +70,10 @@
   <string name="error_open_image">Impossible d\'ouvrir l\'image</string>
   <string name="error_delete_dives">Impossible d\'effacer les plongées</string>
   <string name="error_delete_dive">Impossible d\'effacer la plongée</string>
+  <string name="error_sd_unavailable">Erreur de la carte SD</string>
+  <string name="error_no_dive_found">Aucune information de plongée reçue</string>
+  <string name="error_gpx_no_file_found">Aucun fichier GPX sur la carte SD</string>
+  <string name="error_gpx_no_dive_found">Aucune plongée trouvée dans le fichier</string>
   <string name="account_link_create">Créer un nouveau compte</string>
   <string name="account_link_retrieve">Retrouver un compte</string>
   <string name="account_link_existing">Utiliser un compte existant</string>
@@ -70,6 +83,7 @@
   <string name="success_refresh">Les plongées ont été mises à jour</string>
   <string name="error_title">Erreur</string>
   <string name="error_fatal">Subsurface a rencontré une erreur fatale et doit à présent se fermer</string>
+  <string name="error_generic">Une erreur est survenue. Vérifiez vos paramètres et réessayez ultérieurement</string>
   <!--Warning : MM = month, mm = minutes-->
   <string name="date_format_full">dd/MM/yyyy HH:mm</string>
   <string name="date_format_short">dd/MM/yyyy</string>
@@ -77,6 +91,7 @@
   <string name="hint_email">Adresse email</string>
   <string name="hint_id">ID</string>
   <string name="hint_dive_name">Nom de la plongée</string>
+  <string name="hint_dive_offset">Minutes écoulées après la plongée</string>
   <string name="settings_category_ws">Serveur et compte</string>
   <string name="settings_destination_url">URL du service web</string>
   <string name="settings_destination_url_summary">URL pour la synchronisation des données</string>
@@ -101,4 +116,10 @@
   <string name="settings_other_website_summary">Ouvrir la page du projet</string>
   <string name="settings_other_version">Version</string>
   <string name="settings_other_version_summary">Version actuelle : %s</string>
+  <string name="gpx_dummy_name">Nom du fichier GPX</string>
+  <string name="gpx_dialog_search">Recherche des fichiers GPX</string>
+  <string name="title_picklocationgpx">Sélectionner une position</string>
+  <string name="title_pickgpx">Sélectionner un fichier GPX</string>
+  <string name="title_picklocationmap">Cliquer pour sélectionner</string>
+  <string name="title_map_marker">Informations de plongée</string>
 </resources>

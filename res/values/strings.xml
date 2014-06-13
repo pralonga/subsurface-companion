@@ -42,12 +42,12 @@
     <string name="menu_edit">Edit</string>
     <string name="menu_start_background_service">Start service</string>
     <string name="menu_stop_background_service">Stop service</string>
-    <string name="menu_new_current">Current</string>
+    <string name="menu_new_current">Current position</string>
     <string name="menu_new_map">Use map</string>
     <string name="menu_new_gpx">Import local GPX file</string>
     <string name="menu_accept">Accept</string>
-    <string name="menu_select_all">Accept</string>
-    <string name="menu_unselect_all">Accept</string>
+    <string name="menu_select_all">Select all</string>
+    <string name="menu_unselect_all">Unselect all</string>
         
     <string name="notification_background_service_on">Background location service active</string>
 

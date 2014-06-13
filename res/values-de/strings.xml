@@ -36,12 +36,9 @@
   <string name="menu_edit">Bearbeiten</string>
   <string name="menu_start_background_service">Service starten</string>
   <string name="menu_stop_background_service">Service beenden</string>
-  <string name="menu_new_current">Aktuelle Position</string>
   <string name="menu_new_map">Benutze Karte</string>
   <string name="menu_new_gpx">GPX Datei importiren</string>
   <string name="menu_accept">Übernehmen</string>
-  <string name="menu_select_all">Übernehmen</string>
-  <string name="menu_unselect_all">Übernehmen</string>
   <string name="notification_background_service_on">Standortdienst läuft im Hintergrund</string>
   <string name="confirm_disconnect">Wollen Sie die Verbindung wirklich trennen?</string>
   <string name="confirm_delete_dives">Wollen Sie diese Tauchgänge wirklich löschen?</string>
