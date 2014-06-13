@@ -249,25 +249,33 @@ public class DiveListActivity extends SherlockFragmentActivity implements OnNavi
 	 * Send location picked from map to the server and update the list
 	 * @param divelog DiveLocationLog of the dive
 	 */
-	public void sendMapDiveLog(DiveLocationLog divelog) {
+	public void sendMapDiveLog(final DiveLocationLog divelog) {
 		if (UserController.instance.autoSend()) {
-			try {
-				DiveController.instance.sendDiveLog(divelog);
-				Toast.makeText(DiveListActivity.this, getString(R.string.confirmation_dive_picked_sent, divelog.getName()), Toast.LENGTH_SHORT).show();
-			} catch (final WsException e) {
-				runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(DiveListActivity.this, e.getCode(), Toast.LENGTH_SHORT).show();
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						DiveController.instance.sendDiveLog(divelog);
+						runOnUiThread(new Runnable() {
+							public void run() {
+								Toast.makeText(DiveListActivity.this, getString(R.string.confirmation_dive_picked_sent, divelog.getName()), Toast.LENGTH_SHORT).show();
+							}
+						});
+					} catch (final WsException e) {
+						runOnUiThread(new Runnable() {
+							public void run() {
+								Toast.makeText(DiveListActivity.this, e.getCode(), Toast.LENGTH_SHORT).show();
+							}
+						});
+					} catch (Exception e) {
+						Log.d(TAG, "Could not send dive " + divelog.getName(), e);
+						runOnUiThread(new Runnable() {
+							public void run() {
+								Toast.makeText(DiveListActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
+							}
+						});
 					}
-				});
-			} catch (Exception e) {
-				Log.d(TAG, "Could not send dive " + divelog.getName(), e);
-				runOnUiThread(new Runnable() {
-					public void run() {
-						Toast.makeText(DiveListActivity.this, R.string.error_send, Toast.LENGTH_SHORT).show();
-					}
-				});
-			}
+				}
+			}).start();
 		} else {
 			DiveController.instance.updateDiveLog(divelog);
 			Toast.makeText(DiveListActivity.this, getString(R.string.confirmation_location_picked, divelog.getName()), Toast.LENGTH_SHORT).show();
