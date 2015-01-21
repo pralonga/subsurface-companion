@@ -1,5 +1,15 @@
 Subsurface Companion for Android Changelog
 ==========================================
+2.1
+---
+- Fixed daylight saving time bug
+
+2.0
+---
+- Added map view,
+- Added GPX import
+- Added map location import
+- UI now uses fragments
 
 1.7
 ---

@@ -17,8 +17,11 @@ public class DateUtils {
 	public static long getFakeUtcDate() {
 		TimeZone currentTz = TimeZone.getDefault();
 		Calendar fixed = Calendar.getInstance();
+		fixed.setTimeZone(TimeZone.getTimeZone("GMT+0"));
 		fixed.add(Calendar.MILLISECOND, currentTz.getRawOffset());
-		fixed.add(Calendar.MILLISECOND, currentTz.getDSTSavings());
+		if (currentTz.inDaylightTime(fixed.getTime())) {
+			fixed.add(Calendar.MILLISECOND, currentTz.getDSTSavings());
+		}
 		fixed.set(Calendar.SECOND, 0);
 		fixed.set(Calendar.MILLISECOND, 0);
 		return fixed.getTimeInMillis();
